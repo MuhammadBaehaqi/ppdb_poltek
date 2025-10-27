@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg" style="background-color: #ff9800;">
+<nav class="navbar navbar-expand-lg navbar-blur fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="index.php">
             <img src="img/logo.png" alt="Logo" width="40" height="40" class="me-2">
@@ -18,3 +18,42 @@
         </div>
     </div>
 </nav>
+
+<style>
+/* Awal: warna solid */
+.navbar-blur {
+    background-color: rgba(255, 152, 0, 0.95);
+    transition: background-color 0.3s ease, backdrop-filter 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Saat discroll: jadi blur transparan */
+.navbar-blur.scrolled {
+    background-color: rgba(255, 152, 0, 0.4);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+/* Efek teks */
+.navbar .nav-link {
+    color: white !important;
+    transition: 0.3s;
+}
+.navbar .nav-link:hover {
+    color: #000 !important;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 5px;
+}
+</style>
+
+<script>
+/* JavaScript agar navbar jadi blur pas discroll ke bawah */
+window.addEventListener('scroll', function() {
+    const navbar = document.querySelector('.navbar-blur');
+    if (window.scrollY > 50) {
+        navbar.classList.add('scrolled');
+    } else {
+        navbar.classList.remove('scrolled');
+    }
+});
+</script>
