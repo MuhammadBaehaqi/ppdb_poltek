@@ -8,7 +8,7 @@
     <title>Politeknik Mitra Karya Mandiri</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body {
+        body { 
             font-family: 'Poppins', sans-serif;
         }
         /* Carousel style */
@@ -69,7 +69,7 @@
     <div class="carousel-inner">
         <!-- Slide 1 -->
         <div class="carousel-item active">
-            <img src="img/foto_login.jpg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
+            <img src="img/slide1.jpg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
             <div class="carousel-caption">
                 <h2>Selamat Datang di Politeknik Mitra Karya Mandiri</h2>
                 <p>Mari wujudkan masa depan gemilang bersama kami</p>
@@ -78,7 +78,7 @@
         </div>
         <!-- Slide 2 -->
         <div class="carousel-item">
-            <img src="img/foto.jpeg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
+            <img src="img/slide2.jpg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
             <div class="carousel-caption">
                 <h2>Pendidikan Berkualitas & Tenaga Profesional</h2>
                 <p>Kami membentuk generasi yang siap kerja dan berkompeten</p>
@@ -87,7 +87,7 @@
         </div>
         <!-- Slide 3 -->
         <div class="carousel-item">
-            <img src="img/wallpaper key.jpg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
+            <img src="img/slide3.jpg" class="d-block w-100" style="height: 85vh; object-fit: cover;">
             <div class="carousel-caption">
                 <h2>Hubungi Kami</h2>
                 <p>Kami siap membantu Anda mendapatkan informasi terbaik</p>
@@ -112,7 +112,7 @@
     <div class="container">
         <div class="row align-items-center">
             <div class="col-md-6 mb-4 mb-md-0">
-                <img src="img/foto.jpeg" alt="Tentang Politeknik">
+                <img src="img/tentang1.jpg" alt="Tentang Politeknik">
             </div>
             <div class="col-md-6 text">
                 <h2 class="mb-3">Tentang Kami</h2>

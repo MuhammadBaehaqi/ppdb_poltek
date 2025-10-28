@@ -12,7 +12,7 @@
 
 <!-- Hero Section -->
 <section class="position-relative text-white text-center" style="height: 70vh;">
-    <img src="img/kampus.jpg" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover;" alt="Kampus MKM">
+    <img src="img/tentang2.jpg" class="w-100 h-100 position-absolute top-0 start-0" style="object-fit: cover;" alt="Kampus MKM">
     <div class="position-absolute top-0 start-0 w-100 h-100 bg-dark bg-opacity-50"></div>
     <div class="position-relative d-flex flex-column justify-content-center align-items-center h-100">
         <h1 class="fw-bold">Tentang Politeknik Mitra Karya Mandiri</h1>
@@ -72,7 +72,7 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="img/lab.jpg" class="card-img-top" alt="Lab Komputer">
+                    <img src="img/labkom.jpg" class="card-img-top" alt="Lab Komputer">
                     <div class="card-body">
                         <h5 class="card-title text-dark fw-bold">Laboratorium Komputer</h5>
                         <p class="card-text">Dilengkapi dengan perangkat terbaru untuk mendukung pembelajaran berbasis teknologi.</p>
@@ -81,7 +81,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="img/perpus.jpg" class="card-img-top" alt="Perpustakaan">
+                    <img src="img/farmasi.jpg" class="card-img-top" alt="Perpustakaan">
                     <div class="card-body">
                         <h5 class="card-title text-dark fw-bold">Perpustakaan Modern</h5>
                         <p class="card-text">Tersedia berbagai referensi akademik, jurnal, dan e-book untuk menunjang studi mahasiswa.</p>
@@ -90,7 +90,7 @@
             </div>
             <div class="col-md-4">
                 <div class="card border-0 shadow-sm h-100">
-                    <img src="img/kelas.jpg" class="card-img-top" alt="Ruang Kelas">
+                    <img src="img/tlm.jpg" class="card-img-top" alt="Ruang Kelas">
                     <div class="card-body">
                         <h5 class="card-title text-dark fw-bold">Ruang Kelas Nyaman</h5>
                         <p class="card-text">Ruang belajar ber-AC dan multimedia untuk menciptakan suasana belajar yang kondusif.</p>
