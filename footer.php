@@ -4,7 +4,7 @@
             <!-- Logo dan Deskripsi -->
             <div class="col-md-4 mb-4">
                 <div class="d-flex align-items-center mb-2">
-                    <img src="img/logo.png" alt="Logo" width="45" height="45" class="me-2">
+                    <img src="img/poltek.png" alt="Logo" width="45" height="45" class="me-2">
                     <h5 class="fw-bold mb-0">Politeknik Mitra Karya Mandiri</h5>
                 </div>
                 <p style="font-size: 14px;">

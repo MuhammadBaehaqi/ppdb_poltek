@@ -147,6 +147,36 @@
                             <td><input type="text" class="form-control" placeholder="Masukkan nama lengkap Anda"></td>
                         </tr>
                         <tr>
+                            <td><strong>Tempat Lahir</strong></td>
+                            <td><input type="text" class="form-control" placeholder="Masukkan tempat lahir Anda"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tanggal Lahir</strong></td>
+                            <td><input type="date" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Jenis Kelamin</strong></td>
+                            <td>
+                                <select class="form-select">
+                                    <option selected disabled>Pilih Jenis Kelamin</option>
+                                    <option>Laki-laki</option>
+                                    <option>Perempuan</option>
+                                </select>
+                            </td>
+                        </tr>                        
+                        <tr>
+                            <td><strong>Upload Pas Foto (opsional)</strong></td>
+                            <td><input type="file" class="form-control"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Asal Sekolah</strong></td>
+                            <td><input type="text" class="form-control" placeholder="Nama sekolah asal Anda"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Tahun Lulus</strong></td>
+                            <td><input type="number" class="form-control" placeholder="Contoh: 2024"></td>
+                        </tr>
+                        <tr>
                             <td><strong>Email</strong></td>
                             <td><input type="email" class="form-control" placeholder="contoh@email.com"></td>
                         </tr>
@@ -168,6 +198,14 @@
                         <tr>
                             <td><strong>Alamat Lengkap</strong></td>
                             <td><textarea class="form-control" rows="3" placeholder="Masukkan alamat lengkap Anda"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nama Orang Tua / Wali</strong></td>
+                            <td><input type="text" class="form-control" placeholder="Masukkan nama orang tua atau wali"></td>
+                        </tr>
+                        <tr>
+                            <td><strong>Nomor HP Orang Tua / Wali</strong></td>
+                            <td><input type="text" class="form-control" placeholder="08xxxxxxxxxx"></td>
                         </tr>
                     </table>
                     <div class="text-center mt-4">
