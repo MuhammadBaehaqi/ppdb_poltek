@@ -1,4 +1,4 @@
-<?php include 'sidebar.php'; ?>
+<?php include 'sidebar_admin.php'; ?>
 
 <!DOCTYPE html>
 <html lang="id">
@@ -13,18 +13,17 @@
         body {
             background-color: #f8f9fa;
         }
-
         .content {
             margin-left: 260px;
-            padding: 20px;
+            padding: 90px 20px 20px 20px; /* tambahkan jarak atas 90px */
         }
 
         @media (max-width: 768px) {
             .content {
                 margin-left: 0;
+                padding-top: 100px; /* tetap beri jarak di mobile */
             }
         }
-
         .card {
             border: none;
             box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
@@ -57,7 +56,8 @@
                         </div>
                     </div>
 
-                    <table class="table table-bordered table-striped align-middle">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped align-middle">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -98,7 +98,7 @@
                             </tr>
                         </tbody>
                     </table>
-
+                </div>
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-end">
                             <li class="page-item disabled"><a class="page-link">Previous</a></li>

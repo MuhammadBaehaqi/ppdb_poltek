@@ -11,11 +11,11 @@
 
     <style>
         body {
-            background: url('img/foto.jpeg') no-repeat center center fixed;
-            background-size: cover;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+        background: url('img/foto.jpeg') no-repeat center center fixed;
+        background-size: cover;
+        height: 100vh;
+        margin: 0;
+        overflow: hidden; /* ini yang bikin gak bisa scroll */
         }
 
         /* Overlay transparan tapi tidak menutupi navbar */
@@ -35,13 +35,48 @@
             z-index: 10 !important;
         }
 
-        .login-card {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(6px);
-            border-radius: 20px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-            z-index: 5;
-        }
+       .login-card {
+    background: rgba(255, 255, 255, 0.15); /* transparan putih */
+    backdrop-filter: blur(15px); /* efek blur kaca */
+    -webkit-backdrop-filter: blur(15px); /* untuk dukungan Safari */
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* garis lembut */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    z-index: 5;
+}
+.login-card label,
+.login-card p,
+.login-card a,
+.login-card .form-label,
+.login-card .text-muted {
+    color: #ffffff !important; /* semua teks putih */
+}
+
+.login-card h4 {
+    color: #ff9800 !important; /* tulisan judul jadi oranye */
+}
+
+.login-card input::placeholder {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.login-card .input-group-text {
+    background-color: rgba(255, 193, 7, 0.9);
+    border: none;
+}
+
+.login-card .form-control {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
+.login-card .form-control:focus {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: #ffc107;
+    box-shadow: 0 0 10px rgba(255, 193, 7, 0.4);
+}
 
         .login-logo img {
             width: 80px;
@@ -55,11 +90,6 @@
         .btn-warning:hover {
             background-color: #e68900;
         }
-
-        footer {
-            z-index: 10;
-            position: relative;
-        }
     </style>
 </head>
 <body>
@@ -67,7 +97,8 @@
 <div class="overlay"></div>
 
 <!-- Kontainer Utama -->
-<section class="d-flex justify-content-center align-items-center min-vh-100 position-relative z-3">
+<section class="d-flex justify-content-center align-items-start position-relative z-3" style="height: 100vh; margin-top: 40px;">
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-5">
