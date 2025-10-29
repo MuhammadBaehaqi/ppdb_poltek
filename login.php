@@ -11,7 +11,7 @@
 
     <style>
         body {
-        background: url('img/foto.jpeg') no-repeat center center fixed;
+        background: url('img/slide1.jpg') no-repeat center center fixed;
         background-size: cover;
         height: 100vh;
         margin: 0;

@@ -71,15 +71,27 @@
         }
 
         /* Form */
-        table {
-            width: 100%;
+        .form-wrapper {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.1);
         }
         table td {
             padding: 10px;
             vertical-align: middle;
         }
-        table input, table select, table textarea {
-            width: 100%;
+        .note {
+            font-size: 14px;
+            color: #6c757d;
+        }
+        .form-header {
+            background-color: #ff9800;
+            color: white;
+            padding: 15px;
+            border-radius: 10px 10px 0 0;
+            font-weight: 600;
+            text-align: center;
         }
     </style>
 </head>
@@ -87,11 +99,11 @@
 
 <!-- Hero Section -->
 <section class="hero-section">
-    <img src="img/foto_login.jpg" alt="Pendaftaran Mahasiswa Baru">
+    <img src="img/slide3.jpg" alt="Pendaftaran Mahasiswa Baru">
     <div class="hero-content">
         <h1>Pendaftaran Mahasiswa Baru</h1>
         <p>Bergabunglah bersama kami dan wujudkan masa depan gemilang di Politeknik Mitra Karya Mandiri</p>
-        <a href="#langkahPendaftaran" class="btn btn-outline-warning mt-2">Mulai Daftar</a>
+        <a href="#formPendaftaran" class="btn btn-outline-warning mt-2">Mulai Daftar</a>
     </div>
 </section>
 
@@ -104,7 +116,7 @@
                 <div class="step-box">
                     <div class="step-icon">1</div>
                     <h5>Isi Formulir Online</h5>
-                    <p class="text-muted">Lengkapi data diri Anda pada form pendaftaran secara online dengan benar.</p>
+                    <p class="text-muted">Lengkapi data diri Anda dengan benar pada form pendaftaran online.</p>
                 </div>
             </div>
             <div class="col-md-3">
@@ -117,8 +129,8 @@
             <div class="col-md-3">
                 <div class="step-box">
                     <div class="step-icon">3</div>
-                    <h5>Konfirmasi & Pembayaran</h5>
-                    <p class="text-muted">Setelah verifikasi berhasil, Anda akan menerima konfirmasi dan instruksi pembayaran.</p>
+                    <h5>Pembayaran</h5>
+                    <p class="text-muted">Lakukan pembayaran biaya pendaftaran sesuai instruksi yang tertera.</p>
                 </div>
             </div>
             <div class="col-md-3">
@@ -135,83 +147,97 @@
 <!-- Form Pendaftaran -->
 <section id="formPendaftaran" class="py-5 bg-light">
     <div class="container">
-        <h2 class="text-center mb-4">Formulir Pendaftaran</h2>
-        <p class="text-center text-muted mb-5">Silakan isi data dengan lengkap untuk melakukan pendaftaran.</p>
+        <div class="form-header mb-4">FORMULIR PMB POLITEKNIK MKM</div>
+
+        <div class="alert alert-info shadow-sm">
+            Form Pendaftaran Mahasiswa Baru Politeknik MKM Brebes, diisi sesuai data yang sebenarnya untuk mempermudah proses PMB.
+            <br>Jika ada kendala pengisian formulir atau info PMB dapat menghubungi:
+            <ul class="mb-0">
+                <li>📞 <strong>Waoman:</strong> 0838 6160 6703</li>
+                <li>📞 <strong>Siska:</strong> 0895 3484 75546</li>
+                <li>📞 <strong>Umi:</strong> 0838 3850 8940</li>
+            </ul>
+        </div>
 
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form>
-                    <table class="table table-bordered bg-white shadow-sm">
-                        <tr>
-                            <td width="30%"><strong>Nama Lengkap</strong></td>
-                            <td><input type="text" class="form-control" placeholder="Masukkan nama lengkap Anda"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tempat Lahir</strong></td>
-                            <td><input type="text" class="form-control" placeholder="Masukkan tempat lahir Anda"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tanggal Lahir</strong></td>
-                            <td><input type="date" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Jenis Kelamin</strong></td>
-                            <td>
-                                <select class="form-select">
-                                    <option selected disabled>Pilih Jenis Kelamin</option>
-                                    <option>Laki-laki</option>
-                                    <option>Perempuan</option>
-                                </select>
-                            </td>
-                        </tr>                        
-                        <tr>
-                            <td><strong>Upload Pas Foto (opsional)</strong></td>
-                            <td><input type="file" class="form-control"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Asal Sekolah</strong></td>
-                            <td><input type="text" class="form-control" placeholder="Nama sekolah asal Anda"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Tahun Lulus</strong></td>
-                            <td><input type="number" class="form-control" placeholder="Contoh: 2024"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Email</strong></td>
-                            <td><input type="email" class="form-control" placeholder="contoh@email.com"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Nomor Telepon</strong></td>
-                            <td><input type="text" class="form-control" placeholder="08xxxxxxxxxx"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Program Studi</strong></td>
-                            <td>
-                                <select class="form-select">
-                                    <option selected disabled>Pilih Program Studi</option>
-                                    <option>D3 Farmasi</option>
-                                    <option>D3 Analis Kesehatan</option>
-                                    <option>D3 Manajemen Informatika</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><strong>Alamat Lengkap</strong></td>
-                            <td><textarea class="form-control" rows="3" placeholder="Masukkan alamat lengkap Anda"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Nama Orang Tua / Wali</strong></td>
-                            <td><input type="text" class="form-control" placeholder="Masukkan nama orang tua atau wali"></td>
-                        </tr>
-                        <tr>
-                            <td><strong>Nomor HP Orang Tua / Wali</strong></td>
-                            <td><input type="text" class="form-control" placeholder="08xxxxxxxxxx"></td>
-                        </tr>
-                    </table>
-                    <div class="text-center mt-4">
-                        <button type="submit" class="btn btn-warning px-5 py-2 fw-semibold">Kirim Pendaftaran</button>
-                    </div>
-                </form>
+            <div class="col-md-9">
+                <div class="form-wrapper">
+                    <form action="registrasi/proses_pendaftaran.php" method="POST" enctype="multipart/form-data">
+                        <table class="table table-borderless">
+                            <tr>
+                                <td><strong>Nama Lengkap</strong></td>
+                                <td><input type="text" class="form-control" name="nama_lengkap" placeholder="Masukkan nama lengkap Anda" required></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Jenis Kelamin</strong></td>
+                                <td>
+                                    <select class="form-select" name="jenis_kelamin" required>
+                                        <option selected disabled>Pilih Jenis Kelamin</option>
+                                        <option value="Laki-laki">Laki-laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Alamat</strong></td>
+                                <td><textarea class="form-control" name="alamat" rows="3" placeholder="Masukkan alamat lengkap Anda" required></textarea></td>
+                            </tr>
+                            <tr>
+                                <td><strong>NIK</strong></td>
+                                <td>
+                                    <input type="text" class="form-control" name="nik" placeholder="Masukkan NIK Anda" required>
+                                    <small class="note">Jika belum ber-KTP, gunakan NIK yang tertera pada Kartu Keluarga.</small>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>NISN</strong></td>
+                                <td><input type="text" class="form-control" name="nisn" placeholder="Masukkan NISN Anda" required></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Asal SLTA</strong></td>
+                                <td><input type="text" class="form-control" name="asal_slta" placeholder="SMA/MA/SMK/Lainnya" required></td>
+                            </tr>
+                            <tr>
+                                <td><strong>Program Studi Pilihan</strong></td>
+                                <td>
+                                    <select class="form-select" name="program_studi" required>
+                                        <option selected disabled>Pilih Program Studi</option>
+                                        <option value="farmasi">D3 Farmasi</option>
+                                        <option value="Analis Kesehatan">D3 Analis Kesehatan</option>
+                                        <option value="Manajemen Informatika">D3 Manajemen Informatika</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Rencana Perkuliahan</strong></td>
+                                <td>
+                                    <select class="form-select" name="rencana_kelas" required>
+                                        <option selected disabled>Pilih Jenis Kelas</option>
+                                        <option value="Kelas Reguler">Kelas Reguler</option>
+                                        <option value="Kelas Karyawan">Kelas Karyawan</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><strong>Unggah Bukti Pembayaran</strong></td>
+                                <td>
+                                    <input type="file" class="form-control" name="bukti_pembayaran" accept=".jpg,.jpeg,.pdf" required>
+                                    <small class="note">
+                                        Format: JPEG atau PDF | Maksimal 1 MB <br>
+                                        <strong>No Rekening Kampus (BRI):</strong> 390101030201530 <br>
+                                        <strong>Atas Nama:</strong> Politeknik Mitra Karya Mandiri
+                                    </small>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-warning px-5 py-2 fw-semibold">
+                                Kirim Pendaftaran
+                            </button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
