@@ -57,6 +57,7 @@ if (!$data) {
         @media (max-width: 991.98px) {
             .content {
                 margin-left: 0;
+                padding-top: 140px; 
             }
         }
 

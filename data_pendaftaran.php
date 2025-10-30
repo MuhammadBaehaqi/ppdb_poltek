@@ -1,6 +1,7 @@
 <?php 
 include 'sidebar_admin.php'; 
 include 'koneksi.php'; 
+
 ?>
 
 <!DOCTYPE html>
@@ -62,17 +63,36 @@ include 'koneksi.php';
 
             <div class="card">
                 <div class="card-body">
-
-                    <!-- Tombol tambah dan search -->
-                    <div class="d-flex justify-content-between mb-3">
-                        <div>
-                            <a href="pendaftaran_tambah.php" class="btn btn-primary">
+                    <!-- Tombol tambah, show limit, dan search -->
+                    <div class="d-flex justify-content-between mb-3 align-items-center">
+                        <!-- Tombol Tambah + Dropdown Limit -->
+                        <div class="d-flex align-items-center">
+                            <a href="pendaftaran_tambah.php" class="btn btn-primary me-3">
                                 <i class="bi bi-plus-circle me-2"></i>Tambah Data
                             </a>
+
+                            <form method="GET" id="form-limit" class="d-flex align-items-center">
+                                <label class="me-2 mb-0">Tampilkan:</label>
+                                <select name="limit" class="form-select form-select-sm" onchange="document.getElementById('form-limit').submit()">
+                                    <?php 
+                                    $limits = [5, 10, 15, 20, 50, 100];
+                                    $currentLimit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                                    foreach($limits as $l){
+                                        $selected = ($currentLimit == $l) ? 'selected' : '';
+                                        echo "<option value='$l' $selected>$l</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <!-- Simpan parameter search agar tidak hilang saat ganti limit -->
+                                <input type="hidden" name="search" value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                            </form>
                         </div>
+
+                        <!-- Form Search -->
                         <form method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, NIK, NISN, atau Email..." 
-                                   value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                            <input type="hidden" name="limit" value="<?= $currentLimit ?>"> <!-- Simpan limit saat search -->
                             <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
                         </form>
                     </div>
@@ -99,7 +119,7 @@ include 'koneksi.php';
                             </thead>
                             <tbody>
                                 <?php
-                                $limit = 10; // jumlah data per halaman
+                                $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10; // default 10
                                 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                                 $offset = ($page - 1) * $limit;
                                 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
@@ -198,19 +218,19 @@ include 'koneksi.php';
                             <ul class="pagination pagination-sm mb-0">
                                 <!-- Tombol Previous -->
                                 <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>&limit=<?= $currentLimit ?>">Previous</a>
                                 </li>
 
                                 <!-- Nomor halaman -->
                                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                     <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
-                                        <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+                                       <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&limit=<?= $currentLimit ?>"><?= $i ?></a>
                                     </li>
                                 <?php endfor; ?>
 
                                 <!-- Tombol Next -->
                                 <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>&limit=<?= $currentLimit ?>">Next</a>
                                 </li>
                             </ul>
                         </nav>

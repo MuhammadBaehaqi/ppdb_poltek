@@ -44,6 +44,7 @@ $totalRiwayat = $totalMahasiswa + $pesanMasuk + $totalUser + $totalAdmin;
             border-radius: 12px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
+        
     </style>
 </head>
 <body>
@@ -52,41 +53,58 @@ $totalRiwayat = $totalMahasiswa + $pesanMasuk + $totalUser + $totalAdmin;
             <!-- Statistik -->
             <div class="row g-4 mb-4">
                 <div class="col-md-3 col-12">
-                    <div class="card text-center text-white bg-primary">
-                        <div class="card-body">
-                            <i class="bi bi-people-fill display-5"></i>
-                            <h5 class="card-title mt-2">Total Mahasiswa</h5>
-                            <p class="card-text fs-4"><?= $totalMahasiswa; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12">
-                    <div class="card text-center text-white bg-success">
-                        <div class="card-body">
-                            <i class="bi bi-person-plus-fill display-5"></i>
-                            <h5 class="card-title mt-2">Pendaftaran Hari Ini</h5>
-                            <p class="card-text fs-4"><?= $pendaftaranBaru; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12">
-                    <div class="card text-center text-white bg-warning">
-                        <div class="card-body">
-                            <i class="bi bi-envelope-fill display-5"></i>
-                            <h5 class="card-title mt-2">Pesan Masuk</h5>
-                            <p class="card-text fs-4"><?= $pesanMasuk; ?></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-12">
-                    <div class="card text-center text-white bg-danger">
-                        <div class="card-body">
-                            <i class="bi bi-clock-history display-5"></i>
-                            <h5 class="card-title mt-2">Riwayat</h5>
-                            <p class="card-text fs-4"><?= $totalRiwayat; ?></p>
-                        </div>
-                    </div>
-                </div>
+    <div class="card text-center text-white bg-primary">
+        <div class="card-body">
+            <i class="bi bi-people-fill display-5"></i>
+            <h5 class="card-title mt-2">Total Mahasiswa</h5>
+            <p class="card-text fs-4"><?= $totalMahasiswa; ?></p>
+            <a href="kelola_user.php" class="btn btn-light btn-sm mt-2">Lihat Detail</a>
+        </div>
+    </div>
+</div>
+<div class="col-md-3 col-12">
+    <div class="card text-center text-white bg-success">
+        <div class="card-body">
+            <i class="bi bi-person-plus-fill display-5"></i>
+            <h5 class="card-title mt-2">Pendaftaran Hari Ini</h5>
+            <p class="card-text fs-4"><?= $pendaftaranBaru; ?></p>
+            <a href="data_pendaftaran.php" class="btn btn-light btn-sm mt-2">Lihat Detail</a>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3 col-12">
+    <div class="card text-center text-white bg-warning">
+        <div class="card-body">
+            <i class="bi bi-envelope-fill display-5"></i>
+            <h5 class="card-title mt-2">Pesan Masuk</h5>
+            <p class="card-text fs-4"><?= $pesanMasuk; ?></p>
+            <a href="data_kontak.php" class="btn btn-light btn-sm mt-2">Lihat Detail</a>
+        </div>
+    </div>
+</div>
+<div class="col-md-3 col-12">
+    <div class="card text-center text-white bg-dark">
+        <div class="card-body">
+            <i class="bi bi-person-gear-fill display-5"></i>
+            <h5 class="card-title mt-2">Total Admin</h5>
+            <p class="card-text fs-4"><?= $totalAdmin; ?></p>
+            <a href="kelola_admin.php" class="btn btn-light btn-sm mt-2">Lihat Detail</a>
+        </div>
+    </div>
+</div>
+<div class="col-md-3 col-12">
+    <div class="card text-center text-white bg-danger">
+        <div class="card-body">
+            <i class="bi bi-clock-history display-5"></i>
+            <h5 class="card-title mt-2">Riwayat</h5>
+            <p class="card-text fs-4"><?= $totalRiwayat; ?></p>
+            <!-- Optional button jika mau diarahkan -->
+            <!-- <a href="riwayat.php" class="btn btn-light btn-sm mt-2">Lihat Detail</a> -->
+        </div>
+    </div>
+</div>
+
             </div>
 
             <!-- Aktivitas Terbaru -->
