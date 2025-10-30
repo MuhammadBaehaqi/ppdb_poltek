@@ -1,5 +1,21 @@
 <?php
 session_start();
+
+
+// Cek apakah sudah login
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php?pesan=belum_login");
+    exit();
+}
+
+// Cek apakah role user
+if ($_SESSION['role'] !== 'user') {
+    header("Location: login.php?pesan=akses_ditolak");
+    exit();
+}
+
+// Kalau lolos dua pengecekan di atas, lanjut tampilkan halaman dashboard
+
 include '../koneksi.php';
 
 // Cek apakah sudah login
@@ -17,6 +33,7 @@ if (!$data) {
     echo "<script>alert('Data pendaftaran tidak ditemukan!');window.location='../login.php';</script>";
     exit;
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="id">

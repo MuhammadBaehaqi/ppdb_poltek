@@ -1,4 +1,22 @@
-<?php include 'navbar.php'; ?>
+<?php
+include 'navbar.php';
+include 'koneksi.php'; // koneksi ke database
+
+// Jika form dikirim
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $nama = mysqli_real_escape_string($conn, $_POST['nama']);
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
+    $nomor_wa = mysqli_real_escape_string($conn, $_POST['nomor_wa']);
+    $pesan = mysqli_real_escape_string($conn, $_POST['pesan']);
+
+    $query = "INSERT INTO kontak (nama, email, nomor_wa, pesan) VALUES ('$nama', '$email', '$nomor_wa', '$pesan')";
+    if (mysqli_query($conn, $query)) {
+        echo "<script>alert('Pesan berhasil dikirim!'); window.location.href='kontak.php';</script>";
+    } else {
+        echo "<script>alert('Gagal mengirim pesan!');</script>";
+    }
+}
+?>
 
 <!DOCTYPE html>
 <html lang="id">
@@ -7,6 +25,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kontak Kami | Politeknik Mitra Karya Mandiri</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </head>
 <body>
 
@@ -72,7 +91,7 @@
 
         <div class="row justify-content-center">
             <div class="col-md-8">
-                <form action="#" method="post" class="card border-0 shadow p-4">
+                <form action="" method="post" class="card border-0 shadow p-4">
                     <div class="mb-3">
                         <label for="nama" class="form-label fw-semibold">Nama Lengkap</label>
                         <input type="text" id="nama" name="nama" class="form-control" placeholder="Masukkan nama Anda" required>
@@ -82,8 +101,8 @@
                         <input type="email" id="email" name="email" class="form-control" placeholder="Masukkan email Anda" required>
                     </div>
                     <div class="mb-3">
-                        <label for="subjek" class="form-label fw-semibold">Subjek</label>
-                        <input type="text" id="subjek" name="subjek" class="form-control" placeholder="Masukkan subjek pesan" required>
+                        <label for="nomor_wa" class="form-label fw-semibold">Nomor WhatsApp</label>
+                        <input type="text" id="nomor_wa" name="nomor_wa" class="form-control" placeholder="Contoh: 6281234567890" required>
                     </div>
                     <div class="mb-3">
                         <label for="pesan" class="form-label fw-semibold">Pesan</label>
@@ -115,7 +134,5 @@
 <?php include 'footer.php'; ?>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-<!-- Bootstrap Icons -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 </body>
 </html>
