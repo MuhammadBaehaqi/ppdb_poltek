@@ -2,15 +2,9 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
 include 'koneksi.php';
 
-// Validasi koneksi
-if (!isset($conn) || !$conn) {
-    header("Location: login.php?pesan=gagal&reason=db_connection");
-    exit();
-}
-
+// Pastikan form dikirim via POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     header("Location: login.php");
     exit();
@@ -21,14 +15,15 @@ $password = $_POST['password'];
 
 // Validasi input kosong
 if ($username === '' || $password === '') {
-    header("Location: login.php?pesan=gagal&reason=empty");
+    echo "<script>alert('Username dan password wajib diisi!');window.history.back();</script>";
     exit();
 }
 
-/* -----------------------------------------------------------
-   1️⃣ Coba cek dulu di tabel admin
------------------------------------------------------------ */
-$stmt = mysqli_prepare($conn, "SELECT id, nama_admin, username, email, password, role FROM admin WHERE username = ? LIMIT 1");
+/* ===========================================================
+   1️⃣ CEK LOGIN UNTUK ADMIN
+=========================================================== */
+$stmt = mysqli_prepare($conn, "SELECT id, nama_admin, username, email, password, role 
+                               FROM admin WHERE username = ? LIMIT 1");
 mysqli_stmt_bind_param($stmt, "s", $username);
 mysqli_stmt_execute($stmt);
 mysqli_stmt_store_result($stmt);
@@ -37,26 +32,26 @@ if (mysqli_stmt_num_rows($stmt) === 1) {
     mysqli_stmt_bind_result($stmt, $id, $nama_admin, $db_username, $email, $db_password, $role);
     mysqli_stmt_fetch($stmt);
 
+    // Cek password admin
     if (password_verify($password, $db_password)) {
         $_SESSION['admin_id'] = $id;
         $_SESSION['nama_admin'] = $nama_admin;
         $_SESSION['username'] = $db_username;
-        $_SESSION['email'] = $email;
         $_SESSION['role'] = $role;
 
         header("Location: dashboard_admin.php");
         exit();
     } else {
-        header("Location: login.php?pesan=gagal&reason=password_mismatch");
+        echo "<script>alert('Password salah!');window.history.back();</script>";
         exit();
     }
 }
 
-/* -----------------------------------------------------------
-   2️⃣ Jika tidak ditemukan di tabel admin, cek di tb_user
------------------------------------------------------------ */
+/* ===========================================================
+   2️⃣ CEK LOGIN UNTUK MAHASISWA (tb_user)
+=========================================================== */
 $stmt2 = mysqli_prepare($conn, "SELECT id_user, nama_lengkap, username, password, role, status_akun 
-                               FROM tb_user WHERE username = ? LIMIT 1");
+                                FROM tb_user WHERE username = ? LIMIT 1");
 mysqli_stmt_bind_param($stmt2, "s", $username);
 mysqli_stmt_execute($stmt2);
 mysqli_stmt_store_result($stmt2);
@@ -65,13 +60,22 @@ if (mysqli_stmt_num_rows($stmt2) === 1) {
     mysqli_stmt_bind_result($stmt2, $id_user, $nama_lengkap, $db_username, $db_password, $role, $status_akun);
     mysqli_stmt_fetch($stmt2);
 
-    if (!password_verify($password, $db_password)) {
-        header("Location: login.php?pesan=gagal&reason=password_mismatch");
+    // Cek status akun
+    if ($status_akun !== 'aktif') {
+        echo "<script>alert('Akun Anda belum aktif. Tunggu verifikasi admin.');window.location='login.php';</script>";
         exit();
     }
 
-    if ($status_akun !== 'aktif') {
-        echo "<script>alert('Akun Anda belum aktif. Tunggu verifikasi admin.');window.location='login.php';</script>";
+    // Cek password mahasiswa (bisa hash atau plain text)
+    $isValid = false;
+    if (password_verify($password, $db_password)) {
+        $isValid = true; // jika password di-hash
+    } elseif ($password === $db_password) {
+        $isValid = true; // jika password masih plain text (fallback lama)
+    }
+
+    if (!$isValid) {
+        echo "<script>alert('Password salah!');window.history.back();</script>";
         exit();
     }
 
@@ -85,9 +89,9 @@ if (mysqli_stmt_num_rows($stmt2) === 1) {
     exit();
 }
 
-/* -----------------------------------------------------------
-   3️⃣ Kalau dua-duanya tidak ditemukan
------------------------------------------------------------ */
-header("Location: login.php?pesan=gagal&reason=user_not_found");
+/* ===========================================================
+   3️⃣ USER TIDAK DITEMUKAN
+=========================================================== */
+echo "<script>alert('Username tidak ditemukan! Pastikan Anda sudah mendaftar.');window.history.back();</script>";
 exit();
 ?>

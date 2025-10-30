@@ -1,6 +1,5 @@
 <?php
 session_start();
-<<<<<<< HEAD:dashboard_user.php
 
 // Cek apakah sudah login
 if (!isset($_SESSION['username'])) {
@@ -9,22 +8,15 @@ if (!isset($_SESSION['username'])) {
 }
 
 // Cek apakah role user
-if ($_SESSION['role'] !== 'user') {
-    header("Location: login.php?pesan=akses_ditolak");
+if ($_SESSION['role'] !== 'mahasiswa') {
+    header("Location: ../login.php?pesan=akses_ditolak");
     exit();
 }
 
-// Kalau lolos dua pengecekan di atas, lanjut tampilkan halaman dashboard
-=======
 include '../koneksi.php';
 
-// Cek apakah sudah login
-if (!isset($_SESSION['username'])) {
-    header("Location: ../login.php");
-    exit;
-}
-
-$nik = $_SESSION['username']; // NIK = username mahasiswa
+// Ambil data user berdasarkan NIK
+$nik = $_SESSION['username'];
 $query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran WHERE nik = '$nik' LIMIT 1");
 $data = mysqli_fetch_assoc($query);
 
@@ -33,7 +25,6 @@ if (!$data) {
     echo "<script>alert('Data pendaftaran tidak ditemukan!');window.location='../login.php';</script>";
     exit;
 }
->>>>>>> 0a53b2c31b045f103c7a69a59ceee264c520a5b7:user/dashboard_user.php
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -189,6 +180,20 @@ if (!$data) {
             color: #777;
             font-size: 14px;
         }
+
+        .btn-view {
+            display: inline-block;
+            background: #0d6efd;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .btn-view:hover {
+            background: #0b5ed7;
+        }
     </style>
 </head>
 <body>
@@ -237,6 +242,20 @@ if (!$data) {
                 <tr><th>Alamat</th><td><?= htmlspecialchars($data['alamat']); ?></td></tr>
                 <tr><th>Status Pendaftaran</th><td><b><?= htmlspecialchars($data['status_pendaftaran']); ?></b></td></tr>
                 <tr><th>Tanggal Daftar</th><td><?= date('d-m-Y', strtotime($data['tanggal_daftar'])); ?></td></tr>
+                
+                <!-- Tambahan Bukti Pembayaran -->
+                <tr>
+                    <th>Bukti Pembayaran</th>
+                    <td>
+                        <?php if (!empty($data['bukti_pembayaran'])): ?>
+                            <a href="../uploads/<?= htmlspecialchars($data['bukti_pembayaran']); ?>" target="_blank" class="btn-view">
+                                🔍 Lihat Bukti
+                            </a>
+                        <?php else: ?>
+                            <span class="text-muted">Belum ada bukti pembayaran.</span>
+                        <?php endif; ?>
+                    </td>
+                </tr>
             </table>
         </div>
 
