@@ -62,33 +62,36 @@ if (isset($_POST['update_password'])) {
 ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <title>Pengaturan Akun</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" href="../img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             background-color: #f8f9fa;
         }
 
-  
+        /* Pastikan konten tidak ketumpuk navbar */
+        .content {
+            margin-left: 250px;
+            /* sesuai lebar sidebar */
+            padding: 100px 30px 50px;
+            /* tambahkan jarak dari atas karena navbar fixed */
+            min-height: 100vh;
+            overflow-y: auto;
+            /* biar bisa discroll */
+        }
 
-       /* Pastikan konten tidak ketumpuk navbar */
-.content {
-    margin-left: 250px;       /* sesuai lebar sidebar */
-    padding: 100px 30px 50px; /* tambahkan jarak dari atas karena navbar fixed */
-    min-height: 100vh;
-    overflow-y: auto;         /* biar bisa discroll */
-}
-
-/* Responsif mobile */
-@media (max-width: 991.98px) {
-    .content {
-        margin-left: 0;
-        padding-top: 100px;
-    }
-}
+        /* Responsif mobile */
+        @media (max-width: 991.98px) {
+            .content {
+                margin-left: 0;
+                padding-top: 100px;
+            }
+        }
 
 
         .card {
@@ -138,7 +141,7 @@ if (isset($_POST['update_password'])) {
             <div class="card mb-4 p-4">
                 <h5 class="fw-bold text-dark mb-3">🧾 Edit Biodata</h5>
                 <div class="alert alert-warning py-2 mb-3">
-                    <b>Perhatian:</b> Hanya kolom <b>Alamat & Email</b> yang dapat diubah.  
+                    <b>Perhatian:</b> Hanya kolom <b>Alamat & Email</b> yang dapat diubah.
                     Data lainnya bersifat tetap. Jika terdapat kesalahan data, segera hubungi <b>Admin</b>.
                 </div>
 
@@ -146,42 +149,52 @@ if (isset($_POST['update_password'])) {
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">NIK</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nik']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['nik']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">NISN</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nisn']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['nisn']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Nama Lengkap</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nama_lengkap']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['nama_lengkap']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Jenis Kelamin</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['jenis_kelamin']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['jenis_kelamin']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Asal SLTA</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['asal_slta']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['asal_slta']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Program Studi</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['program_studi']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['program_studi']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Rencana Kelas</label>
-                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['rencana_kelas']); ?>" readonly>
+                            <input type="text" class="form-control bg-light"
+                                value="<?= htmlspecialchars($data['rencana_kelas']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Alamat</label>
-                            <textarea name="alamat" class="form-control"><?= htmlspecialchars($data['alamat']); ?></textarea>
+                            <textarea name="alamat"
+                                class="form-control"><?= htmlspecialchars($data['alamat']); ?></textarea>
                         </div>
                         <div class="col-md-6 mb-3">
                             <label class="fw-semibold">Email</label>
-                            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($data['email']); ?>">
+                            <input type="email" name="email" class="form-control"
+                                value="<?= htmlspecialchars($data['email']); ?>">
                         </div>
                     </div>
-                    <button type="submit" name="update_biodata" class="btn btn-success mt-2">💾 Simpan Perubahan</button>
+                    <button type="submit" name="update_biodata" class="btn btn-success mt-2">💾 Simpan
+                        Perubahan</button>
                 </form>
             </div>
 
@@ -216,4 +229,5 @@ if (isset($_POST['update_password'])) {
         }
     </script>
 </body>
+
 </html>

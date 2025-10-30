@@ -40,6 +40,7 @@ if (!$data) {
     <title>Dashboard Mahasiswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="../img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             overflow-x: hidden;
@@ -57,7 +58,6 @@ if (!$data) {
         @media (max-width: 991.98px) {
             .content {
                 margin-left: 0;
-                padding-top: 140px; 
             }
         }
 

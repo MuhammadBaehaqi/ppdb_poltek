@@ -1,6 +1,6 @@
 <?php
 include 'koneksi.php';
-include 'navbar.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +12,7 @@ include 'navbar.php';
     <title>Login Admin | Politeknik Mitra Karya Mandiri</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-
+    <link rel="icon" href="img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             background: url('img/slide1.jpg') no-repeat center center fixed;
@@ -105,6 +105,7 @@ include 'navbar.php';
         }
     </style>
 </head>
+<? include 'navbar.php'; ?>
 
 <body>
 

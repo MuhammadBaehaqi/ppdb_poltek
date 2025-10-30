@@ -1,5 +1,5 @@
 <?php
-include 'sidebar_admin.php';
+
 include 'koneksi.php';
 
 $toast_message = "";
@@ -45,23 +45,33 @@ if (isset($_POST['hapus_admin'])) {
     }
 }
 
-// --- Pagination + Search + Show x data ---
-$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 5;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+// --- Pagination + Pencarian ---
+$limit = 5; // jumlah data per halaman
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
 $start = ($page - 1) * $limit;
-$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-$where = '';
-if ($search != '') {
-    $where = "WHERE nama_admin LIKE '%$search%' OR username LIKE '%$search%' OR email LIKE '%$search%'";
+// pencarian
+$cari = isset($_GET['cari']) ? mysqli_real_escape_string($conn, $_GET['cari']) : '';
+
+if (!empty($cari)) {
+    $query = "SELECT * FROM admin 
+        WHERE nama_admin LIKE '%$cari%' 
+        OR username LIKE '%$cari%' 
+        OR email LIKE '%$cari%' 
+        ORDER BY id DESC 
+        LIMIT $start, $limit";
+    $countQuery = "SELECT COUNT(*) AS total FROM admin 
+        WHERE nama_admin LIKE '%$cari%' 
+        OR username LIKE '%$cari%' 
+        OR email LIKE '%$cari%'";
+} else {
+    $query = "SELECT * FROM admin ORDER BY id DESC LIMIT $start, $limit";
+    $countQuery = "SELECT COUNT(*) AS total FROM admin";
 }
 
-// Hitung total data
-$totalData = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM admin $where"))['total'];
+$result = mysqli_query($conn, $query);
+$totalData = mysqli_fetch_assoc(mysqli_query($conn, $countQuery))['total'];
 $totalPages = ceil($totalData / $limit);
-
-// Ambil data sesuai limit dan offset
-$result = mysqli_query($conn, "SELECT * FROM admin $where ORDER BY id DESC LIMIT $start, $limit");
 ?>
 
 <!DOCTYPE html>
@@ -73,6 +83,7 @@ $result = mysqli_query($conn, "SELECT * FROM admin $where ORDER BY id DESC LIMIT
     <title>Kelola Admin | Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="icon" href="img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             background-color: #f8f9fa;
@@ -111,35 +122,24 @@ $result = mysqli_query($conn, "SELECT * FROM admin $where ORDER BY id DESC LIMIT
 </head>
 
 <body>
+    <!-- ✅ Sidebar & Navbar dimasukkan di sini -->
+    <?php include 'sidebar_admin.php'; ?>
     <div class="content">
         <div class="container-fluid">
             <h3 class="fw-bold mb-4"><i class="bi bi-person-gear me-2"></i>Kelola Admin</h3>
 
             <div class="card">
-                 <div class="card-body">
-                <!-- Show & Search -->
-                <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
-                    <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                        <i class="bi bi-plus-circle me-2"></i>Tambah Admin
-                    </button>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
+                            <i class="bi bi-plus-circle me-2"></i>Tambah Admin
+                        </button>
 
-                    <div class="d-flex align-items-center gap-2">
-                        <form id="form-limit" method="get" class="d-flex align-items-center">
-                            <label class="me-2 mb-0">Tampilkan:</label>
-                            <select name="limit" class="form-select form-select-sm" onchange="document.getElementById('form-limit').submit()">
-                                <?php foreach([5,10,15,20,50] as $l): ?>
-                                    <option value="<?= $l ?>" <?= $limit==$l?'selected':'' ?>><?= $l ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                            <input type="hidden" name="search" value="<?= htmlspecialchars($search) ?>">
-                        </form>
-
-                        <form method="get" class="d-flex">
-                            <input type="text" name="search" class="form-control" placeholder="Cari admin..." value="<?= htmlspecialchars($search) ?>">
-                            <input type="hidden" name="limit" value="<?= $limit ?>">
+                        <form class="d-flex" method="get" style="max-width: 300px;">
+                            <input type="text" name="cari" class="form-control" placeholder="Cari admin..."
+                                value="<?= htmlspecialchars($cari) ?>">
                             <button class="btn btn-outline-secondary ms-2"><i class="bi bi-search"></i></button>
                         </form>
-                    </div>
                     </div>
 
                     <div class="table-responsive">
@@ -194,26 +194,24 @@ $result = mysqli_query($conn, "SELECT * FROM admin $where ORDER BY id DESC LIMIT
                     </div>
 
                     <!-- Pagination -->
-                     <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                    <div class="text-muted small mb-2 mb-md-0">
-                        Menampilkan <?= $start+1 ?>–<?= min($start+$limit,$totalData) ?> dari <?= $totalData ?> data
-                    </div>
                     <nav>
-                        <ul class="pagination pagination-sm mb-0">
-                            <li class="page-item <?= ($page<=1)?'disabled':'' ?>">
-                                <a class="page-link" href="?page=<?= $page-1 ?>&search=<?= urlencode($search) ?>&limit=<?= $limit ?>">Previous</a>
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
+                                <a class="page-link"
+                                    href="?page=<?= $page - 1 ?>&cari=<?= urlencode($cari) ?>">Previous</a>
                             </li>
-                            <?php for($i=1;$i<=$totalPages;$i++): ?>
-                                <li class="page-item <?= ($page==$i)?'active':'' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>&limit=<?= $limit ?>"><?= $i ?></a>
+
+                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $i ?>&cari=<?= urlencode($cari) ?>"><?= $i ?></a>
                                 </li>
                             <?php endfor; ?>
-                            <li class="page-item <?= ($page>=$totalPages)?'disabled':'' ?>">
-                                <a class="page-link" href="?page=<?= $page+1 ?>&search=<?= urlencode($search) ?>&limit=<?= $limit ?>">Next</a>
+
+                            <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
+                                <a class="page-link" href="?page=<?= $page + 1 ?>&cari=<?= urlencode($cari) ?>">Next</a>
                             </li>
                         </ul>
                     </nav>
-                </div>
 
                 </div>
             </div>
