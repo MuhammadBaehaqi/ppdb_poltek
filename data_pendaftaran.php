@@ -66,7 +66,9 @@ include 'koneksi.php';
                     <!-- Tombol tambah dan search -->
                     <div class="d-flex justify-content-between mb-3">
                         <div>
-                            <button class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Tambah Data</button>
+                            <a href="pendaftaran_tambah.php" class="btn btn-primary">
+                                <i class="bi bi-plus-circle me-2"></i>Tambah Data
+                            </a>
                         </div>
                         <form method="GET" class="d-flex">
                             <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, NIK, NISN, atau Email..." 
@@ -150,6 +152,15 @@ include 'koneksi.php';
                                     <td><?= date('d-m-Y', strtotime($row['tanggal_daftar'])); ?></td>
                                     <td><span class="badge <?= $badgeClass; ?>"><?= $row['status_pendaftaran']; ?></span></td>
                                     <td>
+                                        <!-- Tombol Edit -->
+                                        <a href="pendaftaran_edit.php?id=<?= $row['id_pendaftaran']; ?>" class="btn btn-sm btn-warning mb-1" title="Edit Data">
+                                            <i class="bi bi-pencil-square"></i>
+                                        </a>
+
+                                        <!-- Tombol Hapus -->
+                                        <a href="pendaftaran_hapus.php?id=<?= $row['id_pendaftaran']; ?>" class="btn btn-sm btn-danger mb-1" title="Hapus Data" onclick="return confirm('Yakin ingin menghapus data ini?');">
+                                            <i class="bi bi-trash"></i>
+                                        </a>
                                         <form action="registrasi/update_status.php" method="POST" class="d-inline">
                                             <input type="hidden" name="id_pendaftaran" value="<?= $row['id_pendaftaran']; ?>">
                                             <select name="status" class="form-select form-select-sm d-inline w-auto" onchange="this.form.submit()">
@@ -209,6 +220,7 @@ include 'koneksi.php';
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
-                                    

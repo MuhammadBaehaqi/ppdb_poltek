@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Okt 2025 pada 13.50
+-- Waktu pembuatan: 30 Okt 2025 pada 15.02
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.1.25
 
@@ -59,15 +59,18 @@ CREATE TABLE `kontak` (
   `email` varchar(100) DEFAULT NULL,
   `nomor_wa` varchar(20) DEFAULT NULL,
   `pesan` text DEFAULT NULL,
-  `tanggal` timestamp NOT NULL DEFAULT current_timestamp()
+  `tanggal` timestamp NOT NULL DEFAULT current_timestamp(),
+  `status_baca` enum('belum baca','sudah baca') DEFAULT 'belum baca'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data untuk tabel `kontak`
 --
 
-INSERT INTO `kontak` (`id_pesan`, `nama`, `email`, `nomor_wa`, `pesan`, `tanggal`) VALUES
-(2, 'akmal jaya', 'akmah@gmail.com', '6285764678929', 'Apakah disini ada kelas karyawan?', '2025-10-30 03:58:05');
+INSERT INTO `kontak` (`id_pesan`, `nama`, `email`, `nomor_wa`, `pesan`, `tanggal`, `status_baca`) VALUES
+(2, 'akmal jaya', 'akmah@gmail.com', '6285764678929', 'Apakah disini ada kelas karyawan?', '2025-10-30 03:58:05', 'sudah baca'),
+(4, 'Et earum quam dolor ', 'piresi@mailinator.com', 'Quis occaecat quia r', 'Sit et et voluptate', '2025-10-30 13:28:51', 'sudah baca'),
+(5, 'Incididunt quae sed ', 'mapywygele@mailinator.com', 'Nisi aspernatur labo', 'Architecto eaque omn', '2025-10-30 13:29:09', 'sudah baca');
 
 -- --------------------------------------------------------
 
@@ -97,9 +100,6 @@ CREATE TABLE `tb_pendaftaran` (
 
 INSERT INTO `tb_pendaftaran` (`id_pendaftaran`, `nama_lengkap`, `email`, `jenis_kelamin`, `alamat`, `nik`, `nisn`, `asal_slta`, `program_studi`, `rencana_kelas`, `bukti_pembayaran`, `tanggal_daftar`, `status_pendaftaran`) VALUES
 (1, 'Ea ex et velit saepe1', NULL, 'Laki-laki', 'In labore dolor aute1', 'Nulla consectetur es', 'Do accusamus hic vit', 'Reprehenderit id al1', 'farmasi1', 'Kelas Reguler1', '1761795457_3x4.jpg', '2025-10-30 10:37:37', 'Diterima'),
-(2, 'Nihil eligendi sed e', NULL, 'Perempuan', 'Aperiam similique in', 'Veniam iusto in rer', 'A et rerum illum mo', 'Repellendus Dolor i', 'Analis Kesehatan', 'Kelas Karyawan', '1761795491_24f5f1268c5609adad93b9b25f30c48f.jpg', '2025-10-30 10:38:11', 'Diterima'),
-(3, 'Dolor dolor amet mi', NULL, 'Perempuan', 'Cupiditate rem amet', 'Quod ullam exercitat', 'Pariatur Quae ipsa', 'Veritatis repudianda', 'farmasi', 'Kelas Reguler', '1761796449_foto_login.jpg', '2025-10-30 10:54:09', 'Tidak Diterima'),
-(4, 'Deserunt perferendis', NULL, 'Laki-laki', 'Saepe sed dolore eve', 'Minus consequatur N', 'Veritatis aut enim i', 'Pariatur Irure ut q', 'Manajemen Informatika', '', '1761797945_demon.jpg', '2025-10-30 11:19:05', 'Diterima'),
 (5, 'Dolorem ad obcaecati', NULL, 'Laki-laki', 'Qui ut aut officiis ', 'Dolor rerum autem na', 'Elit et nobis in vo', 'Labore ut voluptate ', 'Manajemen Informatika', 'Kelas Karyawan', '1761799055_3x4.jpg', '2025-10-30 11:37:35', 'Diterima'),
 (6, 'Optio ipsam sint q', 'naruzajuxa@mailinator.com', 'Laki-laki', 'Quia sit modi nihil', 'Est laudantium dol', 'Et ut ad et aspernat', 'Culpa error omnis qu', 'Manajemen Informatika', 'Kelas Karyawan', '1761828369_foto_login.jpg', '2025-10-30 19:46:09', 'Diterima');
 
@@ -125,9 +125,6 @@ CREATE TABLE `tb_user` (
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `username`, `password`, `role`, `status_akun`, `tanggal_daftar`) VALUES
 (1, 'Ea ex et velit saepe', 'Nulla consectetur es', '$2y$10$VkNLuYJRDvG.u31Wz.rfMOWvboxd1a/.yj4swBQdZs2dP0FD.krv6', 'mahasiswa', 'aktif', '2025-10-30 10:37:37'),
-(2, 'Nihil eligendi sed e', 'Veniam iusto in rer', '$2y$10$urCqkCBTkVGvJkMyyPp5ye7hXxcTSb4SNc5sCjFj7bGNBZr6bNZNy', 'mahasiswa', 'aktif', '2025-10-30 10:38:11'),
-(3, 'Dolor dolor amet mi', 'Quod ullam exercitat', '$2y$10$SVfjdHQTdTxKWsruHyO/NuhJa9SJiqIDcKRKinzQH4gybn.V/z/dC', 'mahasiswa', 'nonaktif', '2025-10-30 10:54:09'),
-(4, 'Deserunt perferendis', 'Minus consequatur N', '$2y$10$8ahkLQwf5tUEYlaFVFjiDe86MA4BXr4V2EMJMBsoPOkVoqxzEar0K', 'mahasiswa', 'aktif', '2025-10-30 11:19:05'),
 (5, 'Dolorem ad obcaecati', 'Dolor rerum autem na', '$2y$10$uMnY9BChD8LW6msgqB/9OOFeWCIIkjcmwGeMm.UM/xE0YRe.qUw.G', 'mahasiswa', 'aktif', '2025-10-30 11:37:35'),
 (6, 'Optio ipsam sint q', 'Est laudantium dol', '$2y$10$U8zSVNeGZ0Kuzf49zXf1yeQjXwnb7B.tS6gxmbKtEfnLewLxpmuHK', 'mahasiswa', 'aktif', '2025-10-30 19:46:09');
 
@@ -176,7 +173,7 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT untuk tabel `kontak`
 --
 ALTER TABLE `kontak`
-  MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_pendaftaran`

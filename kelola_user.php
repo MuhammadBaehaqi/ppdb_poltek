@@ -53,11 +53,11 @@ include 'koneksi.php';
         <div class="card">
             <div class="card-body">
                 <div class="d-flex justify-content-end mb-3">
-                    <div class="input-group" style="max-width: 300px;">
-                        <input type="text" class="form-control" placeholder="Cari user...">
-                        <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
-                    </div>
-                </div>
+    <form method="GET" class="d-flex" style="max-width: 300px;">
+        <input type="text" name="keyword" value="<?= isset($_GET['keyword']) ? htmlspecialchars($_GET['keyword']) : ''; ?>" class="form-control" placeholder="Cari nama/NIK...">
+        <button class="btn btn-outline-secondary ms-1" type="submit"><i class="bi bi-search"></i></button>
+    </form>
+</div>
 
                 <!-- Table Responsive -->
                 <div class="table-responsive">
@@ -76,7 +76,19 @@ include 'koneksi.php';
                         <tbody>
                             <?php
                             $no = 1;
-                            $query = mysqli_query($conn, "SELECT * FROM tb_user ORDER BY id_user DESC");
+                            $keyword = isset($_GET['keyword']) ? mysqli_real_escape_string($conn, $_GET['keyword']) : '';
+
+if (!empty($keyword)) {
+    $sql = "SELECT * FROM tb_user 
+            WHERE nama_lengkap LIKE '%$keyword%' 
+               OR username LIKE '%$keyword%' 
+            ORDER BY id_user DESC";
+} else {
+    $sql = "SELECT * FROM tb_user ORDER BY id_user DESC";
+}
+
+$query = mysqli_query($conn, $sql);
+
                             if (mysqli_num_rows($query) > 0) {
                                 while ($row = mysqli_fetch_assoc($query)) {
                                     $badgeClass = ($row['status_akun'] == 'aktif') ? 'bg-success' : 'bg-secondary';

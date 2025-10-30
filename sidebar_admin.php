@@ -10,8 +10,9 @@ $jumlah_pendaftaran_pending = mysqli_fetch_assoc(mysqli_query(
 
 $jumlah_pesan_baru = mysqli_fetch_assoc(mysqli_query(
     $conn,
-    "SELECT COUNT(*) AS total FROM kontak"
+    "SELECT COUNT(*) AS total FROM kontak WHERE status_baca = 'belum baca'"
 ))['total'];
+
 
 // kalau user sudah klik menu kontak, sembunyikan sementara
 if (isset($_SESSION['kontak_diklik']) && $_SESSION['kontak_diklik'] === true) {
@@ -68,6 +69,11 @@ $total_notif = $jumlah_pendaftaran_pending + $jumlah_pesan_baru;
 <!-- Sidebar -->
 <?php
 $current_page = basename($_SERVER['PHP_SELF']); // nama file yang sedang dibuka
+// Anggap halaman tambah/edit sebagai bagian dari data_pendaftaran
+if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php'])) {
+    $current_page = 'data_pendaftaran.php';
+}
+
 ?>
 <div class="sidebar bg-dark text-white p-3" id="sidebar">
     <a href="dashboard_admin.php" class="d-flex align-items-center mb-3 text-white text-decoration-none">

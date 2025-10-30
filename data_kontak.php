@@ -3,6 +3,8 @@ session_start();
 $_SESSION['kontak_diklik'] = true; // tandai sudah diklik
 include 'sidebar_admin.php';
 include 'koneksi.php';
+// tandai semua pesan sudah dibaca
+mysqli_query($conn, "UPDATE kontak SET status_baca = 'sudah baca' WHERE status_baca = 'belum baca'");
 
 // ambil data kontak
 $query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
