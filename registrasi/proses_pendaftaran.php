@@ -3,6 +3,7 @@ include '../koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap   = mysqli_real_escape_string($conn, $_POST['nama_lengkap']);
+    $email          = mysqli_real_escape_string($conn, $_POST['email']);
     $jenis_kelamin  = mysqli_real_escape_string($conn, $_POST['jenis_kelamin']);
     $alamat         = mysqli_real_escape_string($conn, $_POST['alamat']);
     $nik            = mysqli_real_escape_string($conn, $_POST['nik']);
@@ -21,18 +22,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     move_uploaded_file($_FILES["bukti_pembayaran"]["tmp_name"], $target_file);
 
-    // Cek apakah NIK sudah pernah digunakan
+    // Cek apakah NIK sudah terdaftar
     $cekNik = mysqli_query($conn, "SELECT nik FROM tb_pendaftaran WHERE nik = '$nik'");
     if (mysqli_num_rows($cekNik) > 0) {
         echo "<script>alert('NIK ini sudah terdaftar! Gunakan NIK lain atau hubungi admin.');window.history.back();</script>";
         exit;
     }
 
+    // Cek apakah email sudah terdaftar
+    $cekEmail = mysqli_query($conn, "SELECT email FROM tb_pendaftaran WHERE email = '$email'");
+    if (mysqli_num_rows($cekEmail) > 0) {
+        echo "<script>alert('Email ini sudah digunakan! Gunakan email lain atau hubungi admin.');window.history.back();</script>";
+        exit;
+    }
+
     // Simpan ke tabel pendaftaran
     $sql1 = "INSERT INTO tb_pendaftaran 
-        (nama_lengkap, jenis_kelamin, alamat, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar)
+        (nama_lengkap, email, jenis_kelamin, alamat, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar)
         VALUES 
-        ('$nama_lengkap', '$jenis_kelamin', '$alamat', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$file_name', 'Pending', NOW())";
+        ('$nama_lengkap', '$email', '$jenis_kelamin', '$alamat', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$file_name', 'Pending', NOW())";
 
     if (mysqli_query($conn, $sql1)) {
 

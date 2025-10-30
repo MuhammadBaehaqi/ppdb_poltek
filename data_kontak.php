@@ -1,8 +1,10 @@
 <?php
+session_start();
+$_SESSION['kontak_diklik'] = true; // tandai sudah diklik
 include 'sidebar_admin.php';
 include 'koneksi.php';
 
-// Ambil data dari tabel kontak
+// ambil data kontak
 $query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
 ?>
 
@@ -22,7 +24,7 @@ $query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
 
         .main-content {
             margin-left: 250px;
-            padding: 90px 20px 20px 20px;
+            padding: 30px;
             transition: margin-left 0.3s ease;
         }
 

@@ -7,11 +7,10 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 
-<<<<<<< HEAD
 // Cek apakah role user
-=======
+
 // Cek role
->>>>>>> e48558c20108f26a032418d0b8aab3c8fa8b2dad
+
 if ($_SESSION['role'] !== 'mahasiswa') {
     header("Location: ../login.php?pesan=akses_ditolak");
     exit();
@@ -19,13 +18,12 @@ if ($_SESSION['role'] !== 'mahasiswa') {
 
 include '../koneksi.php';
 
-<<<<<<< HEAD
 // Ambil data user berdasarkan NIK
 $nik = $_SESSION['username'];
-=======
+
 // Ambil data mahasiswa dari tabel
 $nik = $_SESSION['username']; // NIK disamakan dengan username
->>>>>>> e48558c20108f26a032418d0b8aab3c8fa8b2dad
+
 $query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran WHERE nik = '$nik' LIMIT 1");
 $data = mysqli_fetch_assoc($query);
 
@@ -187,59 +185,7 @@ if (!$data) {
                 </div>
             </div>
 
-            <div class="biodata">
-                <h3>Detail Biodata</h3>
-                <hr style="margin: 15px 0;">
-
-                <table>
-                    <tr>
-                        <th>Nama Lengkap</th>
-                        <td><?= htmlspecialchars($data['nama_lengkap']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>NIK</th>
-                        <td><?= htmlspecialchars($data['nik']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>NISN</th>
-                        <td><?= htmlspecialchars($data['nisn']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Jenis Kelamin</th>
-                        <td><?= htmlspecialchars($data['jenis_kelamin']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Asal SLTA</th>
-                        <td><?= htmlspecialchars($data['asal_slta']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Program Studi</th>
-                        <td><?= htmlspecialchars($data['program_studi']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Rencana Kelas</th>
-                        <td><?= htmlspecialchars($data['rencana_kelas']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Alamat</th>
-                        <td><?= htmlspecialchars($data['alamat']); ?></td>
-                    </tr>
-                    <tr>
-                        <th>Status Pendaftaran</th>
-                        <td><b><?= htmlspecialchars($data['status_pendaftaran']); ?></b></td>
-                    </tr>
-                    <tr>
-                        <th>Tanggal Daftar</th>
-                        <td><?= date('d-m-Y', strtotime($data['tanggal_daftar'])); ?></td>
-                    </tr>
-                </table>
-            </div>
-
-            <footer>
-                &copy; <?= date('Y') ?> POLITEKNIK MITRA KARYA MANDIRI — Sistem Informasi Akademik
-            </footer>
-        </div>
-<<<<<<< HEAD
+           
 
         <div class="biodata">
             <h3>Detail Biodata</h3>
@@ -276,8 +222,6 @@ if (!$data) {
         <footer>
             &copy; <?= date('Y') ?> POLITEKNIK MITRA KARYA MANDIRI — Sistem Informasi Akademik
         </footer>
-=======
->>>>>>> e48558c20108f26a032418d0b8aab3c8fa8b2dad
     </div>
 
 </body>

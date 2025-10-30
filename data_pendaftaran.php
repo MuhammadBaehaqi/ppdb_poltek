@@ -1,6 +1,6 @@
 <?php 
 include 'sidebar_admin.php'; 
-include 'koneksi.php'; // koneksi ke database
+include 'koneksi.php'; 
 ?>
 
 <!DOCTYPE html>
@@ -40,6 +40,18 @@ include 'koneksi.php'; // koneksi ke database
             vertical-align: middle;
             text-align: center;
         }
+        .pagination .page-link {
+            color: #ff9800;
+            border-color: #ff9800;
+        }
+        .pagination .page-item.active .page-link {
+            background-color: #ff9800;
+            border-color: #ff9800;
+            color: white;
+        }
+        .pagination .page-link:hover {
+            background-color: #ffe0b2;
+        }
     </style>
 </head>
 
@@ -51,14 +63,16 @@ include 'koneksi.php'; // koneksi ke database
             <div class="card">
                 <div class="card-body">
 
+                    <!-- Tombol tambah dan search -->
                     <div class="d-flex justify-content-between mb-3">
                         <div>
                             <button class="btn btn-primary"><i class="bi bi-plus-circle me-2"></i>Tambah Data</button>
                         </div>
-                        <div class="input-group" style="width: 300px;">
-                            <input type="text" class="form-control" placeholder="Cari nama mahasiswa...">
-                            <button class="btn btn-outline-secondary"><i class="bi bi-search"></i></button>
-                        </div>
+                        <form method="GET" class="d-flex">
+                            <input type="text" name="search" class="form-control me-2" placeholder="Cari nama, NIK, NISN, atau Email..." 
+                                   value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                        </form>
                     </div>
 
                     <div class="table-responsive">
@@ -67,6 +81,7 @@ include 'koneksi.php'; // koneksi ke database
                                 <tr>
                                     <th>No</th>
                                     <th>Nama Lengkap</th>
+                                    <th>Email</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Alamat</th>
                                     <th>NIK</th>
@@ -82,8 +97,30 @@ include 'koneksi.php'; // koneksi ke database
                             </thead>
                             <tbody>
                                 <?php
-                                $no = 1;
-                                $query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran ORDER BY id_pendaftaran DESC");
+                                $limit = 10; // jumlah data per halaman
+                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                                $offset = ($page - 1) * $limit;
+                                $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
+
+                                // Query pencarian
+                                $where = "";
+                                if ($search != '') {
+                                    $where = "WHERE nama_lengkap LIKE '%$search%' 
+                                              OR nik LIKE '%$search%' 
+                                              OR nisn LIKE '%$search%' 
+                                              OR email LIKE '%$search%'";
+                                }
+
+                                // Hitung total data untuk pagination
+                                $total_query = mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_pendaftaran $where");
+                                $total_data = mysqli_fetch_assoc($total_query)['total'];
+                                $total_pages = ceil($total_data / $limit);
+
+                                // Query data dengan limit
+                                $query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran $where ORDER BY id_pendaftaran DESC LIMIT $offset, $limit");
+
+                                $no = $offset + 1;
+
                                 if (mysqli_num_rows($query) > 0) {
                                     while ($row = mysqli_fetch_assoc($query)) {
                                         $badgeClass = 'bg-warning text-dark';
@@ -93,6 +130,7 @@ include 'koneksi.php'; // koneksi ke database
                                 <tr>
                                     <td><?= $no++; ?></td>
                                     <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
+                                    <td><?= htmlspecialchars($row['email']); ?></td>
                                     <td><?= htmlspecialchars($row['jenis_kelamin']); ?></td>
                                     <td><?= htmlspecialchars($row['alamat']); ?></td>
                                     <td><?= htmlspecialchars($row['nik']); ?></td>
@@ -125,11 +163,46 @@ include 'koneksi.php'; // koneksi ke database
                                 <?php
                                     }
                                 } else {
-                                    echo "<tr><td colspan='13' class='text-center text-muted'>Belum ada data pendaftaran.</td></tr>";
+                                    echo "<tr><td colspan='14' class='text-center text-muted'>Tidak ada data ditemukan.</td></tr>";
                                 }
                                 ?>
                             </tbody>
                         </table>
+                    </div>
+
+                    <?php
+                    // Hitung range data yang sedang ditampilkan
+                    $start_data = ($page - 1) * $limit + 1;
+                    $end_data = min($start_data + $limit - 1, $total_data);
+                    ?>
+
+                    <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                        <!-- Informasi data -->
+                        <div class="text-muted small mb-2 mb-md-0">
+                            Menampilkan <strong><?= $start_data ?></strong>–<strong><?= $end_data ?></strong> dari <strong><?= $total_data ?></strong> data
+                        </div>
+
+                        <!-- Navigasi pagination -->
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <!-- Tombol Previous -->
+                                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
+                                </li>
+
+                                <!-- Nomor halaman -->
+                                <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                                    <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+                                    </li>
+                                <?php endfor; ?>
+
+                                <!-- Tombol Next -->
+                                <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
 
                 </div>
@@ -138,3 +211,4 @@ include 'koneksi.php'; // koneksi ke database
     </div>
 </body>
 </html>
+                                    

@@ -5,11 +5,21 @@ if (!isset($_SESSION['username'])) {
     exit();
 }
 include 'sidebar_admin.php';
+include 'koneksi.php';
+
+// Hitung total data
+$totalMahasiswa = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_pendaftaran"))['total'];
+$pendaftaranBaru = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_pendaftaran WHERE DATE(tanggal_daftar) = CURDATE()"))['total'];
+$pesanMasuk = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM kontak"))['total'];
+$totalUser = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM tb_user"))['total'];
+$totalAdmin = mysqli_fetch_assoc(mysqli_query($conn, "SELECT COUNT(*) AS total FROM admin"))['total'];
+
+// Total keseluruhan untuk "Riwayat"
+$totalRiwayat = $totalMahasiswa + $pesanMasuk + $totalUser + $totalAdmin;
 ?>
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,70 +31,59 @@ include 'sidebar_admin.php';
             overflow-x: hidden;
             background-color: #f8f9fa;
         }
-
-        /* Konten utama */
         .content {
             margin-left: 250px;
             padding: 90px 20px 20px;
             transition: all 0.3s;
         }
-
-        /* Saat layar kecil, konten full width */
         @media (max-width: 991.98px) {
-            .content {
-                margin-left: 0;
-            }
+            .content { margin-left: 0; }
         }
-
         .card {
             border: none;
             border-radius: 12px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
     </style>
 </head>
-
 <body>
     <div class="content">
         <div class="container-fluid">
-            <!-- Kartu Statistik -->
+            <!-- Statistik -->
             <div class="row g-4 mb-4">
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-primary">
                         <div class="card-body">
                             <i class="bi bi-people-fill display-5"></i>
                             <h5 class="card-title mt-2">Total Mahasiswa</h5>
-                            <p class="card-text fs-4">120</p>
+                            <p class="card-text fs-4"><?= $totalMahasiswa; ?></p>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-success">
                         <div class="card-body">
                             <i class="bi bi-person-plus-fill display-5"></i>
-                            <h5 class="card-title mt-2">Pendaftaran Baru</h5>
-                            <p class="card-text fs-4">25</p>
+                            <h5 class="card-title mt-2">Pendaftaran Hari Ini</h5>
+                            <p class="card-text fs-4"><?= $pendaftaranBaru; ?></p>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-warning">
                         <div class="card-body">
                             <i class="bi bi-envelope-fill display-5"></i>
                             <h5 class="card-title mt-2">Pesan Masuk</h5>
-                            <p class="card-text fs-4">8</p>
+                            <p class="card-text fs-4"><?= $pesanMasuk; ?></p>
                         </div>
                     </div>
                 </div>
-
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-danger">
                         <div class="card-body">
                             <i class="bi bi-clock-history display-5"></i>
                             <h5 class="card-title mt-2">Riwayat</h5>
-                            <p class="card-text fs-4">42</p>
+                            <p class="card-text fs-4"><?= $totalRiwayat; ?></p>
                         </div>
                     </div>
                 </div>
@@ -102,47 +101,36 @@ include 'sidebar_admin.php';
                                 <tr>
                                     <th>No</th>
                                     <th>Waktu</th>
-                                    <th>Nama Pengguna</th>
-                                    <th>Aktivitas</th>
+                                    <th>Nama</th>
+                                    <th>Kegiatan</th>
                                     <th>Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>29 Okt 2025, 08:42</td>
-                                    <td><i class="bi bi-person-circle me-1"></i> Admin Utama</td>
-                                    <td>Menambahkan data pendaftaran baru.</td>
-                                    <td><span class="badge bg-success">Selesai</span></td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>29 Okt 2025, 07:55</td>
-                                    <td><i class="bi bi-person-circle me-1"></i> Haki</td>
-                                    <td>Mengubah status pendaftar menjadi <strong>Lolos</strong>.</td>
-                                    <td><span class="badge bg-info text-dark">Diperbarui</span></td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>28 Okt 2025, 22:15</td>
-                                    <td><i class="bi bi-person-circle me-1"></i> Admin 2</td>
-                                    <td>Menghapus pesan kontak dari <strong>Dewi Lestari</strong>.</td>
-                                    <td><span class="badge bg-danger">Dihapus</span></td>
-                                </tr>
-                                <tr>
-                                    <td>4</td>
-                                    <td>28 Okt 2025, 16:45</td>
-                                    <td><i class="bi bi-person-circle me-1"></i> Admin Utama</td>
-                                    <td>Menambahkan admin baru <strong>Rizky</strong>.</td>
-                                    <td><span class="badge bg-primary">Ditambahkan</span></td>
-                                </tr>
-                                <tr>
-                                    <td>5</td>
-                                    <td>28 Okt 2025, 09:20</td>
-                                    <td><i class="bi bi-person-circle me-1"></i> Haki</td>
-                                    <td>Login ke sistem admin.</td>
-                                    <td><span class="badge bg-secondary">Aktif</span></td>
-                                </tr>
+                                <?php
+                                // Ambil 5 aktivitas terakhir dari pendaftaran, kontak, dan user
+                                $queryAktivitas = "
+                                    (SELECT nama_lengkap AS nama, tanggal_daftar AS waktu, 'Pendaftaran Baru' AS kegiatan, status_pendaftaran AS status FROM tb_pendaftaran)
+                                    UNION ALL
+                                    (SELECT nama AS nama, tanggal AS waktu, 'Mengirim Pesan' AS kegiatan, 'Pesan Masuk' AS status FROM kontak)
+                                    UNION ALL
+                                    (SELECT nama_lengkap AS nama, tanggal_daftar AS waktu, 'Akun Terdaftar' AS kegiatan, status_akun AS status FROM tb_user)
+                                    ORDER BY waktu DESC
+                                    LIMIT 5";
+                                $result = mysqli_query($conn, $queryAktivitas);
+                                $no = 1;
+                                while ($row = mysqli_fetch_assoc($result)) {
+                                    echo "
+                                    <tr>
+                                        <td>{$no}</td>
+                                        <td>" . date('d M Y, H:i', strtotime($row['waktu'])) . "</td>
+                                        <td><i class='bi bi-person-circle me-1'></i>" . htmlspecialchars($row['nama']) . "</td>
+                                        <td>{$row['kegiatan']}</td>
+                                        <td><span class='badge bg-info text-dark'>" . htmlspecialchars($row['status']) . "</span></td>
+                                    </tr>";
+                                    $no++;
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -150,8 +138,6 @@ include 'sidebar_admin.php';
             </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
-
 </html>

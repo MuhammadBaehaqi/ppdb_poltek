@@ -169,6 +169,10 @@
                                 <td><input type="text" class="form-control" name="nama_lengkap" placeholder="Masukkan nama lengkap Anda" required></td>
                             </tr>
                             <tr>
+                                <td><strong>Email</strong></td>
+                                <td><input type="email" class="form-control" name="email" placeholder="Masukkan alamat email aktif Anda" required></td>
+                            </tr>
+                            <tr>
                                 <td><strong>Jenis Kelamin</strong></td>
                                 <td>
                                     <select class="form-select" name="jenis_kelamin" required>

@@ -1,3 +1,28 @@
+<?php
+session_start();
+include 'koneksi.php';
+
+// Hitung total data
+$jumlah_pendaftaran_pending = mysqli_fetch_assoc(mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total FROM tb_pendaftaran WHERE status_pendaftaran = 'Pending'"
+))['total'];
+
+$jumlah_pesan_baru = mysqli_fetch_assoc(mysqli_query(
+    $conn,
+    "SELECT COUNT(*) AS total FROM kontak"
+))['total'];
+
+// kalau user sudah klik menu kontak, sembunyikan sementara
+if (isset($_SESSION['kontak_diklik']) && $_SESSION['kontak_diklik'] === true) {
+    $jumlah_pesan_baru = 0;
+}
+
+// total gabungan
+$total_notif = $jumlah_pendaftaran_pending + $jumlah_pesan_baru;
+?>
+
+
 <!-- Navbar Atas -->
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm fixed-top px-4">
     <div class="container-fluid">
@@ -54,22 +79,34 @@ $current_page = basename($_SERVER['PHP_SELF']); // nama file yang sedang dibuka
     <ul class="nav nav-pills flex-column mb-auto" id="sidebarMenu">
         <li>
             <a href="dashboard_admin.php"
-                class="nav-link text-white <?php echo ($current_page == 'dashboard_admin.php') ? 'active' : ''; ?>">
-                <i class="bi bi-speedometer2 me-2"></i> Dashboard Admin
+                class="nav-link text-white d-flex justify-content-between align-items-center <?php echo ($current_page == 'dashboard_admin.php') ? 'active' : ''; ?>">
+                <span><i class="bi bi-speedometer2 me-2"></i> Dashboard</span>
+                <?php if ($total_notif > 0): ?>
+                    <span class="badge bg-danger"><?= $total_notif; ?></span>
+                <?php endif; ?>
             </a>
         </li>
+
         <li>
             <a href="data_pendaftaran.php"
-                class="nav-link text-white <?php echo ($current_page == 'data_pendaftaran.php') ? 'active' : ''; ?>">
-                <i class="bi bi-person-lines-fill me-2"></i> Data Pendaftaran
+                class="nav-link text-white d-flex justify-content-between align-items-center <?php echo ($current_page == 'data_pendaftaran.php') ? 'active' : ''; ?>">
+                <span><i class="bi bi-person-lines-fill me-2"></i> Data Pendaftaran</span>
+                <?php if ($jumlah_pendaftaran_pending > 0): ?>
+                    <span class="badge bg-warning text-dark"><?= $jumlah_pendaftaran_pending; ?></span>
+                <?php endif; ?>
             </a>
         </li>
+
         <li>
             <a href="data_kontak.php"
-                class="nav-link text-white <?php echo ($current_page == 'data_kontak.php') ? 'active' : ''; ?>">
-                <i class="bi bi-envelope-fill me-2"></i> Data Kontak
+                class="nav-link text-white d-flex justify-content-between align-items-center <?php echo ($current_page == 'data_kontak.php') ? 'active' : ''; ?>">
+                <span><i class="bi bi-envelope-fill me-2"></i> Data Kontak</span>
+                <?php if ($jumlah_pesan_baru > 0): ?>
+                    <span class="badge bg-success"><?= $jumlah_pesan_baru; ?></span>
+                <?php endif; ?>
             </a>
         </li>
+
         <li>
             <a href="kelola_admin.php"
                 class="nav-link text-white <?php echo ($current_page == 'kelola_admin.php') ? 'active' : ''; ?>">
@@ -84,6 +121,7 @@ $current_page = basename($_SERVER['PHP_SELF']); // nama file yang sedang dibuka
         </li>
     </ul>
 </div>
+
 
 <script>
     const sidebar = document.getElementById('sidebar');
