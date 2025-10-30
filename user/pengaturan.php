@@ -25,7 +25,7 @@ if (!$data) {
     exit();
 }
 
-// Proses update biodata (alamat + email)
+// Proses update biodata
 if (isset($_POST['update_biodata'])) {
     $alamat = mysqli_real_escape_string($conn, $_POST['alamat']);
     $email = mysqli_real_escape_string($conn, $_POST['email']);
@@ -37,7 +37,6 @@ if (isset($_POST['update_biodata'])) {
         echo "<script>alert('Gagal memperbarui data!');</script>";
     }
 }
-
 
 // Proses ganti password
 if (isset($_POST['update_password'])) {
@@ -66,170 +65,155 @@ if (isset($_POST['update_password'])) {
 <head>
     <meta charset="UTF-8">
     <title>Pengaturan Akun</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
-            background-color: #f4f6f9;
-            display: flex;
-            min-height: 100vh;
-       
+            background-color: #f8f9fa;
         }
 
-        .main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            margin-left: 240px; /* Biar sejajar sama sidebar */
-        }
+  
 
-        .topbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: white;
-            padding: 15px 30px;
-            border-bottom: 1px solid #ddd;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
-            position: fixed;
-            width: calc(100% - 240px);
-            z-index: 10;
-        }
+       /* Pastikan konten tidak ketumpuk navbar */
+.content {
+    margin-left: 250px;       /* sesuai lebar sidebar */
+    padding: 100px 30px 50px; /* tambahkan jarak dari atas karena navbar fixed */
+    min-height: 100vh;
+    overflow-y: auto;         /* biar bisa discroll */
+}
 
-        .topbar h2 {
-            color: #004b3b;
-        }
+/* Responsif mobile */
+@media (max-width: 991.98px) {
+    .content {
+        margin-left: 0;
+        padding-top: 100px;
+    }
+}
 
-        .topbar button {
-            background: #dc3545;
-            color: white;
-            border: none;
-            padding: 8px 18px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .topbar button:hover {
-            background: #bb2d3b;
-        }
-
-        .content {
-            padding: 100px 30px 30px;
-            overflow-y: auto;
-        }
 
         .card {
-            border-radius: 10px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            border: none;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
         }
 
-        .btn-save {
-            background-color: #004b3b;
-            color: white;
-        }
+        @media (max-width: 768px) {
+            .sidebar {
+                left: -240px;
+                transition: 0.3s;
+            }
 
-        .btn-save:hover {
-            background-color: #01694f;
+            .sidebar.show {
+                left: 0;
+            }
+
+            .content {
+                margin-left: 0;
+                padding-top: 70px;
+            }
+
+            .toggle-btn {
+                position: fixed;
+                top: 15px;
+                left: 15px;
+                background-color: #004b3b;
+                color: white;
+                border: none;
+                padding: 8px 12px;
+                border-radius: 5px;
+                z-index: 2000;
+            }
         }
     </style>
 </head>
-<body>
 
+<body>
     <?php include 'sidebar_user.php'; ?>
 
-    <div class="main">
-        <div class="topbar">
-            <h2>Pengaturan Akun</h2>
-            <button onclick="window.location.href='../logout.php'">Logout</button>
-        </div>
+    <div class="content">
+        <div class="container">
+            <h4 class="fw-bold mb-4 text-success">⚙️ Pengaturan Akun</h4>
 
-        <div class="content">
-
-            <!-- Form Edit Biodata -->
-            <div class="card p-4">
-                <h5 class="fw-bold mb-3">🧾 Edit Biodata</h5>
-                <p class="text-muted mb-3" style="background:#f1f1f1; padding:10px; border-radius:6px;">
-                    ⚠️ <b>Perhatian:</b> Hanya kolom <b>Alamat & Email</b> yang dapat diubah. 
+            <!-- Edit Biodata -->
+            <div class="card mb-4 p-4">
+                <h5 class="fw-bold text-dark mb-3">🧾 Edit Biodata</h5>
+                <div class="alert alert-warning py-2 mb-3">
+                    <b>Perhatian:</b> Hanya kolom <b>Alamat & Email</b> yang dapat diubah.  
                     Data lainnya bersifat tetap. Jika terdapat kesalahan data, segera hubungi <b>Admin</b>.
-                </p>
+                </div>
 
                 <form method="POST">
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label>NIK</label>
-                            <input type="text" name="nik" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['nik']); ?>" readonly>
+                            <label class="fw-semibold">NIK</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nik']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>NISN</label>
-                            <input type="text" name="nisn" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['nisn']); ?>" readonly>
+                            <label class="fw-semibold">NISN</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nisn']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Nama Lengkap</label>
-                            <input type="text" name="nama_lengkap" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['nama_lengkap']); ?>" readonly>
+                            <label class="fw-semibold">Nama Lengkap</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['nama_lengkap']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Jenis Kelamin</label>
-                            <input type="text" name="jenis_kelamin" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['jenis_kelamin']); ?>" readonly>
+                            <label class="fw-semibold">Jenis Kelamin</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['jenis_kelamin']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Asal SLTA</label>
-                            <input type="text" name="asal_slta" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['asal_slta']); ?>" readonly>
+                            <label class="fw-semibold">Asal SLTA</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['asal_slta']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Program Studi</label>
-                            <input type="text" name="program_studi" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['program_studi']); ?>" readonly>
+                            <label class="fw-semibold">Program Studi</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['program_studi']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Rencana Kelas</label>
-                            <input type="text" name="rencana_kelas" class="form-control bg-light" 
-                                value="<?= htmlspecialchars($data['rencana_kelas']); ?>" readonly>
+                            <label class="fw-semibold">Rencana Kelas</label>
+                            <input type="text" class="form-control bg-light" value="<?= htmlspecialchars($data['rencana_kelas']); ?>" readonly>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Alamat</label>
-                            <textarea name="alamat" class="form-control" rows="2"
-                                style="background-color: #fff;"><?= htmlspecialchars($data['alamat']); ?></textarea>
+                            <label class="fw-semibold">Alamat</label>
+                            <textarea name="alamat" class="form-control"><?= htmlspecialchars($data['alamat']); ?></textarea>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label>Email</label>
-                            <input type="email" name="email" class="form-control" 
-                                value="<?= htmlspecialchars($data['email']); ?>">
+                            <label class="fw-semibold">Email</label>
+                            <input type="email" name="email" class="form-control" value="<?= htmlspecialchars($data['email']); ?>">
                         </div>
                     </div>
-                    <button type="submit" name="update_biodata" class="btn btn-save px-4 mt-2">💾 Simpan Perubahan</button>
+                    <button type="submit" name="update_biodata" class="btn btn-success mt-2">💾 Simpan Perubahan</button>
                 </form>
             </div>
 
-            <!-- Form Ganti Password -->
-            <div class="card p-4">
-                <h5 class="fw-bold mb-3">🔒 Ganti Password</h5>
+            <!-- Ganti Password -->
+            <div class="card p-4 mb-5">
+                <h5 class="fw-bold text-dark mb-3">🔒 Ganti Password</h5>
                 <form method="POST">
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label>Password Lama</label>
+                            <label class="fw-semibold">Password Lama</label>
                             <input type="password" name="password_lama" class="form-control" required>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label>Password Baru</label>
+                            <label class="fw-semibold">Password Baru</label>
                             <input type="password" name="password_baru" class="form-control" required>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label>Konfirmasi Password Baru</label>
+                            <label class="fw-semibold">Konfirmasi Password Baru</label>
                             <input type="password" name="konfirmasi_password" class="form-control" required>
                         </div>
                     </div>
-                    <button type="submit" name="update_password" class="btn btn-save px-4 mt-2">🔁 Ubah Password</button>
+                    <button type="submit" name="update_password" class="btn btn-success mt-2">🔁 Ubah Password</button>
                 </form>
             </div>
-
         </div>
     </div>
 
+    <script>
+        const sidebar = document.querySelector('.sidebar');
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+        }
+    </script>
 </body>
 </html>
