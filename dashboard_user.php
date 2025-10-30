@@ -1,3 +1,20 @@
+<?php
+session_start();
+
+// Cek apakah sudah login
+if (!isset($_SESSION['username'])) {
+    header("Location: login.php?pesan=belum_login");
+    exit();
+}
+
+// Cek apakah role user
+if ($_SESSION['role'] !== 'user') {
+    header("Location: login.php?pesan=akses_ditolak");
+    exit();
+}
+
+// Kalau lolos dua pengecekan di atas, lanjut tampilkan halaman dashboard
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>

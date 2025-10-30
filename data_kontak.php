@@ -1,4 +1,10 @@
-<?php include 'sidebar_admin.php'; ?>
+<?php
+include 'sidebar_admin.php';
+include 'koneksi.php';
+
+// Ambil data dari tabel kontak
+$query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
+?>
 
 <!DOCTYPE html>
 <html lang="id">
@@ -14,18 +20,16 @@
             background-color: #f8f9fa;
         }
 
-        /* Pastikan konten tidak ketutup navbar & sidebar */
         .main-content {
-            margin-left: 250px; /* sesuai lebar sidebar */
-            padding: 90px 20px 20px 20px; /* tambahkan padding atas biar gak ketimpa navbar */
+            margin-left: 250px;
+            padding: 90px 20px 20px 20px;
             transition: margin-left 0.3s ease;
         }
 
-        /* Saat layar kecil (sidebar jadi overlay) */
         @media (max-width: 992px) {
             .main-content {
                 margin-left: 0;
-                padding-top: 100px; /* tetap kasih jarak atas */
+                padding-top: 100px;
             }
         }
 
@@ -57,7 +61,6 @@
 </head>
 <body>
 
-<!-- Konten Utama -->
 <div class="main-content">
     <div class="container-fluid">
         <div class="p-3">
@@ -74,74 +77,53 @@
                                     <th style="width: 50px;">No</th>
                                     <th>Nama</th>
                                     <th>Email</th>
-                                    <th>Subjek</th>
+                                    <th>Nomor WhatsApp</th>
                                     <th>Pesan</th>
                                     <th>Tanggal</th>
-                                    <th style="width: 120px;">Aksi</th>
+                                    <th style="width: 160px;">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <!-- Contoh Data -->
-                                <tr>
-                                    <td class="text-center">1</td>
-                                    <td>Rizky Pratama</td>
-                                    <td>
-                                        <a href="#" class="text-decoration-none text-primary">
-                                            <i class="bi bi-envelope-at-fill me-1"></i>rizky@gmail.com
-                                        </a>
-                                    </td>
-                                    <td>Info Pendaftaran</td>
-                                    <td>Saya ingin bertanya tentang jadwal penerimaan mahasiswa baru.</td>
-                                    <td class="text-center">28-10-2025 09:32</td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-success me-1" title="Balas Email">
-                                            <i class="bi bi-reply-fill"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Hapus Pesan">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">2</td>
-                                    <td>Dewi Lestari</td>
-                                    <td>
-                                        <a href="#" class="text-decoration-none text-primary">
-                                            <i class="bi bi-envelope-at-fill me-1"></i>dewi@gmail.com
-                                        </a>
-                                    </td>
-                                    <td>Kerja Sama</td>
-                                    <td>Apakah kampus membuka peluang kerja sama dengan perusahaan kami?</td>
-                                    <td class="text-center">27-10-2025 14:20</td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-success me-1" title="Balas Email">
-                                            <i class="bi bi-reply-fill"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Hapus Pesan">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="text-center">3</td>
-                                    <td>Andi Kurniawan</td>
-                                    <td>
-                                        <a href="#" class="text-decoration-none text-primary">
-                                            <i class="bi bi-envelope-at-fill me-1"></i>andi.k@gmail.com
-                                        </a>
-                                    </td>
-                                    <td>Permintaan Brosur</td>
-                                    <td>Boleh minta brosur lengkap tentang jurusan yang tersedia?</td>
-                                    <td class="text-center">26-10-2025 11:47</td>
-                                    <td class="text-center">
-                                        <a href="#" class="btn btn-sm btn-success me-1" title="Balas Email">
-                                            <i class="bi bi-reply-fill"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-danger" title="Hapus Pesan">
-                                            <i class="bi bi-trash-fill"></i>
-                                        </a>
-                                    </td>
-                                </tr>
+                                <?php
+                                $no = 1;
+                                if (mysqli_num_rows($query) > 0) {
+                                    while ($row = mysqli_fetch_assoc($query)) {
+                                        echo "
+                                        <tr>
+                                            <td class='text-center'>{$no}</td>
+                                            <td>{$row['nama']}</td>
+                                            <td>{$row['email']}</td>
+                                            <td>{$row['nomor_wa']}</td>
+                                            <td>{$row['pesan']}</td>
+                                            <td class='text-center'>" . date('d-m-Y H:i', strtotime($row['tanggal'])) . "</td>
+                                            <td class='text-center'>
+                                                <!-- Tombol WA -->
+                                                <a href='https://wa.me/{$row['nomor_wa']}' target='_blank' class='btn btn-sm btn-success me-1' title='Balas via WhatsApp'>
+                                                    <i class='bi bi-whatsapp'></i>
+                                                </a>
+
+                                                <!-- Tombol Email -->
+                                                <a href='mailto:{$row['email']}' class='btn btn-sm btn-primary me-1' title='Balas via Email'>
+                                                    <i class='bi bi-envelope-fill'></i>
+                                                </a>
+
+                                                <!-- Tombol Hapus -->
+                                                <a href='hapus_kontak.php?id={$row['id_pesan']}' class='btn btn-sm btn-danger' title='Hapus Pesan' onclick='return confirm(\"Yakin ingin menghapus pesan ini?\")'>
+                                                    <i class='bi bi-trash-fill'></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        ";
+                                        $no++;
+                                    }
+                                } else {
+                                    echo "
+                                    <tr>
+                                        <td colspan='7' class='text-center text-muted'>Belum ada pesan masuk</td>
+                                    </tr>
+                                    ";
+                                }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -151,7 +133,6 @@
     </div>
 </div>
 
-<!-- Script Bootstrap -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js'></script>
 </body>
 </html>
