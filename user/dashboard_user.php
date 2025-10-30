@@ -1,5 +1,6 @@
 <?php
 session_start();
+<<<<<<< HEAD:dashboard_user.php
 
 // Cek apakah sudah login
 if (!isset($_SESSION['username'])) {
@@ -14,6 +15,25 @@ if ($_SESSION['role'] !== 'user') {
 }
 
 // Kalau lolos dua pengecekan di atas, lanjut tampilkan halaman dashboard
+=======
+include '../koneksi.php';
+
+// Cek apakah sudah login
+if (!isset($_SESSION['username'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+$nik = $_SESSION['username']; // NIK = username mahasiswa
+$query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran WHERE nik = '$nik' LIMIT 1");
+$data = mysqli_fetch_assoc($query);
+
+// Jika data tidak ditemukan
+if (!$data) {
+    echo "<script>alert('Data pendaftaran tidak ditemukan!');window.location='../login.php';</script>";
+    exit;
+}
+>>>>>>> 0a53b2c31b045f103c7a69a59ceee264c520a5b7:user/dashboard_user.php
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -35,7 +55,6 @@ if ($_SESSION['role'] !== 'user') {
             overflow: hidden;
         }
 
-        /* ===== SIDEBAR ===== */
         .sidebar {
             width: 240px;
             background-color: #212529;
@@ -82,16 +101,12 @@ if ($_SESSION['role'] !== 'user') {
             background-color: #393a3a;
         }
 
-        /* ===== MAIN CONTENT ===== */
         .main {
             flex: 1;
-            padding: 0;
-            overflow-y: auto;
             display: flex;
             flex-direction: column;
         }
 
-        /* ===== TOPBAR ===== */
         .topbar {
             display: flex;
             justify-content: space-between;
@@ -107,7 +122,7 @@ if ($_SESSION['role'] !== 'user') {
         }
 
         .topbar button {
-            background: #212529;
+            background: #dc3545;
             color: white;
             border: none;
             padding: 8px 18px;
@@ -117,12 +132,12 @@ if ($_SESSION['role'] !== 'user') {
         }
 
         .topbar button:hover {
-            background: #009c74;
+            background: #bb2d3b;
         }
 
-        /* ===== CONTENT ===== */
         .content {
             padding: 30px;
+            overflow-y: auto;
         }
 
         .profile {
@@ -178,28 +193,15 @@ if ($_SESSION['role'] !== 'user') {
 </head>
 <body>
 
-<?php
-// ==== Data contoh biodata mahasiswa ====
-$nama          = "Hikmatul Hukamah";
-$nim           = "23101001";
-$jurusan       = "Teknik Informatika";
-$tahun_masuk   = "2023";
-$tempat_lahir  = "Brebes";
-$tanggal_lahir = "12 Maret 2005";
-$jenis_kelamin = "Perempuan";
-$email         = "hikmatulhukamah@gmail.com";
-$no_hp         = "62 858 7586 3631";
-$alamat        = "Jl. Pahlawan No. 17, Kersana, Brebes";
-?>
-
 <!-- ===== SIDEBAR ===== -->
 <div class="sidebar">
-    <img src="img/poltek.png" alt="Logo Poltek" class="logo">
+    <img src="../img/poltek.png" alt="Logo Poltek" class="logo">
     <div class="brand">POLITEKNIK<br>MITRA KARYA MANDIRI</div>
 
     <div class="menu">
-        <a href="dashboard_user.php">🏠 Dashboard</a>
+        <a href="dashboard_user.php" class="active">🏠 Dashboard</a>
         <a href="pengaturan.php">⚙️ Pengaturan</a>
+        <a href="../logout.php">🚪 Logout</a>
     </div>
 </div>
 
@@ -207,16 +209,16 @@ $alamat        = "Jl. Pahlawan No. 17, Kersana, Brebes";
 <div class="main">
     <div class="topbar">
         <h2>Biodata Mahasiswa</h2>
-        <button>Logout</button>
+        <button onclick="window.location.href='../logout.php'">Logout</button>
     </div>
 
     <div class="content">
         <div class="profile">
             <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="User Avatar">
             <div>
-                <h3><?= $nama ?></h3>
-                <p><b>NIM:</b> <?= $nim ?></p>
-                <p><b>Program Studi:</b> <?= $jurusan ?></p>
+                <h3><?= htmlspecialchars($data['nama_lengkap']); ?></h3>
+                <p><b>NIK:</b> <?= htmlspecialchars($data['nik']); ?></p>
+                <p><b>Program Studi:</b> <?= htmlspecialchars($data['program_studi']); ?></p>
             </div>
         </div>
 
@@ -225,15 +227,16 @@ $alamat        = "Jl. Pahlawan No. 17, Kersana, Brebes";
             <hr style="margin: 15px 0;">
 
             <table>
-                <tr><th>Nama Lengkap</th><td><?= $nama ?></td></tr>
-                <tr><th>NIM</th><td><?= $nim ?></td></tr>
-                <tr><th>Program Studi</th><td><?= $jurusan ?></td></tr>
-                <tr><th>Tahun Masuk</th><td><?= $tahun_masuk ?></td></tr>
-                <tr><th>Tempat, Tanggal Lahir</th><td><?= $tempat_lahir ?>, <?= $tanggal_lahir ?></td></tr>
-                <tr><th>Jenis Kelamin</th><td><?= $jenis_kelamin ?></td></tr>
-                <tr><th>Email</th><td><?= $email ?></td></tr>
-                <tr><th>No HP/WA</th><td><?= $no_hp ?></td></tr>
-                <tr><th>Alamat</th><td><?= $alamat ?></td></tr>
+                <tr><th>Nama Lengkap</th><td><?= htmlspecialchars($data['nama_lengkap']); ?></td></tr>
+                <tr><th>NIK</th><td><?= htmlspecialchars($data['nik']); ?></td></tr>
+                <tr><th>NISN</th><td><?= htmlspecialchars($data['nisn']); ?></td></tr>
+                <tr><th>Jenis Kelamin</th><td><?= htmlspecialchars($data['jenis_kelamin']); ?></td></tr>
+                <tr><th>Asal SLTA</th><td><?= htmlspecialchars($data['asal_slta']); ?></td></tr>
+                <tr><th>Program Studi</th><td><?= htmlspecialchars($data['program_studi']); ?></td></tr>
+                <tr><th>Rencana Kelas</th><td><?= htmlspecialchars($data['rencana_kelas']); ?></td></tr>
+                <tr><th>Alamat</th><td><?= htmlspecialchars($data['alamat']); ?></td></tr>
+                <tr><th>Status Pendaftaran</th><td><b><?= htmlspecialchars($data['status_pendaftaran']); ?></b></td></tr>
+                <tr><th>Tanggal Daftar</th><td><?= date('d-m-Y', strtotime($data['tanggal_daftar'])); ?></td></tr>
             </table>
         </div>
 
