@@ -120,7 +120,7 @@ include 'koneksi.php';
                 <div class="col-md-5">
                     <div class="card login-card p-4 shadow-lg">
                         <div class="text-center mb-4 login-logo">
-                            <img src="img/logo.png" alt="Logo MKM">
+                            <img src="img/logo_mkm.png" alt="Logo MKM">
                             <h4 class="fw-bold text-warning mt-3 mb-1">Politeknik Mitra Karya Mandiri</h4>
                             <p class="text-muted small">Halaman Login Administrator</p>
                         </div>

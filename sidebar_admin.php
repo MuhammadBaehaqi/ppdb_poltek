@@ -55,7 +55,7 @@ $total_notif = $jumlah_pendaftaran_pending + $jumlah_pesan_baru;
         <div class="dropdown ms-auto">
             <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="img/logo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <img src="img/logo_mkm.png" alt="" width="32" height="32" class="rounded-circle me-2">
                 <strong>Admin</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
@@ -77,7 +77,7 @@ if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php']))
 ?>
 <div class="sidebar bg-dark text-white p-3" id="sidebar">
     <a href="dashboard_admin.php" class="d-flex align-items-center mb-3 text-white text-decoration-none">
-        <img src="img/logo.png" alt="Logo" width="40" class="me-2">
+        <img src="img/logo_mkm.png" alt="Logo" width="40" class="me-2">
         <span class="fs-5 fw-bold">Admin Panel</span>
     </a>
     <hr>

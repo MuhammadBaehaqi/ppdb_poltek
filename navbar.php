@@ -5,7 +5,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <nav class="navbar navbar-expand-lg navbar-blur fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="index.php">
-            <img src="img/logo.png" alt="Logo" width="40" height="40" class="me-2">
+            <img src="img/logo_mkm.png" alt="Logo" width="40" height="40" class="me-2">
             <span>Politeknik Mitra Karya Mandiri</span>
         </a>
         <button class="navbar-toggler bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
