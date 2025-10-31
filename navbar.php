@@ -1,3 +1,7 @@
+<?php
+$current_page = basename($_SERVER['PHP_SELF']);
+?>
+
 <nav class="navbar navbar-expand-lg navbar-blur fixed-top">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center text-white fw-bold" href="index.php">
@@ -9,17 +13,35 @@
         </button>
         <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
             <ul class="navbar-nav">
-                <li class="nav-item"><a class="nav-link text-white" href="index.php">Beranda</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="tentang.php">Tentang</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="pendaftaran.php">Pendaftaran</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="kontak.php">Kontak</a></li>
-                <li class="nav-item"><a class="nav-link text-white" href="login.php">Login</a></li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= ($current_page == 'index.php') ? 'active' : '' ?>" href="index.php">Beranda</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= ($current_page == 'tentang.php') ? 'active' : '' ?>" href="tentang.php">Tentang</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= ($current_page == 'pendaftaran.php') ? 'active' : '' ?>" href="pendaftaran.php">Pendaftaran</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= ($current_page == 'kontak.php') ? 'active' : '' ?>" href="kontak.php">Kontak</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link text-white <?= ($current_page == 'login.php') ? 'active' : '' ?>" href="login.php">Login</a>
+                </li>
             </ul>
         </div>
     </div>
 </nav>
 
+
 <style>
+    .navbar .nav-link.active {
+    color: #000 !important;
+    background-color: rgba(255,255,255,0.6);
+    border-radius: 5px;
+    font-weight: bold;
+}
+
 /* Awal: warna solid */
 .navbar-blur {
     background-color: rgba(255, 152, 0, 0.95);

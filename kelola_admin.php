@@ -74,6 +74,10 @@ $totalData = mysqli_fetch_assoc(mysqli_query($conn, $countQuery))['total'];
 $totalPages = ceil($totalData / $limit);
 ?>
 
+<?php
+require_once 'includes/auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 

@@ -1,7 +1,7 @@
 <?php
 session_start();
 include '../koneksi.php';
-
+require_once '../includes/auth_user.php';
 // Pastikan user login
 if (!isset($_SESSION['username'])) {
     header("Location: ../login.php?pesan=belum_login");
@@ -228,6 +228,7 @@ if (isset($_POST['update_password'])) {
             sidebar.classList.toggle('show');
         }
     </script>
+    
 </body>
 
 </html>

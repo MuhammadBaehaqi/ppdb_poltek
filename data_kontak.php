@@ -9,7 +9,9 @@ mysqli_query($conn, "UPDATE kontak SET status_baca = 'sudah baca' WHERE status_b
 // ambil data kontak
 $query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
 ?>
-
+<?php
+require_once 'includes/auth.php';
+?>
 <!DOCTYPE html>
 <html lang="id">
 

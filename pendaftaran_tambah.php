@@ -35,6 +35,10 @@ if (isset($_POST['simpan'])) {
 }
 ?>
 
+<?php
+require_once 'includes/auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>

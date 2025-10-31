@@ -38,7 +38,7 @@ if (mysqli_stmt_num_rows($stmt) === 1) {
         $_SESSION['nama_admin'] = $nama_admin;
         $_SESSION['username'] = $db_username;
         $_SESSION['role'] = $role;
-
+        $_SESSION['last_activity'] = time();
         header("Location: dashboard_admin.php");
         exit();
     } else {

@@ -1,0 +1,11 @@
+<?php
+$nama_file = basename($_GET['file']);
+$path = __DIR__ . '/uploads/' . $nama_file;
+
+if (file_exists($path)) {
+    header("Content-Type: image/jpeg"); // bisa disesuaikan
+    readfile($path);
+} else {
+    http_response_code(404);
+    echo "File tidak ditemukan.";
+}

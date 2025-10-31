@@ -39,6 +39,10 @@ if (isset($_POST['update'])) {
 }
 ?>
 
+<?php
+require_once 'includes/auth.php';
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>

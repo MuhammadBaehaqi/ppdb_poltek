@@ -15,7 +15,7 @@ if ($_SESSION['role'] !== 'mahasiswa') {
 }
 
 include '../koneksi.php';
-
+require_once '../includes/auth_user.php';
 
 // Ambil data user berdasarkan NIK
 $nik = $_SESSION['username'];
@@ -40,7 +40,6 @@ if (!$data) {
     <title>Dashboard Mahasiswa</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="icon" href="../img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             overflow-x: hidden;
@@ -58,6 +57,7 @@ if (!$data) {
         @media (max-width: 991.98px) {
             .content {
                 margin-left: 0;
+                padding-top: 140px; 
             }
         }
 
@@ -228,10 +228,7 @@ footer {
 <footer>
     &copy; <?= date('Y') ?> POLITEKNIK MITRA KARYA MANDIRI — Sistem Informasi Akademik
 </footer>
-
         </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
