@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 include '../includes/koneksi.php';
 
 // Hitung total data

@@ -65,7 +65,6 @@ require_once '../includes/auth.php';
 </head>
 
 <body>
-    <!-- ✅ Sidebar & Navbar dimasukkan di sini -->
     <?php include 'sidebar_admin.php'; ?>
     <div class="content">
         <div class="container-fluid">
@@ -74,19 +73,34 @@ require_once '../includes/auth.php';
             <div class="card">
                 <div class="card-body">
 
-                    <!-- Tombol tambah dan search -->
-                    <div class="d-flex justify-content-between mb-3">
-                        <div>
-                            <a href="pendaftaran_tambah.php" class="btn btn-primary">
+                    <!-- Tombol tambah, show dan search -->
+                    <div class="d-flex flex-wrap justify-content-between mb-3 align-items-center">
+                        <div class="d-flex align-items-center mb-2 mb-md-0">
+                            <a href="pendaftaran_tambah.php" class="btn btn-primary me-3">
                                 <i class="bi bi-plus-circle me-2"></i>Tambah Data
                             </a>
+                            <form method="GET" class="d-flex align-items-center">
+                                <label class="me-2 text-muted small">Tampilkan:</label>
+                                <select name="limit" class="form-select form-select-sm me-2" onchange="this.form.submit()">
+                                    <?php
+                                    $limitOptions = [1, 5, 10, 15, 20, 25, 50, 100];
+                                    $selectedLimit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                                    foreach ($limitOptions as $opt) {
+                                        $selected = ($opt == $selectedLimit) ? 'selected' : '';
+                                        echo "<option value='$opt' $selected>$opt</option>";
+                                    }
+                                    ?>
+                                </select>
+                                <input type="hidden" name="search" value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                            </form>
                         </div>
+
                         <form method="GET" class="d-flex">
+                            <input type="hidden" name="limit" value="<?= $selectedLimit ?>">
                             <input type="text" name="search" class="form-control me-2"
                                 placeholder="Cari nama, NIK, NISN, atau Email..."
                                 value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-                            <button class="btn btn-outline-secondary" type="submit"><i
-                                    class="bi bi-search"></i></button>
+                            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
                         </form>
                     </div>
 
@@ -112,8 +126,9 @@ require_once '../includes/auth.php';
                             </thead>
                             <tbody>
                                 <?php
-                                $limit = 10; // jumlah data per halaman
-                                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+                                // Ambil parameter
+                                $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
                                 $offset = ($page - 1) * $limit;
                                 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
@@ -131,7 +146,7 @@ require_once '../includes/auth.php';
                                 $total_data = mysqli_fetch_assoc($total_query)['total'];
                                 $total_pages = ceil($total_data / $limit);
 
-                                // Query data dengan limit
+                                // Query data
                                 $query = mysqli_query($conn, "SELECT * FROM tb_pendaftaran $where ORDER BY id_pendaftaran DESC LIMIT $offset, $limit");
 
                                 $no = $offset + 1;
@@ -143,7 +158,7 @@ require_once '../includes/auth.php';
                                             $badgeClass = 'bg-success';
                                         if ($row['status_pendaftaran'] == 'Tidak Diterima')
                                             $badgeClass = 'bg-danger';
-                                        ?>
+                                ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
@@ -166,39 +181,32 @@ require_once '../includes/auth.php';
                                                 <?php } ?>
                                             </td>
                                             <td><?= date('d-m-Y', strtotime($row['tanggal_daftar'])); ?></td>
-                                            <td><span
-                                                    class="badge <?= $badgeClass; ?>"><?= $row['status_pendaftaran']; ?></span>
-                                            </td>
+                                            <td><span class="badge <?= $badgeClass; ?>"><?= $row['status_pendaftaran']; ?></span></td>
                                             <td>
-                                                <!-- Tombol Edit -->
                                                 <a href="pendaftaran_edit.php?id=<?= $row['id_pendaftaran']; ?>"
                                                     class="btn btn-sm btn-warning mb-1" title="Edit Data">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
 
-                                                <!-- Tombol Hapus -->
                                                 <a href="pendaftaran_hapus.php?id=<?= $row['id_pendaftaran']; ?>"
                                                     class="btn btn-sm btn-danger mb-1" title="Hapus Data"
                                                     onclick="return confirm('Yakin ingin menghapus data ini?');">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
+
                                                 <form action="registrasi/update_status.php" method="POST" class="d-inline">
                                                     <input type="hidden" name="id_pendaftaran"
                                                         value="<?= $row['id_pendaftaran']; ?>">
                                                     <select name="status" class="form-select form-select-sm d-inline w-auto"
                                                         onchange="this.form.submit()">
-                                                        <option value="Pending"
-                                                            <?= ($row['status_pendaftaran'] == 'Pending') ? 'selected' : ''; ?>>Pending
-                                                        </option>
-                                                        <option value="Diterima"
-                                                            <?= ($row['status_pendaftaran'] == 'Diterima') ? 'selected' : ''; ?>>
-                                                            Diterima</option>
+                                                        <option value="Pending" <?= ($row['status_pendaftaran'] == 'Pending') ? 'selected' : ''; ?>>Pending</option>
+                                                        <option value="Diterima" <?= ($row['status_pendaftaran'] == 'Diterima') ? 'selected' : ''; ?>>Diterima</option>
                                                         <option value="Tidak Diterima" <?= ($row['status_pendaftaran'] == 'Tidak Diterima') ? 'selected' : ''; ?>>Tidak Diterima</option>
                                                     </select>
                                                 </form>
                                             </td>
                                         </tr>
-                                        <?php
+                                <?php
                                     }
                                 } else {
                                     echo "<tr><td colspan='14' class='text-center text-muted'>Tidak ada data ditemukan.</td></tr>";
@@ -209,39 +217,33 @@ require_once '../includes/auth.php';
                     </div>
 
                     <?php
-                    // Hitung range data yang sedang ditampilkan
                     $start_data = ($page - 1) * $limit + 1;
                     $end_data = min($start_data + $limit - 1, $total_data);
                     ?>
 
                     <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
-                        <!-- Informasi data -->
                         <div class="text-muted small mb-2 mb-md-0">
                             Menampilkan <strong><?= $start_data ?></strong>–<strong><?= $end_data ?></strong> dari
                             <strong><?= $total_data ?></strong> data
                         </div>
 
-                        <!-- Navigasi pagination -->
                         <nav>
                             <ul class="pagination pagination-sm mb-0">
-                                <!-- Tombol Previous -->
                                 <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
                                     <a class="page-link"
-                                        href="?page=<?= $page - 1 ?>&search=<?= urlencode($search) ?>">Previous</a>
+                                        href="?page=<?= $page - 1 ?>&limit=<?= $limit ?>&search=<?= urlencode($search) ?>">Previous</a>
                                 </li>
 
-                                <!-- Nomor halaman -->
                                 <?php for ($i = 1; $i <= $total_pages; $i++): ?>
                                     <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
                                         <a class="page-link"
-                                            href="?page=<?= $i ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
+                                            href="?page=<?= $i ?>&limit=<?= $limit ?>&search=<?= urlencode($search) ?>"><?= $i ?></a>
                                     </li>
                                 <?php endfor; ?>
 
-                                <!-- Tombol Next -->
                                 <li class="page-item <?= ($page >= $total_pages) ? 'disabled' : '' ?>">
                                     <a class="page-link"
-                                        href="?page=<?= $page + 1 ?>&search=<?= urlencode($search) ?>">Next</a>
+                                        href="?page=<?= $page + 1 ?>&limit=<?= $limit ?>&search=<?= urlencode($search) ?>">Next</a>
                                 </li>
                             </ul>
                         </nav>

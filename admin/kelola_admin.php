@@ -1,6 +1,6 @@
 <?php
-
 include '../includes/koneksi.php';
+require_once '../includes/auth.php';
 
 $toast_message = "";
 
@@ -12,7 +12,8 @@ if (isset($_POST['tambah_admin'])) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $role = 'admin';
 
-    $query = "INSERT INTO admin (nama_admin, username, email, password, role) VALUES ('$nama_admin', '$username', '$email', '$password', '$role')";
+    $query = "INSERT INTO admin (nama_admin, username, email, password, role) 
+              VALUES ('$nama_admin', '$username', '$email', '$password', '$role')";
     if (mysqli_query($conn, $query)) {
         $toast_message = "Admin baru berhasil ditambahkan!";
     }
@@ -45,37 +46,28 @@ if (isset($_POST['hapus_admin'])) {
     }
 }
 
-// --- Pagination + Pencarian ---
-$limit = 5; // jumlah data per halaman
-$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
-$start = ($page - 1) * $limit;
+// --- Pagination + Show + Search ---
+$show = isset($_GET['show']) ? (int) $_GET['show'] : 5;
+$allowed_limits = [1, 5, 10, 15, 20, 25, 50, 100];
+if (!in_array($show, $allowed_limits)) $show = 5;
 
-// pencarian
+$page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$start = ($page - 1) * $show;
+
 $cari = isset($_GET['cari']) ? mysqli_real_escape_string($conn, $_GET['cari']) : '';
 
 if (!empty($cari)) {
-    $query = "SELECT * FROM admin 
-        WHERE nama_admin LIKE '%$cari%' 
-        OR username LIKE '%$cari%' 
-        OR email LIKE '%$cari%' 
-        ORDER BY id DESC 
-        LIMIT $start, $limit";
-    $countQuery = "SELECT COUNT(*) AS total FROM admin 
-        WHERE nama_admin LIKE '%$cari%' 
-        OR username LIKE '%$cari%' 
-        OR email LIKE '%$cari%'";
+    $where = "WHERE nama_admin LIKE '%$cari%' OR username LIKE '%$cari%' OR email LIKE '%$cari%'";
 } else {
-    $query = "SELECT * FROM admin ORDER BY id DESC LIMIT $start, $limit";
-    $countQuery = "SELECT COUNT(*) AS total FROM admin";
+    $where = "";
 }
+
+$query = "SELECT * FROM admin $where ORDER BY id DESC LIMIT $start, $show";
+$countQuery = "SELECT COUNT(*) AS total FROM admin $where";
 
 $result = mysqli_query($conn, $query);
 $totalData = mysqli_fetch_assoc(mysqli_query($conn, $countQuery))['total'];
-$totalPages = ceil($totalData / $limit);
-?>
-
-<?php
-require_once '../includes/auth.php';
+$totalPages = ceil($totalData / $show);
 ?>
 
 <!DOCTYPE html>
@@ -134,17 +126,36 @@ require_once '../includes/auth.php';
 
             <div class="card">
                 <div class="card-body">
+                    <!-- Tombol dan pencarian -->
                     <div class="d-flex justify-content-between mb-3 flex-wrap gap-2">
                         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalTambah">
                             <i class="bi bi-plus-circle me-2"></i>Tambah Admin
                         </button>
 
-                        <form class="d-flex" method="get" style="max-width: 300px;">
+                        <form class="d-flex" method="get">
+                            <input type="hidden" name="show" value="<?= $show ?>">
                             <input type="text" name="cari" class="form-control" placeholder="Cari admin..."
                                 value="<?= htmlspecialchars($cari) ?>">
                             <button class="btn btn-outline-secondary ms-2"><i class="bi bi-search"></i></button>
                         </form>
                     </div>
+
+                    <!-- Dropdown Show -->
+                    <div class="mb-3">
+                        <form method="get" class="d-inline">
+                            <?php if (!empty($cari)): ?>
+                                <input type="hidden" name="cari" value="<?= htmlspecialchars($cari) ?>">
+                            <?php endif; ?>
+                            <label for="show" class="me-2 fw-semibold">Tampilkan</label>
+                            <select name="show" id="show" class="form-select d-inline w-auto" onchange="this.form.submit()">
+                                <?php foreach ($allowed_limits as $limit): ?>
+                                    <option value="<?= $limit ?>" <?= ($limit == $show) ? 'selected' : '' ?>><?= $limit ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                            <span class="ms-2">data per halaman</span>
+                        </form>
+                    </div>
+
 
                     <div class="table-responsive">
                         <table class="table table-bordered table-striped align-middle">
@@ -196,27 +207,35 @@ require_once '../includes/auth.php';
                             </tbody>
                         </table>
                     </div>
+  <!-- Info data + Pagination -->
+                    <?php
+                    $start_data = ($page - 1) * $show + 1;
+                    $end_data = min($start_data + $show - 1, $totalData);
+                    ?>
+                    <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
+                        <div class="text-muted small mb-2 mb-md-0">
+                            Menampilkan <strong><?= $start_data ?></strong>–<strong><?= $end_data ?></strong> dari
+                            <strong><?= $totalData ?></strong> data
+                        </div>
 
-                    <!-- Pagination -->
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item <?= $page <= 1 ? 'disabled' : '' ?>">
-                                <a class="page-link"
-                                    href="?page=<?= $page - 1 ?>&cari=<?= urlencode($cari) ?>">Previous</a>
-                            </li>
-
-                            <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-                                <li class="page-item <?= $page == $i ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $i ?>&cari=<?= urlencode($cari) ?>"><?= $i ?></a>
+                        <nav>
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $page - 1 ?>&show=<?= $show ?>&cari=<?= urlencode($cari) ?>">Previous</a>
                                 </li>
-                            <?php endfor; ?>
 
-                            <li class="page-item <?= $page >= $totalPages ? 'disabled' : '' ?>">
-                                <a class="page-link" href="?page=<?= $page + 1 ?>&cari=<?= urlencode($cari) ?>">Next</a>
-                            </li>
-                        </ul>
-                    </nav>
+                                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                                    <li class="page-item <?= ($page == $i) ? 'active' : '' ?>">
+                                        <a class="page-link" href="?page=<?= $i ?>&show=<?= $show ?>&cari=<?= urlencode($cari) ?>"><?= $i ?></a>
+                                    </li>
+                                <?php endfor; ?>
 
+                                <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                                    <a class="page-link" href="?page=<?= $page + 1 ?>&show=<?= $show ?>&cari=<?= urlencode($cari) ?>">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
