@@ -1,5 +1,5 @@
 <?php
-include '../koneksi.php';
+include '../includes/koneksi.php';
 
 if (isset($_POST['id_pendaftaran']) && isset($_POST['status'])) {
     $id_pendaftaran = $_POST['id_pendaftaran'];

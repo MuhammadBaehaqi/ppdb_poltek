@@ -1,6 +1,6 @@
 <?php
 
-include 'koneksi.php'; // koneksi ke database
+include 'includes/koneksi.php'; // koneksi ke database
 
 // Jika form dikirim
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <link rel="icon" href="img/logo_mkm.png" type="image/x-icon">
 
 </head>
-<?php include 'navbar.php'; ?>
+<?php include 'includes/navbar.php'; ?>
 
 <body>
 
@@ -142,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </section>
 
     <!-- Footer -->
-    <?php include 'footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

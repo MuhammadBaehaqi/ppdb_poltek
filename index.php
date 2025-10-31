@@ -72,7 +72,7 @@
         }
     </style>
 </head>
-<?php include 'navbar.php'; ?>
+<?php include 'includes/navbar.php'; ?>
 
 <body>
 
@@ -192,7 +192,7 @@
         </div>
     </section>
 
-    <?php include 'footer.php'; ?>
+    <?php include 'includes/footer.php'; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

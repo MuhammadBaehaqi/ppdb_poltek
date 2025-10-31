@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+include 'includes/koneksi.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama = trim($_POST['nama']);

@@ -1,5 +1,5 @@
 <?php
-include 'koneksi.php';
+include '../includes/koneksi.php';
 
 if (isset($_GET['id'])) {
     $id = intval($_GET['id']);

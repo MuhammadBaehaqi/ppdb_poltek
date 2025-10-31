@@ -1,6 +1,6 @@
 <?php
 
-include 'koneksi.php';
+include '../includes/koneksi.php';
 
 if (isset($_POST['simpan'])) {
     $nama_lengkap = $_POST['nama_lengkap'];
@@ -36,7 +36,7 @@ if (isset($_POST['simpan'])) {
 ?>
 
 <?php
-require_once 'includes/auth.php';
+require_once '../includes/auth.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,5 @@
 <?php
-include '../koneksi.php';
+include '../includes/koneksi.php';
 
 if (isset($_POST['id_user']) && isset($_POST['status_akun'])) {
     $id_user = $_POST['id_user'];

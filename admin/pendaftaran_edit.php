@@ -1,6 +1,6 @@
 <?php
 
-include 'koneksi.php';
+include '../includes/koneksi.php';
 
 $id = $_GET['id'];
 $data = mysqli_query($conn, "SELECT * FROM tb_pendaftaran WHERE id_pendaftaran = '$id'");
@@ -40,7 +40,7 @@ if (isset($_POST['update'])) {
 ?>
 
 <?php
-require_once 'includes/auth.php';
+require_once '../includes/auth.php';
 ?>
 
 <!DOCTYPE html>

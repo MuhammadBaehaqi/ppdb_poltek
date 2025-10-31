@@ -14,7 +14,7 @@ if ($_SESSION['role'] !== 'mahasiswa') {
     exit();
 }
 
-include '../koneksi.php';
+include '../includes/koneksi.php';
 
 
 // Ambil data user berdasarkan NIK

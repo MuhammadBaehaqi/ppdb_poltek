@@ -2,7 +2,7 @@
 session_start();
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-include 'koneksi.php';
+include 'includes/koneksi.php';
 
 // Pastikan form dikirim via POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
@@ -39,7 +39,7 @@ if (mysqli_stmt_num_rows($stmt) === 1) {
         $_SESSION['username'] = $db_username;
         $_SESSION['role'] = $role;
         $_SESSION['last_activity'] = time();
-        header("Location: dashboard_admin.php");
+        header("Location: admin/dashboard_admin.php");
         exit();
     } else {
         echo "<script>alert('Password salah!');window.history.back();</script>";

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include '../koneksi.php';
+include '../includes/koneksi.php';
 require_once '../includes/auth_user.php';
 // Pastikan user login
 if (!isset($_SESSION['username'])) {

@@ -1,6 +1,6 @@
 <?php
-include 'koneksi.php';
-require_once 'includes/auth.php';
+include '../includes/koneksi.php';
+require_once '../includes/auth.php';
 ?>
 
 <!DOCTYPE html>
@@ -115,7 +115,7 @@ require_once 'includes/auth.php';
                                             </td>
                                             <td>
                                                 <!-- Ubah Status -->
-                                                <form action="registrasi/update_status_user.php" method="POST" class="d-inline">
+                                                <form action="../registrasi/update_status_user.php" method="POST" class="d-inline">
                                                     <input type="hidden" name="id_user" value="<?= $row['id_user']; ?>">
                                                     <select name="status_akun"
                                                         class="form-select form-select-sm d-inline w-auto"

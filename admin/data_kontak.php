@@ -2,7 +2,7 @@
 session_start();
 $_SESSION['kontak_diklik'] = true; // tandai sudah diklik
 
-include 'koneksi.php';
+include '../includes/koneksi.php';
 // tandai semua pesan sudah dibaca
 mysqli_query($conn, "UPDATE kontak SET status_baca = 'sudah baca' WHERE status_baca = 'belum baca'");
 
@@ -10,7 +10,7 @@ mysqli_query($conn, "UPDATE kontak SET status_baca = 'sudah baca' WHERE status_b
 $query = mysqli_query($conn, "SELECT * FROM kontak ORDER BY id_pesan DESC");
 ?>
 <?php
-require_once 'includes/auth.php';
+require_once '../includes/auth.php';
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -21,7 +21,7 @@ require_once 'includes/auth.php';
     <title>Data Kontak | Admin Panel</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-    <link rel="icon" href="img/logo_mkm.png" type="image/x-icon">
+    <link rel="icon" href="../img/logo_mkm.png" type="image/x-icon">
     <style>
         body {
             background-color: #f8f9fa;
