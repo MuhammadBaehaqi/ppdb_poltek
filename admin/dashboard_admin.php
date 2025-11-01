@@ -59,36 +59,77 @@ $totalPages = ceil($totalRows / $limit);
         <div class="container-fluid">
             <!-- Statistik -->
             <div class="row g-4 mb-4">
+                <!-- Total Pendaftaran -->
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-primary">
                         <div class="card-body">
                             <i class="bi bi-people-fill display-5"></i>
-                            <h5 class="card-title mt-2">Total Mahasiswa</h5>
+                            <h5 class="card-title mt-2">Total Pendaftaran</h5>
                             <p class="card-text fs-4"><?= $totalMahasiswa; ?></p>
+                            <a href="data_pendaftaran.php" class="btn btn-light btn-sm mt-2">
+                                <i class="bi bi-eye me-1"></i> Lihat Detail
+                            </a>
                         </div>
                     </div>
                 </div>
 
+                <!-- Pendaftaran Hari Ini -->
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-success">
                         <div class="card-body">
                             <i class="bi bi-person-plus-fill display-5"></i>
                             <h5 class="card-title mt-2">Pendaftaran Hari Ini</h5>
                             <p class="card-text fs-4"><?= $pendaftaranBaru; ?></p>
+                            <a href="data_pendaftaran.php" class="btn btn-light btn-sm mt-2">
+                                <i class="bi bi-eye me-1"></i> Lihat Detail
+                            </a>
                         </div>
                     </div>
                 </div>
 
+                <!-- Pesan Masuk -->
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-warning">
                         <div class="card-body">
                             <i class="bi bi-envelope-fill display-5"></i>
                             <h5 class="card-title mt-2">Pesan Masuk</h5>
                             <p class="card-text fs-4"><?= $pesanMasuk; ?></p>
+                            <a href="data_kontak.php" class="btn btn-light btn-sm mt-2">
+                                <i class="bi bi-eye me-1"></i> Lihat Detail
+                            </a>
                         </div>
                     </div>
                 </div>
 
+                <!-- Total Admin -->
+                <div class="col-md-3 col-12">
+                    <div class="card text-center text-white bg-info">
+                        <div class="card-body">
+                            <i class="bi bi-person-gear display-5"></i>
+                            <h5 class="card-title mt-2">Total Admin</h5>
+                            <p class="card-text fs-4"><?= $totalAdmin; ?></p>
+                            <a href="kelola_admin.php" class="btn btn-light btn-sm mt-2">
+                                <i class="bi bi-eye me-1"></i> Lihat Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Total User -->
+                <div class="col-md-3 col-12">
+                    <div class="card text-center text-white bg-secondary">
+                        <div class="card-body">
+                            <i class="bi bi-person-badge display-5"></i>
+                            <h5 class="card-title mt-2">Total User</h5>
+                            <p class="card-text fs-4"><?= $totalUser; ?></p>
+                            <a href="kelola_user.php" class="btn btn-light btn-sm mt-2">
+                                <i class="bi bi-eye me-1"></i> Lihat Detail
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Riwayat -->
                 <div class="col-md-3 col-12">
                     <div class="card text-center text-white bg-danger">
                         <div class="card-body">
@@ -100,18 +141,6 @@ $totalPages = ceil($totalRows / $limit);
                 </div>
             </div>
 
-            <!-- Total Admin -->
-            <div class="row g-4 mb-4">
-                <div class="col-md-3 col-12">
-                    <div class="card text-center text-white bg-info">
-                        <div class="card-body">
-                            <i class="bi bi-person-gear display-5"></i>
-                            <h5 class="card-title mt-2">Total Admin</h5>
-                            <p class="card-text fs-4"><?= $totalAdmin; ?></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Aktivitas Terbaru -->
             <div class="card">
