@@ -28,7 +28,9 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="../img/logo_mkm.png" alt="User" width="32" height="32" class="rounded-circle me-2">
-                <strong><?= htmlspecialchars($_SESSION['username']); ?></strong>
+                <strong>
+                    <?= isset($data['nama_lengkap']) ? htmlspecialchars($data['nama_lengkap']) : htmlspecialchars($_SESSION['username']); ?>
+                </strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
                 <li><a class="dropdown-item" href="../logout.php"><i class="bi bi-box-arrow-right me-2"></i> Logout</a>

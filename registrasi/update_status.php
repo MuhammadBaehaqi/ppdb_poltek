@@ -20,6 +20,6 @@ if (isset($_POST['id_pendaftaran']) && isset($_POST['status'])) {
         mysqli_query($conn, "UPDATE tb_user SET status_akun='nonaktif' WHERE username='$nik'");
     }
 
-    echo "<script>alert('Status berhasil diperbarui!');window.location='../data_pendaftaran.php';</script>";
+    echo "<script>alert('Status berhasil diperbarui!');window.location='../admin/data_pendaftaran.php';</script>";
 }
 ?>

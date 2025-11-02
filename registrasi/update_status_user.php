@@ -23,9 +23,9 @@ if (isset($_POST['id_user']) && isset($_POST['status_akun'])) {
     $update = mysqli_query($conn, "UPDATE tb_user SET status_akun='$status' WHERE id_user='$id_user'");
 
     if ($update) {
-        echo "<script>alert('Status user berhasil diperbarui!');window.location='../kelola_user.php';</script>";
+        echo "<script>alert('Status user berhasil diperbarui!');window.location='../admin/kelola_user.php';</script>";
     } else {
-        echo "<script>alert('Gagal memperbarui status user!');window.location='../kelola_user.php';</script>";
+        echo "<script>alert('Gagal memperbarui status user!');window.location='../admin/kelola_user.php';</script>";
     }
 }
 ?>

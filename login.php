@@ -122,13 +122,12 @@ include 'includes/koneksi.php';
                         <div class="text-center mb-4 login-logo">
                             <img src="img/logo_mkm.png" alt="Logo MKM">
                             <h4 class="fw-bold text-warning mt-3 mb-1">Politeknik Mitra Karya Mandiri</h4>
-                            <p class="text-muted small">Halaman Login Administrator</p>
+                            <p class="text-muted small">Silakan masuk ke akun Anda</p>
                         </div>
-
                         <?php
                         // Pesan error login gagal
                         if (isset($_GET['pesan']) && $_GET['pesan'] == 'gagal') {
-                            echo '<div class="alert alert-danger text-center py-2">Login gagal! Username atau password salah.</div>';
+                            echo '<div class="alert alert-danger text-center py-2">Login gagal! Periksa kembali username dan password Anda.</div>';
                         }
                         ?>
 

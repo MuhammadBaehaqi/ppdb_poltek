@@ -79,6 +79,12 @@ require_once '../includes/auth.php';
                             <a href="pendaftaran_tambah.php" class="btn btn-primary me-3">
                                 <i class="bi bi-plus-circle me-2"></i>Tambah Data
                             </a>
+                            <a href="cetak/cetak_pendaftaran_pdf.php" target="_blank" class="btn btn-danger me-2">
+                                <i class="bi bi-file-earmark-pdf"></i> Cetak PDF
+                            </a>
+                            <a href="cetak/cetak_pendaftaran_excel.php" target="_blank" class="btn btn-success me-3">
+                                <i class="bi bi-file-earmark-excel"></i> Cetak Excel
+                            </a>
                             <form method="GET" class="d-flex align-items-center">
                                 <label class="me-2 text-muted small">Tampilkan:</label>
                                 <select name="limit" class="form-select form-select-sm me-2" onchange="this.form.submit()">
@@ -162,7 +168,43 @@ require_once '../includes/auth.php';
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
-                                            <td><?= htmlspecialchars($row['email']); ?></td>
+                                         <td>
+                                            <?php
+                                            $nama = htmlspecialchars($row['nama_lengkap']);
+                                            $nik = htmlspecialchars($row['nik']);
+                                            $status = $row['status_pendaftaran'];
+                                            $email = htmlspecialchars($row['email']);
+
+                                            if ($status === 'Diterima') {
+                                                $subject = "Selamat! Anda Diterima di Politeknik Mitra Karya Mandiri";
+                                                $body_text = "Selamat Anda telah diterima di Politeknik Mitra Karya Mandiri.\n\n"
+                                                            . "Anda sekarang dapat login ke website kami menggunakan akun berikut:\n"
+                                                            . "Username: $nik\n"
+                                                            . "Password: $nik\n\n"
+                                                            . "Salam,\nAdmin PMB Politeknik MKM";
+                                                $show_link = true;
+                                            } elseif ($status === 'Tidak Diterima') {
+                                                $subject = "Informasi Hasil Pendaftaran Politeknik Mitra Karya Mandiri";
+                                                $body_text = "Terima kasih telah mendaftar di Politeknik Mitra Karya Mandiri.\n"
+                                                            . "Mohon maaf, Anda belum diterima pada tahap seleksi kali ini.\n\n"
+                                                            . "Salam,\nAdmin PMB Politeknik MKM";
+                                                $show_link = true;
+                                            } else {
+                                                // Pending: belum bisa dikirim
+                                                $show_link = false;
+                                            }
+
+                                            if ($show_link) {
+                                                $subject = rawurlencode($subject);
+                                                $body = rawurlencode($body_text);
+                                                echo '<a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $email .
+                                                    '&su=' . $subject . '&body=' . $body .
+                                                    '" target="_blank" class="text-decoration-none text-primary">' . $email . '</a>';
+                                            } else {
+                                                echo '<span class="text-muted">' . $email . '</span>';
+                                            }
+                                            ?>
+                                            </td>
                                             <td><?= htmlspecialchars($row['jenis_kelamin']); ?></td>
                                             <td><?= htmlspecialchars($row['alamat']); ?></td>
                                             <td><?= htmlspecialchars($row['nik']); ?></td>
@@ -172,7 +214,7 @@ require_once '../includes/auth.php';
                                             <td><?= htmlspecialchars($row['rencana_kelas']); ?></td>
                                             <td>
                                                 <?php if (!empty($row['bukti_pembayaran'])) { ?>
-                                                    <a href="uploads/<?= $row['bukti_pembayaran']; ?>" target="_blank"
+                                                    <a href="../uploads/<?= $row['bukti_pembayaran']; ?>" target="_blank"
                                                         class="btn btn-sm btn-info text-white">
                                                         <i class="bi bi-eye"></i> Lihat
                                                     </a>
@@ -193,8 +235,15 @@ require_once '../includes/auth.php';
                                                     onclick="return confirm('Yakin ingin menghapus data ini?');">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
-
-                                                <form action="registrasi/update_status.php" method="POST" class="d-inline">
+                                                <a href="cetak/cetak_detail_pdf.php?id=<?= $row['id_pendaftaran']; ?>" 
+                                                    class="btn btn-sm btn-outline-danger mb-1" title="Cetak PDF">
+                                                    <i class="bi bi-filetype-pdf"></i>
+                                                </a>
+                                                <a href="cetak/cetak_detail_excel.php?id=<?= $row['id_pendaftaran']; ?>" 
+                                                    class="btn btn-sm btn-outline-success mb-1" title="Cetak Excel">
+                                                    <i class="bi bi-filetype-xls"></i>
+                                                </a>
+                                                <form action="../registrasi/update_status.php" method="POST" class="d-inline">
                                                     <input type="hidden" name="id_pendaftaran"
                                                         value="<?= $row['id_pendaftaran']; ?>">
                                                     <select name="status" class="form-select form-select-sm d-inline w-auto"
