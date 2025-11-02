@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 30 Okt 2025 pada 15.02
+-- Waktu pembuatan: 02 Nov 2025 pada 17.01
 -- Versi server: 10.4.32-MariaDB
 -- Versi PHP: 8.1.25
 
@@ -84,8 +84,8 @@ CREATE TABLE `tb_pendaftaran` (
   `email` varchar(100) DEFAULT NULL,
   `jenis_kelamin` varchar(20) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
-  `nik` varchar(20) DEFAULT NULL,
-  `nisn` varchar(20) DEFAULT NULL,
+  `nik` varchar(16) NOT NULL,
+  `nisn` varchar(10) NOT NULL,
   `asal_slta` varchar(100) DEFAULT NULL,
   `program_studi` varchar(100) DEFAULT NULL,
   `rencana_kelas` varchar(50) DEFAULT NULL,
@@ -99,9 +99,14 @@ CREATE TABLE `tb_pendaftaran` (
 --
 
 INSERT INTO `tb_pendaftaran` (`id_pendaftaran`, `nama_lengkap`, `email`, `jenis_kelamin`, `alamat`, `nik`, `nisn`, `asal_slta`, `program_studi`, `rencana_kelas`, `bukti_pembayaran`, `tanggal_daftar`, `status_pendaftaran`) VALUES
-(1, 'Ea ex et velit saepe1', NULL, 'Laki-laki', 'In labore dolor aute1', 'Nulla consectetur es', 'Do accusamus hic vit', 'Reprehenderit id al1', 'farmasi1', 'Kelas Reguler1', '1761795457_3x4.jpg', '2025-10-30 10:37:37', 'Diterima'),
-(5, 'Dolorem ad obcaecati', NULL, 'Laki-laki', 'Qui ut aut officiis ', 'Dolor rerum autem na', 'Elit et nobis in vo', 'Labore ut voluptate ', 'Manajemen Informatika', 'Kelas Karyawan', '1761799055_3x4.jpg', '2025-10-30 11:37:35', 'Diterima'),
-(6, 'Optio ipsam sint q', 'naruzajuxa@mailinator.com', 'Laki-laki', 'Quia sit modi nihil', 'Est laudantium dol', 'Et ut ad et aspernat', 'Culpa error omnis qu', 'Manajemen Informatika', 'Kelas Karyawan', '1761828369_foto_login.jpg', '2025-10-30 19:46:09', 'Diterima');
+(1, 'Ea ex et velit saepe1', NULL, 'Laki-laki', 'In labore dolor aute1', 'Nulla consectetu', 'Do accusam', 'Reprehenderit id al1', 'farmasi1', 'Kelas Reguler1', '1761795457_3x4.jpg', '2025-10-30 10:37:37', 'Diterima'),
+(5, 'Dolorem ad obcaecati', NULL, 'Laki-laki', 'Qui ut aut officiis ', 'Dolor rerum aute', 'Elit et no', 'Labore ut voluptate ', 'Manajemen Informatika', 'Kelas Karyawan', '1761799055_3x4.jpg', '2025-10-30 11:37:35', 'Diterima'),
+(6, 'Optio ipsam sint q', 'naruzajuxa@mailinator.com', 'Laki-laki', 'Quia sit modi nihil', 'Est laudantium d', 'Et ut ad e', 'Culpa error omnis qu', 'Manajemen Informatika', 'Kelas Karyawan', '1761828369_foto_login.jpg', '2025-10-30 19:46:09', 'Diterima'),
+(7, 'Blanditiis duis pers', 'bije@mailinator.com', 'Perempuan', 'Lorem sapiente volup', 'Et soluta exerci', 'Laboris ex', 'Ab minima adipisci p', 'Manajemen Informatika', '', '1761971035_foto.jpeg', '2025-11-01 11:23:55', 'Diterima'),
+(12, 'MUHAMMAD BAEHAQI', 'ahmadzakyy0210@gmail.com', 'Laki-laki', 'petunjungan', '33223322332234', '1234567891', 'sma', 'Manajemen Informatika', 'Kelas Karyawan', '1762096214_demon.jpg', '2025-11-02 22:10:14', 'Tidak Diterima'),
+(13, 'zaki', 'admin123@gmail.com', 'Laki-laki', '11', '3322332233223445', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Reguler', '1762097866_demon.jpg', '2025-11-02 22:37:46', 'Pending'),
+(14, 'coba', NULL, 'Laki-laki', '11', '3322332233223411', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Karyawan', '1762097968_demon.jpg', '2025-11-02 22:39:28', 'Pending'),
+(15, 'Deserunt sit dolores', 'kigorobig@mailinator.com', 'Perempuan', 'Veritatis qui volupt', '2222222222222222', '11212121', 'Aut itaque et sequi ', 'Analis Kesehatan', 'Kelas Reguler', '1762098089_foto.jpeg', '2025-11-02 22:41:29', 'Pending');
 
 -- --------------------------------------------------------
 
@@ -112,8 +117,8 @@ INSERT INTO `tb_pendaftaran` (`id_pendaftaran`, `nama_lengkap`, `email`, `jenis_
 CREATE TABLE `tb_user` (
   `id_user` int(11) NOT NULL,
   `nama_lengkap` varchar(100) DEFAULT NULL,
-  `username` varchar(50) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `username` varchar(16) NOT NULL,
+  `password` varchar(255) NOT NULL,
   `role` enum('mahasiswa','admin') DEFAULT 'mahasiswa',
   `status_akun` enum('aktif','nonaktif') DEFAULT 'nonaktif',
   `tanggal_daftar` datetime DEFAULT current_timestamp()
@@ -124,9 +129,11 @@ CREATE TABLE `tb_user` (
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `username`, `password`, `role`, `status_akun`, `tanggal_daftar`) VALUES
-(1, 'Ea ex et velit saepe', 'Nulla consectetur es', '$2y$10$VkNLuYJRDvG.u31Wz.rfMOWvboxd1a/.yj4swBQdZs2dP0FD.krv6', 'mahasiswa', 'aktif', '2025-10-30 10:37:37'),
-(5, 'Dolorem ad obcaecati', 'Dolor rerum autem na', '$2y$10$uMnY9BChD8LW6msgqB/9OOFeWCIIkjcmwGeMm.UM/xE0YRe.qUw.G', 'mahasiswa', 'aktif', '2025-10-30 11:37:35'),
-(6, 'Optio ipsam sint q', 'Est laudantium dol', '$2y$10$U8zSVNeGZ0Kuzf49zXf1yeQjXwnb7B.tS6gxmbKtEfnLewLxpmuHK', 'mahasiswa', 'aktif', '2025-10-30 19:46:09');
+(1, 'Ea ex et velit saepe', 'Nulla consectetu', '$2y$10$VkNLuYJRD', 'mahasiswa', 'aktif', '2025-10-30 10:37:37'),
+(5, 'Dolorem ad obcaecati', 'Dolor rerum aute', '$2y$10$uMnY9BChD', 'mahasiswa', 'aktif', '2025-10-30 11:37:35'),
+(6, 'Optio ipsam sint q', 'Est laudantium d', '$2y$10$U8zSVNeGZ', 'mahasiswa', 'aktif', '2025-10-30 19:46:09'),
+(7, 'Blanditiis duis pers', 'Et soluta exerci', '$2y$10$WXvIwPsI3', 'mahasiswa', 'nonaktif', '2025-11-01 11:23:55'),
+(12, 'MUHAMMAD BAEHAQI', '33223322332234', '$2y$10$LjK5o4st3X9qgKRm2COx9egS9nDYL8dAe.vScg0eXapRVCOIgoVaG', 'mahasiswa', 'nonaktif', '2025-11-02 22:10:14');
 
 --
 -- Indexes for dumped tables
@@ -167,7 +174,7 @@ ALTER TABLE `tb_user`
 -- AUTO_INCREMENT untuk tabel `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT untuk tabel `kontak`
@@ -179,13 +186,13 @@ ALTER TABLE `kontak`
 -- AUTO_INCREMENT untuk tabel `tb_pendaftaran`
 --
 ALTER TABLE `tb_pendaftaran`
-  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT untuk tabel `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
