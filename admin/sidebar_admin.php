@@ -69,7 +69,7 @@ $total_notif = $jumlah_pendaftaran_pending + $jumlah_pesan_baru;
 
 <!-- Sidebar -->
 <?php
-$current_page = basename($_SERVER['PHP_SELF']);
+$current_page = basename($_SERVER['PHP_SELF']); 
 
 // Gabungkan beberapa halaman ke satu kategori
 if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php'])) {
@@ -133,38 +133,64 @@ if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php']))
                 <i class="bi bi-people-fill me-2"></i> Kelola User
             </a>
         </li>
+            <?php
+            $current_page = basename($_SERVER['PHP_SELF']);
+            $laporan_pages = ['laporan_perbulan.php', 'laporan_perminggu.php', 'laporan_pertahun.php'];
+            $isLaporanActive = in_array($current_page, $laporan_pages);
+            ?>
 
-        <?php
-        $laporan_pages = ['laporan_perbulan.php', 'laporan_perminggu.php', 'laporan_pertahun.php'];
-        $isLaporanActive = in_array($current_page, $laporan_pages);
-        ?>
-
-        <li class="nav-item">
-            <a class="nav-link text-white d-flex justify-content-between align-items-center <?= $isLaporanActive ? 'active' : ''; ?>"
-                data-bs-toggle="collapse" href="#laporanMenu" role="button"
-                aria-expanded="<?= $isLaporanActive ? 'true' : 'false'; ?>" aria-controls="laporanMenu"
-                id="laporanToggle">
-                <span><i class="bi bi-bar-chart-line-fill me-2"></i> Laporan</span>
-                <i class="bi bi-caret-down-fill"></i>
+            <li class="nav-item">
+            <a class="nav-link d-flex justify-content-between align-items-center text-white <?= $isLaporanActive ? 'active' : 'collapsed'; ?>" 
+                data-bs-toggle="collapse" href="#laporanMenu" role="button" aria-expanded="<?= $isLaporanActive ? 'true' : 'false'; ?>" 
+                aria-controls="laporanMenu">
+                <span><i class="bi bi-bar-chart me-2"></i> Laporan</span>
+                <i class="bi <?= $isLaporanActive ? 'bi-chevron-down' : 'bi-chevron-right'; ?>"></i>
             </a>
 
-            <!-- SUBMENU LAPORAN -->
-            <div class="collapse ps-4 <?= $isLaporanActive ? 'show' : ''; ?>" id="laporanMenu">
-                <a href="laporan_perbulan.php"
-                    class="nav-link text-white <?= ($current_page === 'laporan_perbulan.php') ? 'active' : ''; ?>">
+            <div class="collapse <?= $isLaporanActive ? 'show' : ''; ?>" id="laporanMenu">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-4">
+                <li>
+                    <a href="laporan_perbulan.php"
+                    class="nav-link text-white <?= $current_page == 'laporan_perbulan.php' ? 'active' : ''; ?>">
                     📅 Per Bulan
-                </a>
-                <a href="laporan_perminggu.php"
-                    class="nav-link text-white <?= ($current_page === 'laporan_perminggu.php') ? 'active' : ''; ?>">
+                    </a>
+                </li>
+                <li>
+                    <a href="laporan_perminggu.php"
+                    class="nav-link text-white <?= $current_page == 'laporan_perminggu.php' ? 'active' : ''; ?>">
                     🗓️ Per Minggu
-                </a>
-                <a href="laporan_pertahun.php"
-                    class="nav-link text-white <?= ($current_page === 'laporan_pertahun.php') ? 'active' : ''; ?>">
-                    📈 Per Tahun
-                </a>
+                    </a>
+                </li>
+                <li>
+                    <a href="laporan_pertahun.php"
+                    class="nav-link text-white <?= $current_page == 'laporan_pertahun.php' ? 'active' : ''; ?>">
+                    📆 Per Tahun
+                    </a>
+                </li>
+                </ul>
             </div>
-        </li>
+            </li>
         <style>
+            /* Parent menu aktif (misalnya Laporan saat di halaman laporan mana pun) */
+            .nav-link.active {
+            background-color: #0d6efd !important;
+            color: #fff !important;
+            font-weight: 600;
+            border-radius: 6px;
+            }
+
+            /* Submenu aktif */
+            #laporanMenu .nav-link.active {
+            background-color: #0b5ed7 !important;
+            color: #fff !important;
+            }
+
+            /* Hover efek */
+            #laporanMenu .nav-link:hover {
+            background-color: #0b5ed7 !important;
+            color: #fff !important;
+            }
+
             /* Warna aktif hanya untuk item yang sedang dipilih */
             #laporanMenu .nav-link.active {
                 background-color: #0d6efd !important;
@@ -204,6 +230,45 @@ if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php']))
         }
     });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const mainContent = document.body;
+
+    // Sidebar toggle
+    if (toggleBtn) {
+        toggleBtn.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+            mainContent.classList.toggle('blur-active');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!sidebar.contains(e.target) && !toggleBtn.contains(e.target)) {
+                sidebar.classList.remove('active');
+                mainContent.classList.remove('blur-active');
+            }
+        });
+    }
+
+    // --- 🔽 Tambahan: panah laporan otomatis berubah arah ---
+    const laporanToggle = document.querySelector('[href="#laporanMenu"]');
+    const laporanIcons = laporanToggle.querySelectorAll('i.bi');
+    const laporanArrow = laporanIcons[laporanIcons.length - 1]; // ambil ikon panah terakhir
+    const laporanMenu = document.getElementById('laporanMenu');
+
+    laporanMenu.addEventListener('show.bs.collapse', () => {
+        laporanArrow.classList.remove('bi-chevron-right');
+        laporanArrow.classList.add('bi-chevron-down');
+    });
+
+    laporanMenu.addEventListener('hide.bs.collapse', () => {
+        laporanArrow.classList.remove('bi-chevron-down');
+        laporanArrow.classList.add('bi-chevron-right');
+    });
+});
+</script>
+
 
 <!-- Style -->
 <style>
