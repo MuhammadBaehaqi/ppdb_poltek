@@ -77,21 +77,36 @@ require_once '../includes/auth.php';
             </form>
 
             <?php
-            $tahun = $_GET['tahun'] ?? date('Y');
-            $query = "SELECT MONTH(tanggal_daftar) AS bulan, COUNT(*) AS jumlah 
-                      FROM tb_pendaftaran WHERE YEAR(tanggal_daftar) = '$tahun'
-                      GROUP BY MONTH(tanggal_daftar)";
-            $result = mysqli_query($conn, $query);
+           $tahun = $_GET['tahun'] ?? date('Y');
 
-            $labels = [];
-            $data = [];
+// Ambil data dari database
+$query = "SELECT MONTH(tanggal_daftar) AS bulan, COUNT(*) AS jumlah 
+          FROM tb_pendaftaran 
+          WHERE YEAR(tanggal_daftar) = '$tahun'
+          GROUP BY MONTH(tanggal_daftar)";
+$result = mysqli_query($conn, $query);
 
-            while ($row = mysqli_fetch_assoc($result)) {
-                $labels[] = date('F', mktime(0, 0, 0, $row['bulan'], 10));
-                $data[] = $row['jumlah'];
-            }
+// Siapkan array 12 bulan default (Januari–Desember)
+$labels = [];
+$data = [];
 
-            $total = array_sum($data);
+for ($i = 1; $i <= 12; $i++) {
+    $labels[$i] = date('F', mktime(0, 0, 0, $i, 10));
+    $data[$i] = 0; // default 0
+}
+
+// Isi jumlah berdasarkan hasil query
+while ($row = mysqli_fetch_assoc($result)) {
+    $bulan = (int)$row['bulan'];
+    $data[$bulan] = (int)$row['jumlah'];
+}
+
+// Ambil nilai final
+$labelsFinal = array_values($labels);
+$dataFinal = array_values($data);
+
+$total = array_sum($dataFinal);
+
             ?>
 
             <div class="card shadow-sm mb-4">
@@ -115,43 +130,46 @@ require_once '../includes/auth.php';
                             </thead>
                             <tbody>
                                 <?php
-                                if (count($labels) > 0) {
-                                    $no = 1;
-                                    for ($i = 0; $i < count($labels); $i++) {
-                                        echo "<tr>
-                                                <td>{$no}</td>
-                                                <td>{$labels[$i]}</td>
-                                                <td>{$data[$i]}</td>
-                                              </tr>";
-                                        $no++;
-                                    }
-                                } else {
+                                if (count($labelsFinal) > 0) {
+    $no = 1;
+    for ($i = 0; $i < count($labelsFinal); $i++) {
+        echo "<tr>
+                <td>{$no}</td>
+                <td>{$labelsFinal[$i]}</td>
+                <td>{$dataFinal[$i]}</td>
+              </tr>";
+        $no++;
+    }
+}
+else {
                                     echo "<tr><td colspan='3' class='text-center text-muted'>Tidak ada data pendaftar di tahun ini.</td></tr>";
                                 }
                                 ?>
                             </tbody>
                         </table>
                     </div>
-
-                    <a href="cetak/cetak_laporan.php?tahun=<?= $tahun ?>" target="_blank" class="btn btn-danger mt-3">
+                    <a href="cetak/cetak_laporan_tahun.php?tahun=<?= $tahun ?>" target="_blank" class="btn btn-danger mt-3">
                         <i class="bi bi-file-earmark-pdf me-2"></i>Cetak PDF
+                    </a>
+                    <a href="cetak/cetak_laporan_excel.php?tahun=<?= $tahun ?>" target="_blank"
+                        class="btn btn-success mt-3">
+                        <i class="bi bi-file-earmark-excel me-2"></i>Cetak Excel
                     </a>
                 </div>
             </div>
         </div>
     </div>
-
-    <!-- ChartJS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script>
+        <!-- ChartJS -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
         const ctxT = document.getElementById('chartTahun').getContext('2d');
         new Chart(ctxT, {
             type: 'line',
             data: {
-                labels: <?= json_encode($labels) ?>,
+                labels: <?= json_encode($labelsFinal) ?>,
                 datasets: [{
                     label: 'Jumlah Pendaftar',
-                    data: <?= json_encode($data) ?>,
+                    data: <?= json_encode($dataFinal) ?>,
                     backgroundColor: 'rgba(13, 110, 253, 0.3)',
                     borderColor: 'rgba(13, 110, 253, 1)',
                     borderWidth: 2,

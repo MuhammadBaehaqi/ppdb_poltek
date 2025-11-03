@@ -149,16 +149,16 @@ if (in_array($current_page, ['pendaftaran_tambah.php', 'pendaftaran_edit.php']))
 
             <div class="collapse <?= $isLaporanActive ? 'show' : ''; ?>" id="laporanMenu">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small ms-4">
-                <li>
-                    <a href="laporan_perbulan.php"
-                    class="nav-link text-white <?= $current_page == 'laporan_perbulan.php' ? 'active' : ''; ?>">
-                    📅 Per Bulan
-                    </a>
-                </li>
-                <li>
+                    <li>
                     <a href="laporan_perminggu.php"
                     class="nav-link text-white <?= $current_page == 'laporan_perminggu.php' ? 'active' : ''; ?>">
                     🗓️ Per Minggu
+                    </a>
+                </li>
+                <li>
+                    <a href="laporan_perbulan.php"
+                    class="nav-link text-white <?= $current_page == 'laporan_perbulan.php' ? 'active' : ''; ?>">
+                    🗓️ Per Bulan
                     </a>
                 </li>
                 <li>

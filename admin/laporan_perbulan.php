@@ -112,8 +112,8 @@ require_once '../includes/auth.php';
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>NIK</th>
                                     <th>Nama Lengkap</th>
+                                    <th>NIK</th>
                                     <th>Tanggal Daftar</th>
                                     <th>Status</th>
                                 </tr>
@@ -125,8 +125,8 @@ require_once '../includes/auth.php';
                                     while ($row = mysqli_fetch_assoc($result)) {
                                         echo "<tr>
                                                 <td>{$no}</td>
-                                                <td>{$row['nik']}</td>
                                                 <td>{$row['nama_lengkap']}</td>
+                                                <td>{$row['nik']}</td>
                                                 <td>" . date('d-m-Y', strtotime($row['tanggal_daftar'])) . "</td>
                                                 <td><span class='badge bg-" .
                                             ($row['status_pendaftaran'] == 'Diterima' ? 'success' :
@@ -146,6 +146,10 @@ require_once '../includes/auth.php';
                     <a href="cetak/cetak_laporan.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" target="_blank"
                         class="btn btn-danger mt-3">
                         <i class="bi bi-file-earmark-pdf me-2"></i>Cetak PDF
+                    </a>
+                    <a href="cetak/cetak_laporan_excel.php?bulan=<?= $bulan ?>&tahun=<?= $tahun ?>" target="_blank"
+                        class="btn btn-success mt-3">
+                        <i class="bi bi-file-earmark-excel me-2"></i>Cetak Excel
                     </a>
                 </div>
             </div>
