@@ -7,7 +7,7 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Pastikan user sudah login
 if (!isset($_SESSION['id_user']) || $_SESSION['role'] !== 'mahasiswa') {
-    header('Location: /ppdb_poltek/login.php?pesan=belum_login');
+    header('Location: /pmb_poltekmkm/login.php?pesan=belum_login');
     exit();
 }
 
@@ -16,7 +16,7 @@ $timeout_seconds = 30 * 60;
 if (isset($_SESSION['last_activity']) && (time() - $_SESSION['last_activity']) > $timeout_seconds) {
     session_unset();
     session_destroy();
-    header('Location: /ppdb_poltek/login.php?pesan=session_timeout');
+    header('Location: /pmb_poltekmkm/login.php?pesan=session_timeout');
     exit();
 }
 
