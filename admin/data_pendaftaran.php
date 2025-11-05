@@ -87,17 +87,19 @@ require_once '../includes/auth.php';
                             </a>
                             <form method="GET" class="d-flex align-items-center">
                                 <label class="me-2 text-muted small">Tampilkan:</label>
-                                <select name="limit" class="form-select form-select-sm me-2" onchange="this.form.submit()">
+                                <select name="limit" class="form-select form-select-sm me-2"
+                                    onchange="this.form.submit()">
                                     <?php
                                     $limitOptions = [1, 5, 10, 15, 20, 25, 50, 100];
-                                    $selectedLimit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+                                    $selectedLimit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
                                     foreach ($limitOptions as $opt) {
                                         $selected = ($opt == $selectedLimit) ? 'selected' : '';
                                         echo "<option value='$opt' $selected>$opt</option>";
                                     }
                                     ?>
                                 </select>
-                                <input type="hidden" name="search" value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                                <input type="hidden" name="search"
+                                    value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
                             </form>
                         </div>
 
@@ -106,7 +108,8 @@ require_once '../includes/auth.php';
                             <input type="text" name="search" class="form-control me-2"
                                 placeholder="Cari nama, NIK, NISN, atau Email..."
                                 value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
-                            <button class="btn btn-outline-secondary" type="submit"><i class="bi bi-search"></i></button>
+                            <button class="btn btn-outline-secondary" type="submit"><i
+                                    class="bi bi-search"></i></button>
                         </form>
                     </div>
 
@@ -117,6 +120,7 @@ require_once '../includes/auth.php';
                                     <th>No</th>
                                     <th>Nama Lengkap</th>
                                     <th>Email</th>
+                                    <th>Nomor WA</th>
                                     <th>Jenis Kelamin</th>
                                     <th>Alamat</th>
                                     <th>NIK</th>
@@ -133,8 +137,8 @@ require_once '../includes/auth.php';
                             <tbody>
                                 <?php
                                 // Ambil parameter
-                                $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
-                                $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                                $limit = isset($_GET['limit']) ? (int) $_GET['limit'] : 10;
+                                $page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
                                 $offset = ($page - 1) * $limit;
                                 $search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
@@ -142,9 +146,9 @@ require_once '../includes/auth.php';
                                 $where = "";
                                 if ($search != '') {
                                     $where = "WHERE nama_lengkap LIKE '%$search%' 
-                                              OR nik LIKE '%$search%' 
-                                              OR nisn LIKE '%$search%' 
-                                              OR email LIKE '%$search%'";
+                                            OR nik LIKE '%$search%' 
+                                            OR nisn LIKE '%$search%' 
+                                            OR email LIKE '%$search%'";
                                 }
 
                                 // Hitung total data untuk pagination
@@ -164,46 +168,57 @@ require_once '../includes/auth.php';
                                             $badgeClass = 'bg-success';
                                         if ($row['status_pendaftaran'] == 'Tidak Diterima')
                                             $badgeClass = 'bg-danger';
-                                ?>
+                                        ?>
                                         <tr>
                                             <td><?= $no++; ?></td>
                                             <td><?= htmlspecialchars($row['nama_lengkap']); ?></td>
-                                         <td>
-                                            <?php
-                                            $nama = htmlspecialchars($row['nama_lengkap']);
-                                            $nik = htmlspecialchars($row['nik']);
-                                            $status = $row['status_pendaftaran'];
-                                            $email = htmlspecialchars($row['email']);
+                                            <td>
+                                                <?php
+                                                $nama = htmlspecialchars($row['nama_lengkap']);
+                                                $nik = htmlspecialchars($row['nik']);
+                                                $status = $row['status_pendaftaran'];
+                                                $email = htmlspecialchars($row['email']);
 
-                                            if ($status === 'Diterima') {
-                                                $subject = "Selamat! Anda Diterima di Politeknik Mitra Karya Mandiri";
-                                                $body_text = "Selamat Anda telah diterima di Politeknik Mitra Karya Mandiri.\n\n"
-                                                            . "Anda sekarang dapat login ke website kami menggunakan akun berikut:\n"
-                                                            . "Username: $nik\n"
-                                                            . "Password: $nik\n\n"
-                                                            . "Salam,\nAdmin PMB Politeknik MKM";
-                                                $show_link = true;
-                                            } elseif ($status === 'Tidak Diterima') {
-                                                $subject = "Informasi Hasil Pendaftaran Politeknik Mitra Karya Mandiri";
-                                                $body_text = "Terima kasih telah mendaftar di Politeknik Mitra Karya Mandiri.\n"
-                                                            . "Mohon maaf, Anda belum diterima pada tahap seleksi kali ini.\n\n"
-                                                            . "Salam,\nAdmin PMB Politeknik MKM";
-                                                $show_link = true;
-                                            } else {
-                                                // Pending: belum bisa dikirim
-                                                $show_link = false;
-                                            }
+                                                if ($status === 'Diterima') {
+                                                    $subject = "Selamat! Anda Diterima di Politeknik Mitra Karya Mandiri";
+                                                    $body_text = "Selamat Anda telah diterima di Politeknik Mitra Karya Mandiri.\n\n"
+                                                        . "Anda sekarang dapat login ke website kami menggunakan akun berikut:\n"
+                                                        . "Username: $nik\n"
+                                                        . "Password: $nik\n\n"
+                                                        . "Salam,\nAdmin PMB Politeknik MKM";
+                                                    $show_link = true;
+                                                } elseif ($status === 'Tidak Diterima') {
+                                                    $subject = "Informasi Hasil Pendaftaran Politeknik Mitra Karya Mandiri";
+                                                    $body_text = "Terima kasih telah mendaftar di Politeknik Mitra Karya Mandiri.\n"
+                                                        . "Mohon maaf, Anda belum diterima pada tahap seleksi kali ini.\n\n"
+                                                        . "Salam,\nAdmin PMB Politeknik MKM";
+                                                    $show_link = true;
+                                                } else {
+                                                    // Pending: belum bisa dikirim
+                                                    $show_link = false;
+                                                }
 
-                                            if ($show_link) {
-                                                $subject = rawurlencode($subject);
-                                                $body = rawurlencode($body_text);
-                                                echo '<a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $email .
-                                                    '&su=' . $subject . '&body=' . $body .
-                                                    '" target="_blank" class="text-decoration-none text-primary">' . $email . '</a>';
-                                            } else {
-                                                echo '<span class="text-muted">' . $email . '</span>';
-                                            }
-                                            ?>
+                                                if ($show_link) {
+                                                    $subject = rawurlencode($subject);
+                                                    $body = rawurlencode($body_text);
+                                                    echo '<a href="https://mail.google.com/mail/?view=cm&fs=1&to=' . $email .
+                                                        '&su=' . $subject . '&body=' . $body .
+                                                        '" target="_blank" class="text-decoration-none text-primary">' . $email . '</a>';
+                                                } else {
+                                                    echo '<span class="text-muted">' . $email . '</span>';
+                                                }
+                                                ?>
+                                            </td>
+                                            <!-- 🔹 Nomor WhatsApp -->
+                                            <td>
+                                                <?php if (!empty($row['nomor_wa'])): ?>
+                                                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $row['nomor_wa']); ?>"
+                                                        target="_blank" class="text-success text-decoration-none">
+                                                        <i class="bi bi-whatsapp"></i> <?= htmlspecialchars($row['nomor_wa']); ?>
+                                                    </a>
+                                                <?php else: ?>
+                                                    <span class="text-muted">Belum ada nomor</span>
+                                                <?php endif; ?>
                                             </td>
                                             <td><?= htmlspecialchars($row['jenis_kelamin']); ?></td>
                                             <td><?= htmlspecialchars($row['alamat']); ?></td>
@@ -223,7 +238,9 @@ require_once '../includes/auth.php';
                                                 <?php } ?>
                                             </td>
                                             <td><?= date('d-m-Y', strtotime($row['tanggal_daftar'])); ?></td>
-                                            <td><span class="badge <?= $badgeClass; ?>"><?= $row['status_pendaftaran']; ?></span></td>
+                                            <td><span
+                                                    class="badge <?= $badgeClass; ?>"><?= $row['status_pendaftaran']; ?></span>
+                                            </td>
                                             <td>
                                                 <a href="pendaftaran_edit.php?id=<?= $row['id_pendaftaran']; ?>"
                                                     class="btn btn-sm btn-warning mb-1" title="Edit Data">
@@ -235,11 +252,11 @@ require_once '../includes/auth.php';
                                                     onclick="return confirm('Yakin ingin menghapus data ini?');">
                                                     <i class="bi bi-trash"></i>
                                                 </a>
-                                                <a href="cetak/cetak_detail_pdf.php?id=<?= $row['id_pendaftaran']; ?>" 
+                                                <a href="cetak/cetak_detail_pdf.php?id=<?= $row['id_pendaftaran']; ?>"
                                                     class="btn btn-sm btn-outline-danger mb-1" title="Cetak PDF">
                                                     <i class="bi bi-filetype-pdf"></i>
                                                 </a>
-                                                <a href="cetak/cetak_detail_excel.php?id=<?= $row['id_pendaftaran']; ?>" 
+                                                <a href="cetak/cetak_detail_excel.php?id=<?= $row['id_pendaftaran']; ?>"
                                                     class="btn btn-sm btn-outline-success mb-1" title="Cetak Excel">
                                                     <i class="bi bi-filetype-xls"></i>
                                                 </a>
@@ -255,7 +272,7 @@ require_once '../includes/auth.php';
                                                 </form>
                                             </td>
                                         </tr>
-                                <?php
+                                        <?php
                                     }
                                 } else {
                                     echo "<tr><td colspan='14' class='text-center text-muted'>Tidak ada data ditemukan.</td></tr>";

@@ -189,6 +189,17 @@
                                     <td><input type="email" class="form-control" name="email"
                                             placeholder="Masukkan alamat email aktif Anda" required></td>
                                 </tr>
+                                <!-- 🟩 Field Baru: Nomor WhatsApp -->
+                                <tr>
+                                    <td><strong>Nomor WhatsApp</strong></td>
+                                    <td>
+                                        <input type="text" class="form-control" name="nomor_wa"
+                                            placeholder="Contoh: 081234567890" required>
+                                        <small class="note">Gunakan nomor WhatsApp aktif yang bisa dihubungi oleh
+                                            panitia PMB.</small>
+                                    </td>
+                                </tr>
+                                <!-- 🟩 Selesai -->
                                 <tr>
                                     <td><strong>Jenis Kelamin</strong></td>
                                     <td>

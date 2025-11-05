@@ -4,6 +4,7 @@ include '../includes/koneksi.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap   = mysqli_real_escape_string($conn, $_POST['nama_lengkap']);
     $email          = mysqli_real_escape_string($conn, $_POST['email']);
+    $nomor_wa         = mysqli_real_escape_string($conn, $_POST['nomor_wa']); // Tambahan nomor WA
     $jenis_kelamin  = mysqli_real_escape_string($conn, $_POST['jenis_kelamin']);
     $alamat         = mysqli_real_escape_string($conn, $_POST['alamat']);
     $nik            = mysqli_real_escape_string($conn, $_POST['nik']);
@@ -36,11 +37,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // Simpan ke tabel pendaftaran
+    // 🔹 Simpan ke tabel pendaftaran (tambahkan kolom no_wa)
     $sql1 = "INSERT INTO tb_pendaftaran 
-        (nama_lengkap, email, jenis_kelamin, alamat, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar)
+        (nama_lengkap, email, nomor_wa, jenis_kelamin, alamat, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar)
         VALUES 
-        ('$nama_lengkap', '$email', '$jenis_kelamin', '$alamat', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$file_name', 'Pending', NOW())";
+        ('$nama_lengkap', '$email', '$nomor_wa', '$jenis_kelamin', '$alamat', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$file_name', 'Pending', NOW())";
 
     if (mysqli_query($conn, $sql1)) {
 

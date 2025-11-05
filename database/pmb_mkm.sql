@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Waktu pembuatan: 02 Nov 2025 pada 17.01
--- Versi server: 10.4.32-MariaDB
--- Versi PHP: 8.1.25
+-- Generation Time: Nov 05, 2025 at 07:18 AM
+-- Server version: 10.4.32-MariaDB
+-- PHP Version: 8.2.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -24,7 +24,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `admin`
+-- Table structure for table `admin`
 --
 
 CREATE TABLE `admin` (
@@ -38,7 +38,7 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `admin`
+-- Dumping data for table `admin`
 --
 
 INSERT INTO `admin` (`id`, `nama_admin`, `username`, `email`, `password`, `role`, `tanggal_dibuat`) VALUES
@@ -50,7 +50,7 @@ INSERT INTO `admin` (`id`, `nama_admin`, `username`, `email`, `password`, `role`
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `kontak`
+-- Table structure for table `kontak`
 --
 
 CREATE TABLE `kontak` (
@@ -64,7 +64,7 @@ CREATE TABLE `kontak` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `kontak`
+-- Dumping data for table `kontak`
 --
 
 INSERT INTO `kontak` (`id_pesan`, `nama`, `email`, `nomor_wa`, `pesan`, `tanggal`, `status_baca`) VALUES
@@ -75,13 +75,14 @@ INSERT INTO `kontak` (`id_pesan`, `nama`, `email`, `nomor_wa`, `pesan`, `tanggal
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_pendaftaran`
+-- Table structure for table `tb_pendaftaran`
 --
 
 CREATE TABLE `tb_pendaftaran` (
   `id_pendaftaran` int(11) NOT NULL,
   `nama_lengkap` varchar(100) DEFAULT NULL,
   `email` varchar(100) DEFAULT NULL,
+  `nomor_wa` varchar(20) DEFAULT NULL,
   `jenis_kelamin` varchar(20) DEFAULT NULL,
   `alamat` text DEFAULT NULL,
   `nik` varchar(16) NOT NULL,
@@ -95,23 +96,27 @@ CREATE TABLE `tb_pendaftaran` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_pendaftaran`
+-- Dumping data for table `tb_pendaftaran`
 --
 
-INSERT INTO `tb_pendaftaran` (`id_pendaftaran`, `nama_lengkap`, `email`, `jenis_kelamin`, `alamat`, `nik`, `nisn`, `asal_slta`, `program_studi`, `rencana_kelas`, `bukti_pembayaran`, `tanggal_daftar`, `status_pendaftaran`) VALUES
-(1, 'Ea ex et velit saepe1', NULL, 'Laki-laki', 'In labore dolor aute1', 'Nulla consectetu', 'Do accusam', 'Reprehenderit id al1', 'farmasi1', 'Kelas Reguler1', '1761795457_3x4.jpg', '2025-10-30 10:37:37', 'Diterima'),
-(5, 'Dolorem ad obcaecati', NULL, 'Laki-laki', 'Qui ut aut officiis ', 'Dolor rerum aute', 'Elit et no', 'Labore ut voluptate ', 'Manajemen Informatika', 'Kelas Karyawan', '1761799055_3x4.jpg', '2025-10-30 11:37:35', 'Diterima'),
-(6, 'Optio ipsam sint q', 'naruzajuxa@mailinator.com', 'Laki-laki', 'Quia sit modi nihil', 'Est laudantium d', 'Et ut ad e', 'Culpa error omnis qu', 'Manajemen Informatika', 'Kelas Karyawan', '1761828369_foto_login.jpg', '2025-10-30 19:46:09', 'Diterima'),
-(7, 'Blanditiis duis pers', 'bije@mailinator.com', 'Perempuan', 'Lorem sapiente volup', 'Et soluta exerci', 'Laboris ex', 'Ab minima adipisci p', 'Manajemen Informatika', '', '1761971035_foto.jpeg', '2025-11-01 11:23:55', 'Diterima'),
-(12, 'MUHAMMAD BAEHAQI', 'ahmadzakyy0210@gmail.com', 'Laki-laki', 'petunjungan', '33223322332234', '1234567891', 'sma', 'Manajemen Informatika', 'Kelas Karyawan', '1762096214_demon.jpg', '2025-11-02 22:10:14', 'Tidak Diterima'),
-(13, 'zaki', 'admin123@gmail.com', 'Laki-laki', '11', '3322332233223445', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Reguler', '1762097866_demon.jpg', '2025-11-02 22:37:46', 'Pending'),
-(14, 'coba', NULL, 'Laki-laki', '11', '3322332233223411', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Karyawan', '1762097968_demon.jpg', '2025-11-02 22:39:28', 'Pending'),
-(15, 'Deserunt sit dolores', 'kigorobig@mailinator.com', 'Perempuan', 'Veritatis qui volupt', '2222222222222222', '11212121', 'Aut itaque et sequi ', 'Analis Kesehatan', 'Kelas Reguler', '1762098089_foto.jpeg', '2025-11-02 22:41:29', 'Pending');
+INSERT INTO `tb_pendaftaran` (`id_pendaftaran`, `nama_lengkap`, `email`, `nomor_wa`, `jenis_kelamin`, `alamat`, `nik`, `nisn`, `asal_slta`, `program_studi`, `rencana_kelas`, `bukti_pembayaran`, `tanggal_daftar`, `status_pendaftaran`) VALUES
+(1, 'Ea ex et velit saepe1', NULL, NULL, 'Laki-laki', 'In labore dolor aute1', 'Nulla consectetu', 'Do accusam', 'Reprehenderit id al1', 'farmasi1', 'Kelas Reguler1', '1761795457_3x4.jpg', '2025-10-30 10:37:37', 'Diterima'),
+(5, 'Dolorem ad obcaecati', NULL, NULL, 'Laki-laki', 'Qui ut aut officiis ', 'Dolor rerum aute', 'Elit et no', 'Labore ut voluptate ', 'Manajemen Informatika', 'Kelas Karyawan', '1761799055_3x4.jpg', '2025-10-30 11:37:35', 'Diterima'),
+(6, 'Optio ipsam sint q', 'naruzajuxa@mailinator.com', NULL, 'Laki-laki', 'Quia sit modi nihil', 'Est laudantium d', 'Et ut ad e', 'Culpa error omnis qu', 'Manajemen Informatika', 'Kelas Karyawan', '1761828369_foto_login.jpg', '2025-10-30 19:46:09', 'Diterima'),
+(7, 'Blanditiis duis pers', 'bije@mailinator.com', NULL, 'Perempuan', 'Lorem sapiente volup', 'Et soluta exerci', 'Laboris ex', 'Ab minima adipisci p', 'Manajemen Informatika', '', '1761971035_foto.jpeg', '2025-11-01 11:23:55', 'Diterima'),
+(12, 'MUHAMMAD BAEHAQI', 'ahmadzakyy0210@gmail.com', NULL, 'Laki-laki', 'petunjungan', '33223322332234', '1234567891', 'sma', 'Manajemen Informatika', 'Kelas Karyawan', '1762096214_demon.jpg', '2025-11-02 22:10:14', 'Diterima'),
+(13, 'zaki', 'admin123@gmail.com', NULL, 'Laki-laki', '11', '3322332233223445', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Reguler', '1762097866_demon.jpg', '2025-11-02 22:37:46', 'Pending'),
+(14, 'coba', NULL, NULL, 'Laki-laki', '11', '3322332233223411', '1234567891', 'sma', 'Analis Kesehatan', 'Kelas Karyawan', '1762097968_demon.jpg', '2025-11-02 22:39:28', 'Pending'),
+(15, 'Deserunt sit dolores', 'kigorobig@mailinator.com', NULL, 'Perempuan', 'Veritatis qui volupt', '2222222222222222', '11212121', 'Aut itaque et sequi ', 'Analis Kesehatan', 'Kelas Reguler', '1762098089_foto.jpeg', '2025-11-02 22:41:29', 'Diterima'),
+(16, 'Dono', 'ravefuxu@mailinator.com', '08347637463', 'Laki-laki', 'Ipsum impedit quis', 'Eiusmod ut sapie', 'Eius dolor', 'Qui amet non repreh', 'Manajemen Informatika', 'Kelas Karyawan', '1762319892_Green Floating Leaves PNG Picture, Green Leaves Falling Floating Material, Green, Leaf, Falling Down PNG Image For Free Download.jpeg', '2025-11-05 12:18:12', 'Pending'),
+(17, 'Si Budi', 'rynosegen@mailinator.com', NULL, 'Laki-laki', 'Consequatur Accusam', 'Nostrum quam ali', 'Beatae nul', 'Officia eum minima e', 'Analis Kesehatan', 'Kelas Karyawan', '1762321371_WhatsApp Image 2025-11-01 at 10.59.56 (2).jpeg', '2025-11-05 12:42:51', 'Pending'),
+(18, 'Dimas', 'kyvunece@mailinator.com', NULL, 'Perempuan', 'Eiusmod sit commodo', 'Consequatur nihi', 'Perspiciat', 'Accusantium eu exped', 'Manajemen Informatika', 'Kelas Karyawan', '1762321524_Halftone Texture Gradient Background Grunge Pattern Dots Dirty Design.jpeg', '2025-11-05 12:45:24', 'Pending'),
+(19, 'Ea excepteur aliquip', 'divigerur@mailinator.com', '085354635436', 'Perempuan', 'Doloribus accusamus ', 'Voluptatem Qui e', 'Velit ad t', 'Ducimus non volupta', 'Manajemen Informatika', 'Kelas Reguler', '1762321892_WhatsApp Image 2025-11-01 at 10.59.56 (1).jpeg', '2025-11-05 12:51:32', 'Pending');
 
 -- --------------------------------------------------------
 
 --
--- Struktur dari tabel `tb_user`
+-- Table structure for table `tb_user`
 --
 
 CREATE TABLE `tb_user` (
@@ -125,7 +130,7 @@ CREATE TABLE `tb_user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Dumping data untuk tabel `tb_user`
+-- Dumping data for table `tb_user`
 --
 
 INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `username`, `password`, `role`, `status_akun`, `tanggal_daftar`) VALUES
@@ -133,66 +138,70 @@ INSERT INTO `tb_user` (`id_user`, `nama_lengkap`, `username`, `password`, `role`
 (5, 'Dolorem ad obcaecati', 'Dolor rerum aute', '$2y$10$uMnY9BChD', 'mahasiswa', 'aktif', '2025-10-30 11:37:35'),
 (6, 'Optio ipsam sint q', 'Est laudantium d', '$2y$10$U8zSVNeGZ', 'mahasiswa', 'aktif', '2025-10-30 19:46:09'),
 (7, 'Blanditiis duis pers', 'Et soluta exerci', '$2y$10$WXvIwPsI3', 'mahasiswa', 'nonaktif', '2025-11-01 11:23:55'),
-(12, 'MUHAMMAD BAEHAQI', '33223322332234', '$2y$10$LjK5o4st3X9qgKRm2COx9egS9nDYL8dAe.vScg0eXapRVCOIgoVaG', 'mahasiswa', 'nonaktif', '2025-11-02 22:10:14');
+(12, 'MUHAMMAD BAEHAQI', '33223322332234', '$2y$10$LjK5o4st3X9qgKRm2COx9egS9nDYL8dAe.vScg0eXapRVCOIgoVaG', 'mahasiswa', 'aktif', '2025-11-02 22:10:14'),
+(13, 'Dono', 'Eiusmod ut sapie', '$2y$10$A/NLl8PEqhuFdB.05oaF3.tZiYJRe/j9qhNk5ChRZDwJeq0NnrGsi', 'mahasiswa', 'nonaktif', '2025-11-05 12:18:12'),
+(14, 'Si Budi', 'Nostrum quam ali', '$2y$10$CN/EHnT2rLhy1LFDOe8m8uA.HlUaqQvhJqmExJKLATcNHmkjy1wt6', 'mahasiswa', 'nonaktif', '2025-11-05 12:42:51'),
+(15, 'Dimas', 'Consequatur nihi', '$2y$10$OS8MqiERCusZVLtduKBMv.4hr5uerNvlmKh3l5oy.mrSAH01DTZyW', 'mahasiswa', 'nonaktif', '2025-11-05 12:45:25'),
+(16, 'Ea excepteur aliquip', 'Voluptatem Qui e', '$2y$10$XlSUS3.QTqUP.wc0VeGBQOr8ZkDkwhZxH187a7DyPehoFwbv/j5kC', 'mahasiswa', 'nonaktif', '2025-11-05 12:51:32');
 
 --
 -- Indexes for dumped tables
 --
 
 --
--- Indeks untuk tabel `admin`
+-- Indexes for table `admin`
 --
 ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- Indeks untuk tabel `kontak`
+-- Indexes for table `kontak`
 --
 ALTER TABLE `kontak`
   ADD PRIMARY KEY (`id_pesan`);
 
 --
--- Indeks untuk tabel `tb_pendaftaran`
+-- Indexes for table `tb_pendaftaran`
 --
 ALTER TABLE `tb_pendaftaran`
   ADD PRIMARY KEY (`id_pendaftaran`),
   ADD UNIQUE KEY `nik` (`nik`);
 
 --
--- Indeks untuk tabel `tb_user`
+-- Indexes for table `tb_user`
 --
 ALTER TABLE `tb_user`
   ADD PRIMARY KEY (`id_user`),
   ADD UNIQUE KEY `username` (`username`);
 
 --
--- AUTO_INCREMENT untuk tabel yang dibuang
+-- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT untuk tabel `admin`
+-- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
--- AUTO_INCREMENT untuk tabel `kontak`
+-- AUTO_INCREMENT for table `kontak`
 --
 ALTER TABLE `kontak`
   MODIFY `id_pesan` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_pendaftaran`
+-- AUTO_INCREMENT for table `tb_pendaftaran`
 --
 ALTER TABLE `tb_pendaftaran`
-  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id_pendaftaran` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
--- AUTO_INCREMENT untuk tabel `tb_user`
+-- AUTO_INCREMENT for table `tb_user`
 --
 ALTER TABLE `tb_user`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

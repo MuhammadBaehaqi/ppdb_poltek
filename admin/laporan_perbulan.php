@@ -61,9 +61,9 @@ require_once '../includes/auth.php';
                     <label for="bulan" class="form-label">Pilih Bulan</label>
                     <select name="bulan" id="bulan" class="form-select">
                         <?php
-                        $bulanSekarang = date('m');
+                        $bulanDipilih = $_GET['bulan'] ?? date('m');
                         for ($i = 1; $i <= 12; $i++) {
-                            $selected = ($i == $bulanSekarang) ? 'selected' : '';
+                            $selected = ($i == (int) $bulanDipilih) ? 'selected' : '';
                             echo "<option value='$i' $selected>" . date('F', mktime(0, 0, 0, $i, 10)) . "</option>";
                         }
                         ?>
@@ -73,9 +73,10 @@ require_once '../includes/auth.php';
                     <label for="tahun" class="form-label">Pilih Tahun</label>
                     <select name="tahun" id="tahun" class="form-select">
                         <?php
+                        $tahunDipilih = $_GET['tahun'] ?? date('Y');
                         $tahunSekarang = date('Y');
                         for ($i = 2020; $i <= $tahunSekarang; $i++) {
-                            $selected = ($i == $tahunSekarang) ? 'selected' : '';
+                            $selected = ($i == (int) $tahunDipilih) ? 'selected' : '';
                             echo "<option value='$i' $selected>$i</option>";
                         }
                         ?>
