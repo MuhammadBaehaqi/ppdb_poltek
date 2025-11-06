@@ -54,15 +54,23 @@
             <div class="row justify-content-center">
                 <div class="col-md-8">
                     <h4 class="text-dark fw-bold">Visi</h4>
-                    <p class="mb-4">Menjadi Politeknik unggul dan berdaya saing di tingkat nasional dalam bidang
-                        teknologi dan manajemen.</p>
+                    <p class="mb-4">Menjadi Perguruan tinggi terkemuka, diakui, dan mampu bersaing dalam bidang
+                        penerapan Ilmu Pengetahuan, Kesehatan dan Teknologi Informasi atas dasar keimanan dan ketaqwaan
+                        kepada Tuhan Yang Maha Esa pada tahun 2028 di wilayah Jawa Tengah.</p>
 
                     <h4 class="text-dark fw-bold">Misi</h4>
                     <ul class="list-unstyled">
-                        <li>• Menyelenggarakan pendidikan vokasi berkualitas berbasis kompetensi.</li>
-                        <li>• Mengembangkan riset terapan untuk mendukung kemajuan industri dan masyarakat.</li>
-                        <li>• Meningkatkan kerja sama dengan dunia usaha, dunia industri, dan lembaga pemerintahan.</li>
-                        <li>• Membangun karakter mahasiswa yang berintegritas, kreatif, dan mandiri.</li>
+                        <li>• Menyelenggarakan Program Pendidikan Dan Pengajaran Secara Professional.</li>
+                        <li>• Meningkatkan Kualitas Pendidikan Dan Penerapan Ilmu Pengetahuan Dan Teknologi Dalam Bidang
+                            Keteknikan Dan Tata Niaga Sesuai Dengan Kebutuhandan Perkembangan Industri Yang Relevan.
+                        </li>
+                        <li>• Melaksanakan Penelitian Terapan Yang Menunjang Pengembangan Ilmu Pengetahuan.</li>
+                        <li>• Mengadakan Kegiatan Dan Pengabdian Masyarakat Secara Edukat Konsisten Dan Terprogram
+                            Dengan Mengacu Pada Tela'ah Dan Kajian Dalam Berbagai Ilmu Pengetahuan.</li>
+                        <li>• Meningkatkan Pengelolaan Sumber Daya Politeknik Untuk Mewujudkan Kinerja Secara Efektif,
+                            Efisien, Dan Berkelanjutan.</li>
+                        <li>• Menjalin Kerjasama Dengan Berbagai Instansi Dan Lembaga Tingkat Nasional Dan
+                            Internasional.</li>
                     </ul>
                 </div>
             </div>
