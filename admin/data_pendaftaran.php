@@ -210,11 +210,24 @@ require_once '../includes/auth.php';
                                                 ?>
                                             </td>
                                             <!-- 🔹 Nomor WhatsApp -->
-                                            <td>
+                                           <td>
                                                 <?php if (!empty($row['nomor_wa'])): ?>
-                                                    <a href="https://wa.me/<?= preg_replace('/[^0-9]/', '', $row['nomor_wa']); ?>"
-                                                        target="_blank" class="text-success text-decoration-none">
-                                                        <i class="bi bi-whatsapp"></i> <?= htmlspecialchars($row['nomor_wa']); ?>
+                                                    <?php
+                                                    // Hapus karakter selain angka
+                                                    $nomor_wa = preg_replace('/[^0-9]/', '', $row['nomor_wa']);
+
+                                                    // Jika nomor diawali 0, ubah ke 62
+                                                    if (strpos($nomor_wa, '0') === 0) {
+                                                        $nomor_wa_wa = '62' . substr($nomor_wa, 1);
+                                                    } else {
+                                                        $nomor_wa_wa = $nomor_wa;
+                                                    }
+
+                                                    // Tambahkan tanda + untuk tampilan
+                                                    $tampil_nomor = '+' . $nomor_wa_wa;
+                                                    ?>
+                                                    <a href="https://wa.me/<?= $nomor_wa_wa; ?>" target="_blank" class="text-success text-decoration-none">
+                                                        <i class="bi bi-whatsapp"></i> <?= htmlspecialchars($tampil_nomor); ?>
                                                     </a>
                                                 <?php else: ?>
                                                     <span class="text-muted">Belum ada nomor</span>

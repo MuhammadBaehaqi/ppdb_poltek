@@ -4,11 +4,39 @@ include '../includes/koneksi.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nama_lengkap   = mysqli_real_escape_string($conn, $_POST['nama_lengkap']);
     $email          = mysqli_real_escape_string($conn, $_POST['email']);
-    $nomor_wa         = mysqli_real_escape_string($conn, $_POST['nomor_wa']); // Tambahan nomor WA
+    $nomor_wa       = mysqli_real_escape_string($conn, $_POST['nomor_wa']);
+
+    // 🔹 Validasi format nomor WhatsApp (boleh +62 atau 0, tapi angka semua)
+    if (!preg_match('/^(\+?62\d{8,15}|0\d{8,15})$/', $nomor_wa)) {
+        echo "<script>alert('Nomor WhatsApp tidak valid! Gunakan format 081234567890 atau +6281234567890'); history.back();</script>";
+        exit;
+    }
+        // 🔹 Normalisasi nomor ke format +62... agar seragam di database
+    $nomor_wa = preg_replace('/[^0-9]/', '', $nomor_wa); // hanya ambil angka
+
+    if (substr($nomor_wa, 0, 1) === '0') {
+        $nomor_wa = '+62' . substr($nomor_wa, 1);
+    } elseif (substr($nomor_wa, 0, 2) === '62') {
+        $nomor_wa = '+' . $nomor_wa;
+    } elseif (substr($nomor_wa, 0, 3) !== '+62') {
+        // jika belum ada tanda + dan tidak diawali 0, tambahkan +62 sebagai fallback
+        $nomor_wa = '+62' . $nomor_wa;
+    }
+
     $jenis_kelamin  = mysqli_real_escape_string($conn, $_POST['jenis_kelamin']);
     $alamat         = mysqli_real_escape_string($conn, $_POST['alamat']);
     $nik            = mysqli_real_escape_string($conn, $_POST['nik']);
+    // Validasi NIK (harus 16 digit angka)
+    if (!preg_match('/^[0-9]{16}$/', $nik)) {
+        echo "<script>alert('NIK harus terdiri dari 16 digit angka!'); history.back();</script>";
+        exit;
+    }
     $nisn           = mysqli_real_escape_string($conn, $_POST['nisn']);
+    // Validasi NISN (harus 10 digit angka)
+    if (!preg_match('/^[0-9]{10}$/', $nisn)) {
+        echo "<script>alert('NISN harus terdiri dari 10 digit angka!'); history.back();</script>";
+        exit;
+    }
     $asal_slta      = mysqli_real_escape_string($conn, $_POST['asal_slta']);
     $program_studi  = mysqli_real_escape_string($conn, $_POST['program_studi']);
     $rencana_kelas  = mysqli_real_escape_string($conn, $_POST['rencana_kelas']);
@@ -37,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    // 🔹 Simpan ke tabel pendaftaran (tambahkan kolom no_wa)
+    // 🔹 Simpan ke tabel pendaftaran
     $sql1 = "INSERT INTO tb_pendaftaran 
         (nama_lengkap, email, nomor_wa, jenis_kelamin, alamat, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar)
         VALUES 

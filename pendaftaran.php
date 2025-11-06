@@ -190,11 +190,13 @@
                                             placeholder="Masukkan alamat email aktif Anda" required></td>
                                 </tr>
                                 <!-- 🟩 Field Baru: Nomor WhatsApp -->
-                                <tr>
+                               <tr>
                                     <td><strong>Nomor WhatsApp</strong></td>
                                     <td>
                                         <input type="text" class="form-control" name="nomor_wa"
-                                            placeholder="Contoh: 081234567890" required>
+                                            placeholder="Contoh: 081234567890" required
+                                            pattern="^(\+?62\d{8,15}|0\d{8,15})$"
+                                            title="Masukkan nomor WhatsApp yang benar, contoh: 081234567890 atau +6281234567890">
                                         <small class="note">Gunakan nomor WhatsApp aktif yang bisa dihubungi oleh
                                             panitia PMB.</small>
                                     </td>
@@ -219,15 +221,21 @@
                                     <td><strong>NIK</strong></td>
                                     <td>
                                         <input type="text" class="form-control" name="nik"
-                                            placeholder="Masukkan NIK Anda" required>
-                                        <small class="note">Jika belum ber-KTP, gunakan NIK yang tertera pada Kartu
-                                            Keluarga.</small>
+                                            placeholder="Masukkan NIK Anda" required
+                                            pattern="[0-9]{16}"
+                                            title="NIK harus terdiri dari 16 digit angka">
+                                        <small class="note">Jika belum ber-KTP, gunakan NIK yang tertera pada Kartu Keluarga.</small>
                                     </td>
                                 </tr>
+
                                 <tr>
                                     <td><strong>NISN</strong></td>
-                                    <td><input type="text" class="form-control" name="nisn"
-                                            placeholder="Masukkan NISN Anda" required></td>
+                                    <td>
+                                        <input type="text" class="form-control" name="nisn"
+                                            placeholder="Masukkan NISN Anda" required
+                                            pattern="[0-9]{10}"
+                                            title="NISN harus terdiri dari 10 digit angka">
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td><strong>Asal SLTA</strong></td>
