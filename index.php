@@ -73,7 +73,7 @@
     </style>
 </head>
 <?php include 'includes/navbar.php'; ?>
-
+        
 <body>
 
     <!-- Carousel / Hero -->
