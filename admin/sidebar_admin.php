@@ -56,7 +56,7 @@ $total_notif = $jumlah_pendaftaran_pending + $jumlah_pesan_baru;
             <a href="#" class="d-flex align-items-center text-dark text-decoration-none dropdown-toggle"
                 id="dropdownUser" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="../img/logo_mkm.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                <strong>Admin</strong>
+                <strong><?= htmlspecialchars($_SESSION['username'] ?? 'Admin') ?> (Admin)</strong>
             </a>
             <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="dropdownUser">
                 <li><a class="dropdown-item" href="../logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a>

@@ -145,10 +145,12 @@ include 'includes/koneksi.php';
                             <div class="mb-4">
                                 <label for="password" class="form-label fw-semibold">Password</label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-warning text-white"><i
-                                            class="bi bi-lock-fill"></i></span>
+                                    <span class="input-group-text bg-warning text-white"><i class="bi bi-lock-fill"></i></span>
                                     <input type="password" id="password" name="password" class="form-control"
                                         placeholder="Masukkan password" required>
+                                    <button type="button" class="btn btn-outline-light" id="togglePassword" tabindex="-1">
+                                        <i class="bi bi-eye-slash-fill"></i>
+                                    </button>
                                 </div>
                             </div>
 
@@ -168,6 +170,23 @@ include 'includes/koneksi.php';
     </section>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    document.getElementById('togglePassword').addEventListener('click', function () {
+        const passwordInput = document.getElementById('password');
+        const icon = this.querySelector('i');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            icon.classList.remove('bi-eye-slash-fill');
+            icon.classList.add('bi-eye-fill');
+        } else {
+            passwordInput.type = 'password';
+            icon.classList.remove('bi-eye-fill');
+            icon.classList.add('bi-eye-slash-fill');
+        }
+    });
+    </script>
+
 </body>
 
 </html>

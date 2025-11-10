@@ -9,6 +9,16 @@ $row = mysqli_fetch_assoc($data);
 if (isset($_POST['update'])) {
     $nama_lengkap = $_POST['nama_lengkap'];
     $email = $_POST['email'];
+    $nomor_wa = $_POST['nomor_wa'];
+    // Normalisasi nomor WA
+    $nomor_wa = preg_replace('/[^0-9]/', '', $nomor_wa); // hanya angka
+    if (substr($nomor_wa, 0, 1) === '0') {
+        $nomor_wa = '+62' . substr($nomor_wa, 1);
+    } elseif (substr($nomor_wa, 0, 2) === '62') {
+        $nomor_wa = '+' . $nomor_wa;
+    } elseif (substr($nomor_wa, 0, 3) !== '+62') {
+        $nomor_wa = '+62' . $nomor_wa;
+    }
     $jenis_kelamin = $_POST['jenis_kelamin'];
     $alamat = $_POST['alamat'];
     $nik = $_POST['nik'];
@@ -21,6 +31,7 @@ if (isset($_POST['update'])) {
     $query = "UPDATE tb_pendaftaran SET 
             nama_lengkap='$nama_lengkap', 
             email='$email', 
+             nomor_wa='$nomor_wa', 
             jenis_kelamin='$jenis_kelamin', 
             alamat='$alamat', 
             nik='$nik', 
@@ -120,6 +131,10 @@ require_once '../includes/auth.php';
                                 <th>Email</th>
                                 <td><input type="email" name="email" value="<?= htmlspecialchars($row['email']); ?>"
                                         class="form-control" required></td>
+                            </tr>
+                             <tr>
+                                <th>Nomor WhatsApp</th> 
+                                <td><input type="text" name="nomor_wa" value="<?= htmlspecialchars($row['nomor_wa']); ?>" class="form-control" placeholder="contoh: 081234567890" required></td>
                             </tr>
                             <tr>
                                 <th>Jenis Kelamin</th>

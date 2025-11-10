@@ -5,7 +5,17 @@ if (isset($_POST['simpan'])) {
     $nama_lengkap = $_POST['nama_lengkap'];
     $jenis_kelamin = $_POST['jenis_kelamin'];
     $alamat = $_POST['alamat'];
-    $email = $_POST['email']; // ✅ Tambah email
+    $email = $_POST['email']; 
+    $nomor_wa = $_POST['nomor_wa'];
+    // Normalisasi nomor WA
+    $nomor_wa = preg_replace('/[^0-9]/', '', $nomor_wa); // hanya angka
+    if (substr($nomor_wa, 0, 1) === '0') {
+        $nomor_wa = '+62' . substr($nomor_wa, 1);
+    } elseif (substr($nomor_wa, 0, 2) === '62') {
+        $nomor_wa = '+' . $nomor_wa;
+    } elseif (substr($nomor_wa, 0, 3) !== '+62') {
+        $nomor_wa = '+62' . $nomor_wa;
+    }
     $nik = $_POST['nik'];
     $nisn = $_POST['nisn'];
     $asal_slta = $_POST['asal_slta'];
@@ -23,22 +33,36 @@ if (isset($_POST['simpan'])) {
         exit;
     }
 
-    // ✅ Tambahkan kolom email ke query INSERT
+    // ✅ Tambahkan kolom nomor_wa ke query
     $query = "INSERT INTO tb_pendaftaran 
-              (nama_lengkap, jenis_kelamin, alamat, email, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar) 
-              VALUES ('$nama_lengkap', '$jenis_kelamin', '$alamat', '$email', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$bukti_pembayaran', '$status_pendaftaran', NOW())";
+              (nama_lengkap, jenis_kelamin, alamat, email, nomor_wa, nik, nisn, asal_slta, program_studi, rencana_kelas, bukti_pembayaran, status_pendaftaran, tanggal_daftar) 
+              VALUES ('$nama_lengkap', '$jenis_kelamin', '$alamat', '$email', '$nomor_wa', '$nik', '$nisn', '$asal_slta', '$program_studi', '$rencana_kelas', '$bukti_pembayaran', '$status_pendaftaran', NOW())";
 
     if (mysqli_query($conn, $query)) {
-        echo "<script>alert('Data berhasil ditambahkan!'); window.location='data_pendaftaran.php';</script>";
-    } else {
-        echo "<script>alert('Gagal menambahkan data!');</script>";
+
+    // 🔹 Buat akun otomatis (seperti proses_pendaftaran.php)
+    $password_hashed = password_hash($nik, PASSWORD_DEFAULT);
+
+    // Cek apakah user sudah ada di tb_user
+    $cekUser = mysqli_query($conn, "SELECT username FROM tb_user WHERE username = '$nik'");
+    if (mysqli_num_rows($cekUser) == 0) {
+        // Status akun aktif kalau status pendaftaran Diterima, kalau tidak nonaktif
+        $status_akun = ($status_pendaftaran === 'Diterima') ? 'aktif' : 'nonaktif';
+
+        $sql_user = "INSERT INTO tb_user (nama_lengkap, username, password, role, status_akun, tanggal_daftar)
+                     VALUES ('$nama_lengkap', '$nik', '$password_hashed', 'mahasiswa', '$status_akun', NOW())";
+        mysqli_query($conn, $sql_user);
     }
+
+    echo "<script>alert('Data berhasil ditambahkan! Akun otomatis telah dibuat.'); window.location='data_pendaftaran.php';</script>";
+
+} else {
+    echo "<script>alert('Gagal menambahkan data!');</script>";
+}
 }
 ?>
 
-<?php
-require_once '../includes/auth.php';
-?>
+<?php require_once '../includes/auth.php'; ?>
 
 <!DOCTYPE html>
 <html lang="id">
@@ -91,8 +115,12 @@ require_once '../includes/auth.php';
                                 <td><input type="text" name="alamat" class="form-control" required></td>
                             </tr>
                             <tr>
-                                <th>Email</th> <!-- ✅ Tambah kolom email -->
+                                <th>Email</th>
                                 <td><input type="email" name="email" class="form-control" required></td>
+                            </tr>
+                            <tr>
+                                <th>Nomor WhatsApp</th> 
+                                <td><input type="text" name="nomor_wa" class="form-control" required></td>
                             </tr>
                             <tr>
                                 <th>NIK</th>
@@ -140,8 +168,5 @@ require_once '../includes/auth.php';
             </form>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-g

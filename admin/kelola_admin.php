@@ -26,13 +26,7 @@ if (isset($_POST['update_admin'])) {
     $username = $_POST['username'];
     $email = $_POST['email'];
 
-    if (!empty($_POST['password'])) {
-        $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        $query = "UPDATE admin SET nama_admin='$nama_admin', username='$username', email='$email', password='$password' WHERE id='$id'";
-    } else {
-        $query = "UPDATE admin SET nama_admin='$nama_admin', username='$username', email='$email' WHERE id='$id'";
-    }
-
+    $query = "UPDATE admin SET nama_admin='$nama_admin', username='$username', email='$email' WHERE id='$id'";
     if (mysqli_query($conn, $query)) {
         $toast_message = "Data admin berhasil diperbarui!";
     }
@@ -236,6 +230,70 @@ $totalPages = ceil($totalData / $show);
                             </ul>
                         </nav>
                     </div>
+                    <!-- Form Ganti Password Admin Login -->
+                    <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="fw-bold mb-3"><i class="bi bi-key me-2"></i>Ganti Password Saya</h5>
+
+                        <?php
+                        if (isset($_POST['ganti_password'])) {
+                            $id_login = $_SESSION['admin_id'];
+                            $pass_lama = $_POST['password_lama'];
+                            $pass_baru = $_POST['password_baru'];
+                            $konfirmasi = $_POST['konfirmasi'];
+
+                            $cek = mysqli_query($conn, "SELECT password FROM admin WHERE id='$id_login'");
+                            $data = mysqli_fetch_assoc($cek);
+
+                            if (!password_verify($pass_lama, $data['password'])) {
+                                echo '<div class="alert alert-danger">Password lama salah!</div>';
+                            } elseif ($pass_baru !== $konfirmasi) {
+                                echo '<div class="alert alert-warning">Konfirmasi password tidak cocok!</div>';
+                            } else {
+                                $hash = password_hash($pass_baru, PASSWORD_DEFAULT);
+                                mysqli_query($conn, "UPDATE admin SET password='$hash' WHERE id='$id_login'");
+                                echo '<div class="alert alert-success">Password berhasil diubah!</div>';
+                            }
+                        }
+                        ?>
+
+                        <form method="POST" style="max-width:500px;">
+                            <div class="mb-3">
+                                <label class="form-label">Password Lama</label>
+                                <div class="input-group">
+                                    <input type="password" name="password_lama" id="passLama" class="form-control" required>
+                                    <button type="button" class="btn btn-outline-secondary togglePass" data-target="passLama">
+                                        <i class="bi bi-eye-slash-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Password Baru</label>
+                                <div class="input-group">
+                                    <input type="password" name="password_baru" id="passBaru" class="form-control" required>
+                                    <button type="button" class="btn btn-outline-secondary togglePass" data-target="passBaru">
+                                        <i class="bi bi-eye-slash-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Konfirmasi Password Baru</label>
+                                <div class="input-group">
+                                    <input type="password" name="konfirmasi" id="passKonfirmasi" class="form-control" required>
+                                    <button type="button" class="btn btn-outline-secondary togglePass" data-target="passKonfirmasi">
+                                        <i class="bi bi-eye-slash-fill"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+                            <button type="submit" name="ganti_password" class="btn btn-primary">
+                                <i class="bi bi-save me-1"></i> Ubah Password
+                            </button>
+                        </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,8 +355,6 @@ $totalPages = ceil($totalData / $show);
                             id="editUsername" class="form-control" required></div>
                     <div class="mb-3"><label class="form-label">Email</label><input type="email" name="email"
                             id="editEmail" class="form-control" required></div>
-                    <div class="mb-3"><label class="form-label">Password (kosongkan jika tidak diubah)</label><input
-                            type="password" name="password" class="form-control"></div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
@@ -349,6 +405,26 @@ $totalPages = ceil($totalData / $show);
             });
         });
     </script>
+    <script>
+    document.querySelectorAll('.togglePass').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye-slash-fill');
+                icon.classList.add('bi-eye-fill');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-fill');
+                icon.classList.add('bi-eye-slash-fill');
+            }
+        });
+    });
+    </script>
+
 </body>
 
 </html>

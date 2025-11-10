@@ -205,18 +205,37 @@ if (isset($_POST['update_password'])) {
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="fw-semibold">Password Lama</label>
-                            <input type="password" name="password_lama" class="form-control" required>
+                            <div class="input-group">
+                                <input type="password" name="password_lama" id="passLama" class="form-control" required>
+                                <button type="button" class="btn btn-outline-secondary togglePass" data-target="passLama">
+                                    <i class="bi bi-eye-slash-fill"></i>
+                                </button>
+                            </div>
                         </div>
+
                         <div class="col-md-4 mb-3">
                             <label class="fw-semibold">Password Baru</label>
-                            <input type="password" name="password_baru" class="form-control" required>
+                            <div class="input-group">
+                                <input type="password" name="password_baru" id="passBaru" class="form-control" required>
+                                <button type="button" class="btn btn-outline-secondary togglePass" data-target="passBaru">
+                                    <i class="bi bi-eye-slash-fill"></i>
+                                </button>
+                            </div>
                         </div>
+
                         <div class="col-md-4 mb-3">
                             <label class="fw-semibold">Konfirmasi Password Baru</label>
-                            <input type="password" name="konfirmasi_password" class="form-control" required>
+                            <div class="input-group">
+                                <input type="password" name="konfirmasi_password" id="passKonfirmasi" class="form-control" required>
+                                <button type="button" class="btn btn-outline-secondary togglePass" data-target="passKonfirmasi">
+                                    <i class="bi bi-eye-slash-fill"></i>
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <button type="submit" name="update_password" class="btn btn-success mt-2">🔁 Ubah Password</button>
+                    <button type="submit" name="update_password" class="btn btn-success mt-2">
+                        🔁 Ubah Password
+                    </button>
                 </form>
             </div>
         </div>
@@ -228,7 +247,26 @@ if (isset($_POST['update_password'])) {
             sidebar.classList.toggle('show');
         }
     </script>
-    
+    <script>
+    document.querySelectorAll('.togglePass').forEach(btn => {
+        btn.addEventListener('click', function () {
+            const targetId = this.getAttribute('data-target');
+            const input = document.getElementById(targetId);
+            const icon = this.querySelector('i');
+
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('bi-eye-slash-fill');
+                icon.classList.add('bi-eye-fill');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('bi-eye-fill');
+                icon.classList.add('bi-eye-slash-fill');
+            }
+        });
+    });
+    </script>
+
 </body>
 
 </html>
